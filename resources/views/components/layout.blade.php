@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <script src="{{ mix('js/app.js') }}"></script>
-    <title>Document</title>
+    <title>{{ $title }}</title>
 </head>
 
 <div id="app">

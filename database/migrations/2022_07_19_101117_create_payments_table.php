@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->string('method');
+            $table->string('account_name');
+            $table->integer('account_number')->unique();
+            $table->integer('quantity');
+            $table->boolean('is_confirmed')->default(false);
+            $table->string('picture');
             $table->timestamps();
         });
     }
