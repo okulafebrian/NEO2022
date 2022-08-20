@@ -67,7 +67,7 @@
       <section class="container-fluid position-relative mb-5" style="background-color: #D6DDDF; height: 50vh;">
         <div class="p-4 m-auto bg-body rounded row d-flex container-fluid col-11 col-sm-10 mb-xl-0 shadow align-items-center position-absolute top-100 start-50 translate-middle">
           <div class="d-flex gap-4 justify-content-center justify-content-xl-start align-items-center col-12 col-xl-6 text-center text-xl-start">
-            <h2 class="fw-semibold fs-3 text-center text-sm-start" style="color: #3A3A3C;"><em>National English Olympics 2022</em></h2>
+            <h2 class="fw-semibold fs-5 text-center text-sm-start" style="color: #3A3A3C;"><em>National English Olympics 2022</em></h2>
           </div>
     
           <div class="d-flex gap-4 justify-content-center justify-content-xl-end align-items-center col-12 col-xl-6 text-center text-xl-start">
@@ -88,53 +88,68 @@
         <div class="container-fluid col-10 gx-0">
           <div class="row pb-5 pt-5 m-auto gx-0 gap-4 ">
             <div class="col d-flex justify-content-center">
-              <div class="card overflow-hidden" style="width: 14rem;">
-                <img src="/img-svg/hitam-removebg-preview.png" class="m-auto img-fluid" alt="..." style="height:10rem;width:300px;border:1px solid black; background-color: black;">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
+                <div class="card overflow-hidden" style="width: 14rem;">
+                  <a href="/Debate" class="text-decoration-none" style="height:10rem;width:300px;border:1px solid black; background-color: black;"><img src="/img-svg/hitam-removebg-preview.png" class="m-auto img-fluid text-decoration-none" alt="..." ></a>
+                  <a href="/Debate" class="text-decoration-none text-dark">
+                    <div class="card-body d-flex flex-column">
+                      <h5 class="card-title">Debate</h5>
+                      <p class="card-text fs-6">1 team</p>
+                      <br><br>
+                      <strong class="card-text fs-5">IDR 350.000</strong>
+                    </div>
+                  </a>
                 </div>
+            </div>
+            <div class="col d-flex justify-content-center">
+              <div class="card overflow-hidden" style="width: 14rem;">
+                <a href="/Newscasting" class="text-decoration-none" style="height:10rem;width:300px;border:1px solid black; background-color: black;"><img src="/img-svg/hitam-removebg-preview.png" class="m-auto img-fluid text-decoration-none" alt="..." ></a>
+                <a href="/Newscasting" class="text-decoration-none text-dark">
+                  <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Newscasting</h5>
+                    <p class="card-text fs-6">1 person</p>
+                    <br><br>
+                    <strong class="card-text fs-5">IDR 145.000</strong>
+                  </div>
+                </a>
               </div>
             </div>
             <div class="col d-flex justify-content-center">
               <div class="card overflow-hidden" style="width: 14rem;">
-                <img src="/img-svg/hitam-removebg-preview.png" class="m-auto img-fluid" alt="..." style="height:10rem;width:300px;border:1px solid black; background-color: black;">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
+                <a href="/Podcast" class="text-decoration-none" style="height:10rem;width:300px;border:1px solid black; background-color: black;"><img src="/img-svg/hitam-removebg-preview.png" class="m-auto img-fluid text-decoration-none" alt="..." ></a>
+                <a href="/Podcast" class="text-decoration-none text-dark">
+                  <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Podcast</h5>
+                    <p class="card-text fs-6">1 person</p>
+                    <br><br>
+                    <strong class="card-text fs-5">IDR 145.000</strong>
+                  </div>
+                </a>
+              </div>
+            </div>  
+            <div class="col d-flex justify-content-center">
+              <div class="card overflow-hidden" style="width: 14rem;">
+                <a href="/Short_Story_Writing" class="text-decoration-none" style="height:10rem;width:300px;border:1px solid black; background-color: black;"><img src="/img-svg/hitam-removebg-preview.png" class="m-auto img-fluid text-decoration-none" alt="..." ></a>
+                <a href="/Short_Story_Writing" class="text-decoration-none text-dark">
+                  <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Short Story Writing</h5>
+                    <p class="card-text fs-6">1 person</p>
+                    <br><br>
+                    <strong class="card-text fs-5">IDR 145.000</strong>
+                  </div>
+                </a>
               </div>
             </div>
             <div class="col d-flex justify-content-center">
               <div class="card overflow-hidden" style="width: 14rem;">
-                <img src="/img-svg/hitam-removebg-preview.png" class="m-auto img-fluid" alt="..." style="height:10rem;width:300px;border:1px solid black; background-color: black;">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-              </div>
-            </div>
-            <div class="col d-flex justify-content-center">
-              <div class="card overflow-hidden" style="width: 14rem;">
-                <img src="/img-svg/hitam-removebg-preview.png" class="m-auto img-fluid" alt="..." style="height:10rem;width:300px;border:1px solid black; background-color: black;">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
-              </div>
-            </div>
-            <div class="col d-flex justify-content-center">
-              <div class="card overflow-hidden" style="width: 14rem;">
-                <img src="/img-svg/hitam-removebg-preview.png" class="m-auto img-fluid" alt="..." style="height:10rem;width:300px;border:1px solid black; background-color: black;">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                  <a href="#" class="btn btn-primary">Go somewhere</a>
-                </div>
+                <a href="/Speech" class="text-decoration-none" style="height:10rem;width:300px;border:1px solid black; background-color: black;"><img src="/img-svg/hitam-removebg-preview.png" class="m-auto img-fluid text-decoration-none" alt="..." ></a>
+                <a href="/Speech" class="text-decoration-none text-dark">
+                  <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Speech</h5>
+                    <p class="card-text fs-6">1 person</p>
+                    <br><br>
+                    <strong class="card-text fs-5">IDR 145.000</strong>
+                  </div>
+                </a>
               </div>
             </div>
           </div>

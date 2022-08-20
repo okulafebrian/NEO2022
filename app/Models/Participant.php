@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Participant extends Model
 {
     use HasFactory;
+
+    public function competition(){
+        return $this->belongsTo(Competition::class);
+    }
 }

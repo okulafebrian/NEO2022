@@ -161,7 +161,7 @@
                 </form>
               </div>
             </div>
-            <div class="col-12 col-xxl-3 ms-auto shadow p-5 mb-5 mt-3 bg-body rounded h-50">
+            <div class="col-12 col-xxl-4 ms-auto shadow p-5 mb-5 mt-3 bg-body rounded h-50">
               <h3 class="mb-4">
                 Debate
               </h3>

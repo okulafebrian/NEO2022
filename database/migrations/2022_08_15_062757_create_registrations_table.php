@@ -15,6 +15,11 @@ return new class extends Migration
     {
         Schema::create('registrations', function (Blueprint $table) {
             $table->id();
+            $table->string('participant_id')->unique();
+            $table->string('competition_id');
+            $table->string('user_id')->unique();
+            $table->string('payment_due');
+            $table->string('is_expired');
             $table->timestamps();
         });
     }
