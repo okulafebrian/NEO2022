@@ -24,3 +24,5 @@ Route::get('/payment-completed1', [PaymentController::class, 'completed1']);
 Route::get('/payment-expired', [PaymentController::class, 'expired']);
 
 Route::get('/payment-expired1', [PaymentController::class, 'expired1']);
+
+Route::get('/payment-method', [PaymentController::class, 'paymentMethod']);

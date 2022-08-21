@@ -1,0 +1,1 @@
+<x-navbar></x-navbar>
