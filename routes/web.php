@@ -12,6 +12,12 @@ Route::get('/Registration', function () {
     return view('participants.registration');
 });
 
+Route::get('/Home', function () {
+    return view('participants.home');
+});
+
+
+
 Auth::routes(['verify' => true]);
 
 Auth::routes();
