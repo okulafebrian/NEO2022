@@ -15,11 +15,14 @@ return new class extends Migration
     {
         Schema::create('registrations', function (Blueprint $table) {
             $table->id();
-            $table->string('participant_id')->unique();
-            $table->string('competition_id');
-            $table->string('user_id')->unique();
-            $table->string('payment_due');
-            $table->string('is_expired');
+            $table->unsignedBigInteger('participant_id');
+            $table->foreign('participant_id')->references('id')->on('participants')->onUpdate('cascade')->onDelete('cascade');
+            $table->unsignedBigInteger('competition_id');
+            $table->foreign('competition_id')->references('id')->on('competitions')->onUpdate('cascade')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->dateTime('payment_due');
+            $table->boolean('is_expired');
             $table->timestamps();
         });
     }

@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('competitions', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name');
             $table->string('category');
             $table->string('early_price');
             $table->string('early_quota');
             $table->string('normal_price');
             $table->string('normal_quota');
-            $table->string('about')->unique();
+            $table->string('about');
             $table->string('general_rules');
             $table->string('technical_rules');
             $table->string('rounds');

@@ -9,9 +9,8 @@ use App\Models\Participant;
 class Competition extends Model
 {
     use HasFactory;
-    protected $guarded= ['ID'];
-
-    public function participant(){
-        return $this->hasMany(Participant::class);
-    }
+   
+    private static $collections = [
+        
+    ];
 }
