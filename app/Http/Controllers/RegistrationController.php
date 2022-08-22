@@ -2,16 +2,8 @@
 
 namespace App\Http\Controllers;
 
-<<<<<<< HEAD
 use Illuminate\Http\Request;
 use App\Models\Registration;
-
-class RegistrationController extends Controller
-{
-    //
-=======
-use App\Models\Registration;
-use Illuminate\Http\Request;
 
 class RegistrationController extends Controller
 {
@@ -90,5 +82,4 @@ class RegistrationController extends Controller
     {
         //
     }
->>>>>>> 96f1ae12ed2d33104147524e878f6f1613558f21
 }

@@ -47,9 +47,9 @@
     <div class="ps-5 pb-3 pt-3 pe-5 m-auto mt-5 mt-sm-0 rounded shadow container-fluid col-11 col-sm-10 d-flex gap-4 align-items-center overflow-auto">
       <div class="fs-6 fw-semibold">Status</div>
       <div class="fs-6 bg-opacity-25 p-2" style="border-width: 1px;border-style: solid;border-radius: 20px;color: #EE8143;background-color: #EE81431A;border-color: #EE8143;">Waiting for Payment</div>
-      <div class=" fs-6 border p-2" style="border-radius: 20px;"> <a href="pending.html" class="text-decoration-none" style="color: #3A3A3CBF;">Pending</a> </div>
-      <div class="fs-6 border p-2" style="border-radius: 20px;"> <a href="completed.html" class="text-decoration-none" style="color: #3A3A3CBF;">Completed</a> </div>
-      <div class="fs-6 border p-2" style="border-radius: 20px;"> <a href="expired.html" class="text-decoration-none" style="color: #3A3A3CBF;">Expired</a> </div>
+      <div class=" fs-6 border p-2" style="border-radius: 20px;"> <a href="/payment-pending" class="text-decoration-none" style="color: #3A3A3CBF;">Pending</a> </div>
+      <div class="fs-6 border p-2" style="border-radius: 20px;"> <a href="/payment-completed" class="text-decoration-none" style="color: #3A3A3CBF;">Completed</a> </div>
+      <div class="fs-6 border p-2" style="border-radius: 20px;"> <a href="/payment-expired" class="text-decoration-none" style="color: #3A3A3CBF;">Expired</a> </div>
     </div>
 
     <div class="p-5 m-auto mt-5 rounded shadow container-fluid col-11 col-sm-10 align-items-center">

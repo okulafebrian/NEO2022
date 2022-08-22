@@ -10,8 +10,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-<<<<<<< HEAD
-Route::get('/payments', [PaymentController::class, 'index']);
+Route::get('/payments', [App\Http\Controllers\PaymentController::class, 'index']);
 
 Route::get('/payments1', [PaymentController::class, 'index1']);
 
@@ -28,7 +27,17 @@ Route::get('/payment-expired', [PaymentController::class, 'expired']);
 Route::get('/payment-expired1', [PaymentController::class, 'expired1']);
 
 Route::get('/payment-method', [PaymentController::class, 'paymentMethod']);
-=======
+
+Route::get('/payment-confirmation', [PaymentController::class, 'paymentConfirmation']);
+
+Route::post('save_payment', [PaymentController::class, 'save_payment']);
+
+Route::group(['middleware' =>['web']], function(){
+
+    Route::get('myroute',[PaymentContoller::class, 'index']);
+   
+});
+
 Route::get('/Registration', function () {
     return view('participants.registration');
 });
@@ -38,4 +47,3 @@ Auth::routes(['verify' => true]);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
->>>>>>> 96f1ae12ed2d33104147524e878f6f1613558f21

@@ -1,6 +1,6 @@
 <x-user title="Payment Method">
 
-    <div class="d-flex gap-2 mt-5" style="margin-left: 8vw;">
+    <div class="d-flex gap-2" style="margin-left: 8vw;margin-top: 12vh;">
         <p class="fw-semibold">Payment</p>
         <i class="bi bi-caret-right-fill"></i>
         <p class="fw-semibold" style="color: #EE8143;">Payment Confirmation</p>
@@ -9,33 +9,37 @@
     <div class="d-sm-flex justify-content-between" style="margin: 0 8vw;">
         <div class="shadow rounded p-4 col-sm-4 h-50">
             <h3 class="fs-3 mb-3">Payment Method</h3>
-            <label for="paymentMethod" class="mb-2">Choose payment method</label>
-            <br>
 
-            <select name="method" id="paymentMethod" class="mb-3 w-100">
-                <option value="selected">Select</option>
-                <option value="bankTransfer">Bank Transfer</option>
-                <option value="dana">DANA</option>
-                <option value="gopay">GoPay</option>
-                <option value="ovo">OVO</option>
-            </select>
-            <br>
+            <form action="">
+              <label for="paymentMethod" class="mb-2">Choose payment method</label>
+              <br>
 
-            <label for="accountName" class="mb-2">Account Name</label>
-            <br>
-            <input type="text" name="accountName" id="accountName" class="w-100">
-            <br>
+              <select name="paymentMethod" id="paymentMethod" class="mb-3 w-100">
+                  <option value="selected">Select</option>
+                  <option value="Bank Transfer">Bank Transfer</option>
+                  <option value="Dana">DANA</option>
+                  <option value="GoPay">GoPay</option>
+                  <option value="OVO">OVO</option>
+              </select>
+              <br>
 
-            <label for="accountName" class="mb-2">Account Number</label>
-            <br>
-            <input type="text" name="accountNumber" id="accountNumber" class="mb-3 w-100">
-            <br>
+              <label for="accountName" class="mb-2">Account Name</label>
+              <br>
+              <input type="text" name="accountName" id="accountName" class="mb-3 w-100">
+              <br>
 
-            <div class="d-grid">
-              <a href="payment-confirmation.html">
-                <button class="btn rounded text-light fw-bold w-100" style="background-color: #EE8143;">Continue</button>
-              </a>
-            </div>
+              <label for="accountName" class="mb-2">Account Number</label>
+              <br>
+              <input type="text" name="accountNumber" id="accountNumber" class="mb-3 w-100">
+              <br>
+
+              <div class="d-grid">
+                <a href="/payment-confirmation">
+                  <button class="btn rounded text-light fw-bold w-100" style="background-color: #EE8143;">Continue</button>
+                </a>
+              </div>
+            </form>
+            
         </div>
 
         <div class="shadow rounded p-4 col-sm-7 mt-3 m-sm-0">

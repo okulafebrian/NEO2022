@@ -4,13 +4,7 @@
         <a class="navbar-brand" href="#">BNEC</a>
       </div>
       <div class="col-6 gx-0 d-flex justify-content-end">
-        <div class="d-flex gap-2 rounded">
-          <i class="bi bi-list"></i>
-          <i class="bi bi-person-circle"></i>
-        </div>
-        
-
-        {{-- <ul class="navbar-nav mb-lg-0 d-flex flex-row align-items-center gap-2">
+        <ul class="navbar-nav mb-lg-0 d-flex flex-row align-items-center gap-2">
           <li class="nav-item rounded-circle d-flex justify-content-center p-1 position-relative" style="background-color: #DEE2E6;width: 40px;">
             <a class="nav-link active" aria-current="page" href="#">
               <div class="">
@@ -30,7 +24,7 @@
               <li><a class="dropdown-item d-flex justify-content-between d-block pt-2 pb-2" href="#"><p class="m-0 p-0">Sign Out</p ><i class="bi bi-box-arrow-in-right"></i></a></li>
             </ul>
           </li>
-        </ul> --}}
+        </ul>
       </div>
     </div>
 </nav>

@@ -16,7 +16,7 @@
 <<<<<<< HEAD
         {{-- <x-alert></x-alert> --}}
 =======
-        <x-alert></x-alert>
+        {{-- <x-alert></x-alert> --}}
 >>>>>>> 96f1ae12ed2d33104147524e878f6f1613558f21
 
         @if (isset($navbarGuest))
