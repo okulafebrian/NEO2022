@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Registration extends Model
 {
     use HasFactory;
+    protected $table = 'registrations';
+    protected $primaryKey = 'id';
+    protected $timestamp = true;
+    protected $guarded = []; 
 }

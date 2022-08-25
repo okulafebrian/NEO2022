@@ -15,6 +15,14 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('registration_id');
+            $table->foreign('registration_id')->references('id')->on('registrations')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('method');
+            $table->string('account_name');
+            $table->string('account_number');
+            $table->string('payment_proof');
+            $table->dateTime('payment_time');
+            $table->boolean('is_confirmed');
             $table->timestamps();
         });
     }

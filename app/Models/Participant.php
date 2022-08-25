@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Participant extends Model
 {
     use HasFactory;
+    protected $table = 'participants';
+    protected $primaryKey = 'id';
+    protected $timestamp = true;
+    protected $guarded = []; 
 }

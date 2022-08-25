@@ -13,8 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('registrations', function (Blueprint $table) {
+        Schema::create('competitions', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('category');
+            $table->longText('content');
+            $table->string('ebooklet')->nullable();
+            $table->integer('early_price');
+            $table->integer('early_quota');
+            $table->integer('normal_price');
+            $table->integer('normal_quota');
             $table->timestamps();
         });
     }
@@ -26,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('registrations');
+        Schema::dropIfExists('competitions');
     }
 };
