@@ -11,5 +11,10 @@ class Participant extends Model
     protected $table = 'participants';
     protected $primaryKey = 'id';
     protected $timestamp = true;
-    protected $guarded = []; 
+    protected $guarded = [];
+
+    public function registrationDetail()
+    {
+        return $this->belongsTo(RegistrationDetail::class);
+    }
 }

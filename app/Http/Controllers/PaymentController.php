@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payment;
+use App\Models\PaymentProvider;
+use App\Models\Registration;
+use App\Models\RegistrationDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
@@ -22,9 +26,35 @@ class PaymentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create(Request $request)
+    {   
+        $registration_id = $request->registration_id;
+
+        $registration_details = 
+            DB::table('registration_details')
+                ->join('competitions', 'registration_details.competition_id', 'competitions.id')
+                ->select('competitions.name', 'registration_details.price', DB::raw('count(*) as total'))
+                ->where('registration_details.registration_id', $registration_id)
+                ->groupBy('competitions.name', 'registration_details.price')
+                ->get();
+
+        $prices = [];        
+        $totalPayment = null;
+
+        for ($i=0; $i < $registration_details->count(); $i++) { 
+            $price = $registration_details[$i]->price * $registration_details[$i]->total;
+            $prices[$i] = $price;
+            $totalPayment += $price;
+        }
+        
+        return view('payments.create', [
+            'registration_id' => $registration_id,
+            'registration_details' => $registration_details,
+            'prices' => $prices,
+            'totalPayment' => $totalPayment,
+            'paymentProviders' => PaymentProvider::all(),
+            'ewalletCount' => PaymentProvider::where('type', 'EWALLET')->count(),
+        ]);
     }
 
     /**

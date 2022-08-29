@@ -15,7 +15,7 @@ Route::get('dashboard', DashboardController::class)->name('dashboard');
 Route::resource('competitions', CompetitionController::class);
 Route::resource('participants', ParticipantController::class);
 Route::resource('payments', PaymentController::class);
-Route::resource('registration', RegistrationController::class);
+Route::resource('registrations', RegistrationController::class);
 
 
 

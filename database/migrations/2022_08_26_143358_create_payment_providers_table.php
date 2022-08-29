@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('slot_details', function (Blueprint $table) {
+        Schema::create('payment_providers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('slot_id');
-            $table->foreign('slot_id')->references('id')->on('slots')->onUpdate('cascade')->onDelete('cascade');
-            $table->unsignedBigInteger('participant_id');
-            $table->foreign('participant_id')->references('id')->on('participants')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('type');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('slot_details');
+        Schema::dropIfExists('payment_providers');
     }
 };

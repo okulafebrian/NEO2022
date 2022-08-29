@@ -8,8 +8,8 @@ $(document).ready(function() {
         var id =  $(this).closest('.modal').data('id');
         var ticketAmount = $(this).closest('.modal').find('#inputTicket').val()
 
-        $('#ticket' + id + 'Amount').val(ticketAmount)
-        $('#ticket' + id + 'Badge').html(ticketAmount)
+        $('#compet' + id + 'TicketAmount').val(ticketAmount)
+        $('#compet' + id + 'TicketAmountBadge').html(ticketAmount)   // Badge
         updateTotalTicket()
     })
 
@@ -18,8 +18,8 @@ $(document).ready(function() {
         var id =  $(this).closest('.modal').data('id')
 
         $(this).closest('.modal').find("#inputTicket").val(1)
-        $('#ticket' + id + 'Amount').val(0)
-        $('#ticket' + id + 'Badge').html(null)
+        $('#compet' + id + 'TicketAmount').val(0)
+        $('#compet' + id + 'TicketAmountBadge').html(null)  // Badge
         updateTotalTicket()
     })
         

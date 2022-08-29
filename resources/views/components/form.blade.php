@@ -1,6 +1,4 @@
 <input type="hidden" name="competition_id[]" class="form-control" value="{{ $competition->id }}">
-<input type="hidden" name="form_id[{{ $competition->id }}]" class="form-control" value="{{ $i }}">
-<input type="hidden" name="prices[{{ $i }}]" class="form-control" value="{{ $prices[$competition->id] }}">
 
 <div class="col-12">
     <label for="name" class="form-label">Full Name <span style="color: red">*</span></label>

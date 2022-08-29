@@ -25,6 +25,7 @@
         "bootstrap-icons": "^1.9.1",
         "bootstrap-input-spinner": "^3.1.13",
         "jquery": "^3.6.0",
+        "jquery-countdown": "^2.2.0",
         "popper.js": "^1.16.1"
     }
 }

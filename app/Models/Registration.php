@@ -11,5 +11,20 @@ class Registration extends Model
     protected $table = 'registrations';
     protected $primaryKey = 'id';
     protected $timestamp = true;
-    protected $guarded = []; 
+    protected $guarded = [];
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
+    }
+
+    public function competitions()
+    {
+        return $this->belongsToMany(Competition::class, 'registration_details');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('participants', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('registration_detail_id');
+            $table->foreign('registration_detail_id')->references('id')->on('registration_details')->onUpdate('cascade')->onDelete('cascade');
             $table->string('name');
             $table->string('gender');
             $table->string('grade');

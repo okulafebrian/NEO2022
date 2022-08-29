@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class Form extends Component
+class RegistrationStatus extends Component
 {
     /**
      * Create a new component instance.
@@ -12,13 +12,12 @@ class Form extends Component
      * @return void
      */
 
-    public $competition, $i, $k;
-    
-    public function __construct($competition, $i, $k)
+    public $registration, $status;   
+
+    public function __construct($registration, $status)
     {
-        $this->competition = $competition;
-        $this->i = $i;
-        $this->k = $k;
+        $this->registration = $registration;
+        $this->status = $status;
     }
 
     /**
@@ -28,6 +27,6 @@ class Form extends Component
      */
     public function render()
     {
-        return view('components.form');
+        return view('components.registration-status');
     }
 }

@@ -12,4 +12,9 @@ class Competition extends Model
     protected $primaryKey = 'id';
     protected $timestamp = true;
     protected $guarded = []; 
+
+    public function registrations()
+    {
+        return $this->belongsToMany(Registration::class, 'registration_details');
+    }
 }

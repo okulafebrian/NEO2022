@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Competition;
+use App\Models\Offer;
 use App\Models\Participant;
 use App\Models\Registration;
-use App\Models\Slot;
-use App\Models\SlotDetail;
+use App\Models\RegistrationDetail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RegistrationController extends Controller
 {
@@ -17,9 +18,11 @@ class RegistrationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function i()
-    {
-        //
+    public function index()
+    {   
+        return view('registrations.index', [
+            'registrations' => Registration::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->get(),
+        ]);
     }
 
     /**
@@ -29,19 +32,17 @@ class RegistrationController extends Controller
      */
     public function create(Request $request)
     {  
-        $tickets = collect($request->ticketAmount);
-        $prices = collect($request->price);
+        $competTicketAmount = $request->competTicketAmount;
         $competitions = Competition::all();
 
         foreach ($competitions as $competition) {
-            if($competition->early_quota < $tickets[$competition->id]){
+            if($competition->early_quota < $competTicketAmount[$competition->id]){
                 return back();
             }
         }
         
         return view('registrations.create', [
-            'tickets' => $tickets,
-            'prices' => $prices,
+            'competTicketAmount' => $competTicketAmount,
             'competitions' => $competitions,
         ]);
     }
@@ -56,8 +57,6 @@ class RegistrationController extends Controller
     {   
         $this->validate($request, [
             'competition_id.*.*.*' => 'required|integer',
-            'form_id.*.*.*' => 'required|integer',
-            'prices.*.*.*' => 'required|integer',
             'name.*.*.*' => 'required|string',
             'gender.*.*.*' => 'required|string',
             'grade.*.*.*' => 'required|string',
@@ -68,15 +67,15 @@ class RegistrationController extends Controller
             'institute_name.*.*.*' => 'required|string',
             'institute_address.*.*.*' => 'required|string',
         ]);
-        
+
         $registration = Registration::create([
             'user_id' => auth()->user()->id,
             'payment_due' => Carbon::now()->addHours(2),
             'is_expired' => false
         ]);
         
-        $compet_id = $request->competition_id;
-        $unique_compet_id = collect($compet_id)->unique()->values();
+        $currentOffer = Offer::where('is_active', true)->first();
+        $unique_compet_id = collect($request->competition_id)->unique()->values();
                 
         for ($i=0; $i < count($unique_compet_id); $i++) { 
             $form_id = collect($request->name[$unique_compet_id[$i]]);
@@ -84,15 +83,16 @@ class RegistrationController extends Controller
             for ($j=0; $j < count($form_id); $j++) { 
                 $form_detail_id = collect($request->name[$unique_compet_id[$i]][$j]);
            
-                $slot = Slot::create([
+                $registration_detail = RegistrationDetail::create([
                     'registration_id' => $registration->id,
                     'competition_id' => $unique_compet_id[$i],
-                    'price' => 200,
+                    'price' =>$currentOffer->type == 'normal'? Competition::find($unique_compet_id[$i])->normal_price : Competition::find($unique_compet_id[$i])->early_price
                 ]);
                 
                 for ($k=0; $k < count($form_detail_id); $k++) {
-                    $participant = Participant::create([
+                    Participant::create([
                         'name' => $request->name[$unique_compet_id[$i]][$j][$k],
+                        'registration_detail_id' => $registration_detail->id,
                         'gender' => $request->gender[$unique_compet_id[$i]][$j][$k],
                         'grade' => $request->grade[$unique_compet_id[$i]][$j][$k],
                         'address' => $request->address[$unique_compet_id[$i]][$j][$k],
@@ -101,11 +101,6 @@ class RegistrationController extends Controller
                         'line_id' => $request->line_id[$unique_compet_id[$i]][$j][$k],
                         'institute_name' => $request->institute_name[$unique_compet_id[$i]][$j][$k],
                         'institute_address' => $request->institute_address[$unique_compet_id[$i]][$j][$k],
-                    ]);
-
-                    SlotDetail::create([
-                        'slot_id' => $slot->id,
-                        'participant_id' => $participant->id
                     ]);
                 }
             }

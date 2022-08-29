@@ -6,19 +6,18 @@
         </header>
 
         <section class="choose-competition">
-            <form method="GET" action="{{ route('registration.create') }}" enctype="multipart/form-data">
+            <form method="GET" action="{{ route('registrations.create') }}" enctype="multipart/form-data"
+                autocomplete="off">
                 @csrf
-                <div class="row">
-                    <div class="col-9">
-                        <h2>What category would you like to join ?</h2>
-                        <p>Now you can register multiple competitions at once</p>
+                <div class="row mb-3">
+                    <div class="col-8">
+                        <h3>What category would you like to join ?</h3>
+                        <p class="m-0">Now you can register multiple competitions at once</p>
                     </div>
-                    <div class="col">
-                        <div
-                            class="ticket border border-secondary rounded d-flex align-items-center justify-content-between p-3">
-                            <p class="total-ticket m-0">0 Tickets</p>
-                            <button class="btn btn-dark btn-register" type="submit" disabled>Register</button>
-                        </div>
+                    <div class="col d-flex justify-content-end align-items-center">
+                        <button class="total-ticket btn btn-outline-secondary p-2 px-4 me-4 text-dark" disabled>0
+                            Tickets</button>
+                        <button class="btn btn-dark btn-register p-2 px-3" type="submit" disabled>Register</button>
                     </div>
                 </div>
 
@@ -33,20 +32,17 @@
                                     <h6 class="m-0">IDR
                                         {{ $currentOffer->type == 'normal' ? number_format($competition->normal_price, 0, '.', '.') : number_format($competition->early_price, 0, '.', '.') }}
                                     </h6>
-                                    <input type="hidden" name="price[{{ $competition->id }}]"
-                                        value="{{ $currentOffer->type == 'normal' ? $competition->normal_price : $competition->early_price }}">
                                 </div>
-                                <span id="ticket{{ $competition->id }}Badge"
+                                <span id="compet{{ $competition->id }}TicketAmountBadge"
                                     class="position-absolute top-0 end-0 badge rounded-pill bg-danger"></span>
-                                <input type="number" name="ticketAmount[{{ $competition->id }}]" value="0"
-                                    id="ticket{{ $competition->id }}Amount" class="ticket-amount" hidden>
+                                <input type="number" name="competTicketAmount[{{ $competition->id }}]" value="0"
+                                    id="compet{{ $competition->id }}TicketAmount" class="ticket-amount" hidden>
                             </div>
                         </div>
 
                         {{-- Modal Choose Ticket Amount --}}
-                        <div class="modal fade" id="ticket{{ $competition->id }}Modal"
-                            data-id="{{ $competition->id }}" data-bs-backdrop="static" data-bs-keyboard="false"
-                            tabindex="-1">
+                        <div class="modal fade" id="ticket{{ $competition->id }}Modal" data-id="{{ $competition->id }}"
+                            data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
                             <div class="modal-dialog">
                                 <div class="modal-content rounded-4 shadow p-3">
                                     <div class="modal-header border-bottom-0">

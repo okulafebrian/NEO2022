@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg bg-white border-bottom">
     <div class="container ">
-        <a class="navbar-brand" href="#">
-            <img src="/storage/images/assets/logo_BNEC.png" alt="" width="90">
+        <a class="navbar-brand" href="{{ route('dashboard') }}">
+            <img src="/storage/images/assets/Logo_BNEC.png" alt="BNEC" width="90">
         </a>
         <div class="dropdown">
             <button type="button" class="btn btn-outline-secondary" data-bs-toggle="dropdown" data-bs-display="static"
@@ -10,8 +10,10 @@
                 <i class="bi bi-person-circle"></i>
             </button>
             <ul class="dropdown-menu dropdown-menu-lg-end">
-                <li><button class="dropdown-item" type="button">My Registration</button></li>
-                <li><button class="dropdown-item" type="button">Profile</button></li>
+                <li><a href="{{ route('registrations.index') }}" class="dropdown-item" type="button">My
+                        Registration</a>
+                </li>
+                <li><a href="" class="dropdown-item" type="button">Profile</a></li>
                 <li>
                     <a class="dropdown-item" href="{{ route('logout') }}"
                         onclick="event.preventDefault();
