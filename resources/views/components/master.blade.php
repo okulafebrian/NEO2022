@@ -12,7 +12,7 @@
 
 <body>
     <div id="app">
-        {{-- <x-alert></x-alert> --}}
+        <x-alert></x-alert>
 
         @if (isset($navbarGuest))
             <x-navbar-guest></x-navbar-guest>

@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg bg-white border-bottom">
     <div class="container ">
         <a class="navbar-brand" href="{{ route('dashboard') }}">
-            <img src="/storage/images/assets/Logo_BNEC.png" alt="BNEC" width="90">
+            <img src="/storage/images/assets/Logo_BNEC.png" alt="BNEC" width="85">
         </a>
         <div class="dropdown">
             <button type="button" class="btn btn-outline-secondary" data-bs-toggle="dropdown" data-bs-display="static"
@@ -9,7 +9,7 @@
                 <i class="bi bi-list"></i>
                 <i class="bi bi-person-circle"></i>
             </button>
-            <ul class="dropdown-menu dropdown-menu-lg-end">
+            <ul class="dropdown-menu dropdown-menu-end">
                 <li><a href="{{ route('registrations.index') }}" class="dropdown-item" type="button">My
                         Registration</a>
                 </li>

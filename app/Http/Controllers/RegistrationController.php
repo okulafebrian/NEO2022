@@ -32,18 +32,37 @@ class RegistrationController extends Controller
      */
     public function create(Request $request)
     {  
+        $currentOffer = Offer::where('is_active', true)->first();
+
         $competTicketAmount = $request->competTicketAmount;
         $competitions = Competition::all();
+        $selectedCompetitions = [];
+        $totalPrice = null;
 
         foreach ($competitions as $competition) {
-            if($competition->early_quota < $competTicketAmount[$competition->id]){
-                return back();
+            if ($competTicketAmount[$competition->id] > 0) {
+                $temp = (object) [];
+                $temp->id = $competition->id;
+                $temp->name = $competition->name;
+                $temp->category = $competition->category;
+                $temp->price = $currentOffer->type == 'Normal' ? $competition->normal_price : $competition->early_price;
+                $temp->count = $competTicketAmount[$competition->id];
+
+                $amount = null;
+                for ($i=0; $i < $temp->count; $i++) { 
+                    $amount += $currentOffer->type == 'Normal' ? $competition->normal_price : $competition->early_price;
+                }
+                $temp->amount = $amount;
+
+                $totalPrice += $amount;
+
+                $selectedCompetitions[] = $temp;
             }
         }
         
         return view('registrations.create', [
-            'competTicketAmount' => $competTicketAmount,
-            'competitions' => $competitions,
+            'selectedCompetitions' => $selectedCompetitions,
+            'totalPrice' => $totalPrice,
         ]);
     }
 
@@ -70,11 +89,10 @@ class RegistrationController extends Controller
 
         $registration = Registration::create([
             'user_id' => auth()->user()->id,
-            'payment_due' => Carbon::now()->addHours(2),
+            'payment_due' => Carbon::now()->addHours(3),
             'is_expired' => false
         ]);
         
-        $currentOffer = Offer::where('is_active', true)->first();
         $unique_compet_id = collect($request->competition_id)->unique()->values();
                 
         for ($i=0; $i < count($unique_compet_id); $i++) { 
@@ -86,7 +104,7 @@ class RegistrationController extends Controller
                 $registration_detail = RegistrationDetail::create([
                     'registration_id' => $registration->id,
                     'competition_id' => $unique_compet_id[$i],
-                    'price' =>$currentOffer->type == 'normal'? Competition::find($unique_compet_id[$i])->normal_price : Competition::find($unique_compet_id[$i])->early_price
+                    'price' => $request->price[$i]
                 ]);
                 
                 for ($k=0; $k < count($form_detail_id); $k++) {
@@ -106,7 +124,7 @@ class RegistrationController extends Controller
             }
         }
 
-        return redirect()->route('dashboard');
+        return redirect()->route('payments.create');
     }
 
     /**

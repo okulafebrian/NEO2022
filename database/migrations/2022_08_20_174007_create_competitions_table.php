@@ -17,12 +17,15 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('category');
-            $table->longText('content');
+            $table->longText('content')->nullable();
             $table->string('ebooklet')->nullable();
             $table->integer('early_price');
             $table->integer('early_quota');
+            $table->integer('early_temp_quota');
             $table->integer('normal_price');
             $table->integer('normal_quota');
+            $table->integer('normal_temp_quota');
+            $table->string('link_group')->nullable();
             $table->timestamps();
         });
     }

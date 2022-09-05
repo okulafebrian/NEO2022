@@ -1,4 +1,5 @@
 <input type="hidden" name="competition_id[]" class="form-control" value="{{ $competition->id }}">
+<input type="hidden" name="price[]" class="form-control" value="{{ $competition->price }}">
 
 <div class="col-12">
     <label for="name" class="form-label">Full Name <span style="color: red">*</span></label>
@@ -19,16 +20,23 @@
     <select id="grade" class="form-select"
         name="grade[{{ $competition->id }}][{{ $i }}][{{ $k }}]" required>
         <option selected disabled value="">Select</option>
-        <optgroup label="High School">
-            <option value="Grade 10">Grade 10</option>
-            <option value="Grade 11">Grade 11</option>
-            <option value="Grade 12">Grade 12</option>
-            <option value="Gap Year">Gap Year</option>
-        <optgroup label="University">
-            <option value="Uni 1">Year 1</option>
-            <option value="Uni 3">Year 2</option>
-            <option value="Uni 2">Year 3</option>
-            <option value="Uni 4">Year 4</option>
+        @if ($competition->category == 'Junior High School')
+            <optgroup label="Junior High School">
+                <option value="Grade 7">Grade 7</option>
+                <option value="Grade 8">Grade 8</option>
+                <option value="Grade 9">Grade 9</option>
+            @else
+            <optgroup label="Senior High School">
+                <option value="Grade 10">Grade 10</option>
+                <option value="Grade 11">Grade 11</option>
+                <option value="Grade 12">Grade 12</option>
+                <option value="Gap Year">Gap Year</option>
+            <optgroup label="University">
+                <option value="Uni 1">Year 1</option>
+                <option value="Uni 3">Year 2</option>
+                <option value="Uni 2">Year 3</option>
+                <option value="Uni 4">Year 4</option>
+        @endif
     </select>
 </div>
 <div class="col-12">
@@ -50,10 +58,9 @@
         placeholder="081245567889" required>
 </div>
 <div class="col-md-6">
-    <label for="line_id" class="form-label">LINE ID
-        (optional)</label>
+    <label for="line_id" class="form-label">LINE ID <span style="color: red">*</span></label>
     <input type="text" class="form-control" id="line_id"
-        name="line_id[{{ $competition->id }}][{{ $i }}][{{ $k }}]">
+        name="line_id[{{ $competition->id }}][{{ $i }}][{{ $k }}]" required>
 </div>
 <div class="col-12">
     <label for="institute_name" class="form-label">School /

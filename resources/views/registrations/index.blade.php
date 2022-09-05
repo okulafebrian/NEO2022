@@ -1,6 +1,8 @@
 <x-user title="My Registration - NEO 2022">
-    <div class="container py-4">
-        <h3 class="mb-4">My Registration</h3>
+    <div class="container py-md-5 py-4">
+        <div class="page-header">
+            <h3>My Registration</h3>
+        </div>
 
         @forelse ($registrations as $registration)
             {{-- REGISTRASI EXPIRED --}}
@@ -36,12 +38,10 @@
             <x-status :registration='$registration' status="confirmed" />
         @empty
             {{-- BELOM ADA REGISTRASI --}}
-            <div class="card border-0 shadow-sm">
-                <div class="card-body p-4">
-                    <h4>No competitions registerd...yet!</h4>
-                    <p>It's time to show your talent and win the competition</p>
-                    <a class="btn btn-primary" href="{{ route('dashboard') }}" role="button">Register Now</a>
-                </div>
+            <div class="py-4 border-top border-bottom">
+                <h4>No competitions registerd...yet!</h4>
+                <p class="bd-lead">It's time to show your talent and win the competition</p>
+                <a class="btn btn-primary" href="{{ route('dashboard') }}" role="button">Register Now</a>
             </div>
         @endforelse
 

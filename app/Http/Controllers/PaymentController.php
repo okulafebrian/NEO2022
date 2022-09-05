@@ -38,19 +38,18 @@ class PaymentController extends Controller
                 ->groupBy('competitions.name', 'registration_details.price')
                 ->get();
 
-        $prices = [];        
+        $amounts = [];        
         $totalPayment = null;
 
         for ($i=0; $i < $registration_details->count(); $i++) { 
-            $price = $registration_details[$i]->price * $registration_details[$i]->total;
-            $prices[$i] = $price;
-            $totalPayment += $price;
+            $amounts[$i] = $registration_details[$i]->price * $registration_details[$i]->total;
+            $totalPayment += $amounts[$i];
         }
         
         return view('payments.create', [
             'registration_id' => $registration_id,
             'registration_details' => $registration_details,
-            'prices' => $prices,
+            'prices' => $amounts,
             'totalPayment' => $totalPayment,
             'paymentProviders' => PaymentProvider::all(),
             'ewalletCount' => PaymentProvider::where('type', 'EWALLET')->count(),

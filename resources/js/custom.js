@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
     // Input Spinner
     $('.input-spinner').inputSpinner({buttonsOnly: true, autoInterval: undefined})
 
@@ -9,7 +8,8 @@ $(document).ready(function() {
         var ticketAmount = $(this).closest('.modal').find('#inputTicket').val()
 
         $('#compet' + id + 'TicketAmount').val(ticketAmount)
-        $('#compet' + id + 'TicketAmountBadge').html(ticketAmount)   // Badge
+        $('#compet' + id + 'Title').css('color', 'green')
+        $('#compet' + id + 'TicketAmountText').html(ticketAmount + 'x')
         updateTotalTicket()
     })
 
@@ -19,9 +19,14 @@ $(document).ready(function() {
 
         $(this).closest('.modal').find("#inputTicket").val(1)
         $('#compet' + id + 'TicketAmount').val(0)
-        $('#compet' + id + 'TicketAmountBadge').html(null)  // Badge
+        $('#compet' + id + 'Title').css('color', '')
+        $('#compet' + id + 'TicketAmountText').html(null)  // Badge
         updateTotalTicket()
     })
+
+    //  Show Modal
+    var myModal = new bootstrap.Modal(document.getElementById('alert'));
+    myModal.show();
         
 });
 
