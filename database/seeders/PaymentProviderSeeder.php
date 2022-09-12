@@ -20,15 +20,11 @@ class PaymentProviderSeeder extends Seeder
             [ 'type' => 'BANK', 'name' => 'BNI' ],
             [ 'type' => 'BANK', 'name' => 'Mandiri' ],
             [ 'type' => 'BANK', 'name' => 'BRI' ],
-            [ 'type' => 'BANK', 'name' => 'Danamon' ],
-            [ 'type' => 'BANK', 'name' => 'CIMB' ],
-            [ 'type' => 'BANK', 'name' => 'BTPN' ],
             [ 'type' => 'BANK', 'name' => 'Other' ],
             [ 'type' => 'EWALLET', 'name' => 'GoPay' ],
             [ 'type' => 'EWALLET', 'name' => 'OVO' ],
             [ 'type' => 'EWALLET', 'name' => 'ShopeePay' ],
             [ 'type' => 'EWALLET', 'name' => 'DANA' ],
-            [ 'type' => 'EWALLET', 'name' => 'LinkAja' ],
             [ 'type' => 'EWALLET', 'name' => 'Other' ]
         ]);
     }

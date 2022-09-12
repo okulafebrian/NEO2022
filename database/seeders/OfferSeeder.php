@@ -17,15 +17,15 @@ class OfferSeeder extends Seeder
     {
         DB::table('offers')->insert([
             [
-                'type' => 'Normal',
-                'start' => '2021-08-28 00:00:00',
-                'end' => '2021-09-01 23:59:59',
+                'type' => 'normal',
+                'start' => '2022-10-16 00:00:00',
+                'end' => '2022-10-31 23:59:59',
                 'is_active' => false
             ],
             [
-                'type' => 'Early Bird',
-                'start' => '2021-08-26 00:00:00',
-                'end' => '2021-08-28 23:59:59',
+                'type' => 'early',
+                'start' => '2022-10-01 00:00:00',
+                'end' => '2022-10-15 23:59:59',
                 'is_active' => true
             ]
         ]);

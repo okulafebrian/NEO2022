@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('payment_proof');
             $table->boolean('is_confirmed');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

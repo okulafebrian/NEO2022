@@ -12,7 +12,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class RegistrationController extends Controller
-{
+{   
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -20,6 +25,7 @@ class RegistrationController extends Controller
      */
     public function index()
     {   
+
         return view('registrations.index', [
             'registrations' => Registration::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->get(),
         ]);
@@ -32,18 +38,46 @@ class RegistrationController extends Controller
      */
     public function create(Request $request)
     {  
-        $competTicketAmount = $request->competTicketAmount;
+        $ticketAmount = $request->ticketAmount; // Jumlah tiket dari tiap competition
+        $offerID = $request->offerID;
+        
+        // REGISTRATION REQUEST VALIDATION
+        if (!$this->checkOffer($offerID))
+            return redirect()->route('dashboard')->with('failed', 'Registration failed. Please try again.');
+
         $competitions = Competition::all();
+        $selectedCompetitions = [];
+        $totalPrice = 0;
 
         foreach ($competitions as $competition) {
-            if($competition->early_quota < $competTicketAmount[$competition->id]){
-                return back();
+            if ($ticketAmount[$competition->id] > 0) {
+
+                if (!$this->checkQuotaAvailability($ticketAmount[$competition->id], $competition->id, $request->offerID))
+                    return redirect()->route('dashboard')->with('failed', 'Registration failed. Please try again.');
+
+                $temp = (object) [];
+                $temp->id = $competition->id;
+                $temp->name = $competition->name;
+                $temp->category = $competition->category;
+                $temp->category_init = $competition->category_init;
+                $temp->price = $offerID == 1 ? $competition->normal_price : $competition->early_price;
+                $temp->count = $ticketAmount[$competition->id];
+
+                $amount = 0;
+                for ($i=0; $i < $temp->count; $i++) { 
+                    $amount += $temp->price;
+                }
+
+                $temp->amount = $amount;
+                $totalPrice += $amount;
+                $selectedCompetitions[] = $temp;
             }
         }
         
         return view('registrations.create', [
-            'competTicketAmount' => $competTicketAmount,
-            'competitions' => $competitions,
+            'selectedCompetitions' => $selectedCompetitions,
+            'totalPrice' => $totalPrice,
+            'offerID' => $offerID,
         ]);
     }
 
@@ -68,45 +102,63 @@ class RegistrationController extends Controller
             'institute_address.*.*.*' => 'required|string',
         ]);
 
+        $category = collect($request->form)->unique();
+
+        // REGISTRATION REQUEST VALIDATION
+        if (!$this->checkOffer($request->offerID))
+            return redirect()->route('dashboard')->with('failed', 'Registration failed. Please try again.');
+
+        for ($i=0; $i < count($category); $i++) {
+            $competID = $category[$i];
+            $quotaRequest = count(collect($request->name[$competID]));
+            
+            if (!$this->checkQuotaAvailability($quotaRequest, $competID, $request->offerID))
+                return redirect()->route('dashboard')->with('failed', 'Registration failed. Please try again.');
+        }
+
         $registration = Registration::create([
             'user_id' => auth()->user()->id,
-            'payment_due' => Carbon::now()->addHours(2),
-            'is_expired' => false
+            'offer_id' => $request->offerID,
+            'payment_due' => Carbon::now()->addMinutes(30),
         ]);
         
-        $currentOffer = Offer::where('is_active', true)->first();
-        $unique_compet_id = collect($request->competition_id)->unique()->values();
-                
-        for ($i=0; $i < count($unique_compet_id); $i++) { 
-            $form_id = collect($request->name[$unique_compet_id[$i]]);
+        // LOOP SEBANYAK JUMLAH KATEGORI
+        for ($i=0; $i < count($category); $i++) {
+            $competID = $category[$i];
 
-            for ($j=0; $j < count($form_id); $j++) { 
-                $form_detail_id = collect($request->name[$unique_compet_id[$i]][$j]);
-           
+            // TOTAL FORM DALAM 1 KATEGORI
+            $formCount = count(collect($request->name[$competID]));
+            
+            // LOOP SEBANYAK JUMLAH FORM DALAM 1 KATEGORI
+            for ($j=0; $j < $formCount; $j++) {
                 $registration_detail = RegistrationDetail::create([
                     'registration_id' => $registration->id,
-                    'competition_id' => $unique_compet_id[$i],
-                    'price' =>$currentOffer->type == 'normal'? Competition::find($unique_compet_id[$i])->normal_price : Competition::find($unique_compet_id[$i])->early_price
+                    'competition_id' => $competID,
+                    'price' => $request->price[$i]
                 ]);
-                
-                for ($k=0; $k < count($form_detail_id); $k++) {
+            
+                // TOTAL PESERTA DALAM 1 FORM
+                $participantCount = count($request->name[$competID][$j]);
+
+                // LOOP SEBANYAK JUMLAH PESERTA DALAM 1 FORM
+                for ($k=0; $k < $participantCount; $k++) {
                     Participant::create([
-                        'name' => $request->name[$unique_compet_id[$i]][$j][$k],
+                        'name' => $request->name[$competID][$j][$k],
                         'registration_detail_id' => $registration_detail->id,
-                        'gender' => $request->gender[$unique_compet_id[$i]][$j][$k],
-                        'grade' => $request->grade[$unique_compet_id[$i]][$j][$k],
-                        'address' => $request->address[$unique_compet_id[$i]][$j][$k],
-                        'email' => $request->email[$unique_compet_id[$i]][$j][$k],
-                        'whatsapp_number' => $request->whatsapp_number[$unique_compet_id[$i]][$j][$k],
-                        'line_id' => $request->line_id[$unique_compet_id[$i]][$j][$k],
-                        'institute_name' => $request->institute_name[$unique_compet_id[$i]][$j][$k],
-                        'institute_address' => $request->institute_address[$unique_compet_id[$i]][$j][$k],
+                        'gender' => $request->gender[$competID][$j][$k],
+                        'grade' => $request->grade[$competID][$j][$k],
+                        'address' => $request->address[$competID][$j][$k],
+                        'email' => $request->email[$competID][$j][$k],
+                        'whatsapp_number' => $request->whatsapp_number[$competID][$j][$k],
+                        'line_id' => $request->line_id[$competID][$j][$k],
+                        'institute_name' => $request->institute_name[$competID][$j][$k],
+                        'institute_address' => $request->institute_address[$competID][$j][$k],
                     ]);
                 }
             }
         }
-
-        return redirect()->route('dashboard');
+        
+        return redirect()->route('payments.create', $registration);
     }
 
     /**
@@ -116,8 +168,27 @@ class RegistrationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Registration $registration)
-    {
-        //
+    {   
+        $paymentSummaries = 
+            DB::table('registration_details')
+                ->join('competitions', 'registration_details.competition_id', 'competitions.id')
+                ->select('competitions.name', 'competitions.category', 'registration_details.price', DB::raw('count(*) as total'))
+                ->where('registration_details.registration_id', $registration->id)
+                ->groupBy('competitions.name', 'competitions.category', 'registration_details.price')
+                ->get();
+        
+        $totalPayment = 0;
+        foreach ($paymentSummaries as $paymentSummary) {
+            $totalPayment += $paymentSummary->price * $paymentSummary->total;
+        }
+
+        return view('registrations.index', [
+            'registrations' => Registration::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->get(),
+            'registration' => $registration,
+            'registrationDetails' => RegistrationDetail::where('registration_id', $registration->id)->get(),
+            'paymentSummaries' => $paymentSummaries,
+            'totalPayment' => $totalPayment,
+        ]);
     }
 
     /**
@@ -151,6 +222,37 @@ class RegistrationController extends Controller
      */
     public function destroy(Registration $registration)
     {
-        //
+        $registration->delete();
+
+        return redirect()->back();
+    }
+
+    private function checkOffer($offerID)
+    {
+        $offer = Offer::where('is_active', true)->first();
+
+        // CHECK IF REQUEST OFFER MATCHES ON GOING OFFER
+        return $offerID == $offer->id ? true : false;
+    }
+
+    private function checkQuotaAvailability($quotaRequest, $competID, $offerID)
+    {   
+        $competition = Competition::find($competID);
+        $quotaUsed = 0;
+
+        foreach ($competition->registrations as $registration) {
+            if($registration->offer_id != $offerID)
+                continue;
+
+            if ($registration->payment || $registration->payment_due > Carbon::now())
+                $quotaUsed += 1;
+        }
+            
+        $quotaAvail = $offerID == 1 ? $competition->normal_quota - $quotaUsed : $competition->early_quota - $quotaUsed;
+            
+        if ($quotaRequest > $quotaAvail)
+            return false;
+
+        return true;
     }
 }

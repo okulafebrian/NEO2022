@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Offer extends Model
 {
     use HasFactory;
+    protected $table = 'offers';
+    protected $primaryKey = 'id';
+    protected $timestamp = true;
+    protected $guarded = [];
+
+    public function registrations()
+    {
+        return $this->belongsToMany(Registration::class);
+    }
 }

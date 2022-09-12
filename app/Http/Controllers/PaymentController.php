@@ -6,6 +6,7 @@ use App\Models\Payment;
 use App\Models\PaymentProvider;
 use App\Models\Registration;
 use App\Models\RegistrationDetail;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -34,34 +35,32 @@ class PaymentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create(Registration $registration)
     {   
-        $registration_id = $request->registration_id;
+        // PAYMENT REQUEST VALIDATION
+        if ($registration->payment_due < Carbon::now()) {
+            return redirect()->route('registrations.index')->with('failed', 'You have run out of time to complete the payment!');
+        }
 
-        $registration_details = 
+        $paymentSummaries = 
             DB::table('registration_details')
                 ->join('competitions', 'registration_details.competition_id', 'competitions.id')
-                ->select('competitions.name', 'registration_details.price', DB::raw('count(*) as total'))
-                ->where('registration_details.registration_id', $registration_id)
-                ->groupBy('competitions.name', 'registration_details.price')
+                ->select('competitions.name', 'competitions.category', 'registration_details.price', DB::raw('count(*) as total'))
+                ->where('registration_details.registration_id', $registration->id)
+                ->groupBy('competitions.name', 'competitions.category', 'registration_details.price')
                 ->get();
 
-        $prices = [];        
-        $totalPayment = null;
-
-        for ($i=0; $i < $registration_details->count(); $i++) { 
-            $price = $registration_details[$i]->price * $registration_details[$i]->total;
-            $prices[$i] = $price;
-            $totalPayment += $price;
+        $totalPayment = 0;
+        foreach ($paymentSummaries as $paymentSummary) {
+            $totalPayment += $paymentSummary->price * $paymentSummary->total;
         }
         
         return view('payments.create', [
-            'registration_id' => $registration_id,
-            'registration_details' => $registration_details,
-            'prices' => $prices,
+            'registration' => $registration,
+            'paymentSummaries' => $paymentSummaries,
             'totalPayment' => $totalPayment,
             'paymentProviders' => PaymentProvider::all(),
-            'ewalletCount' => PaymentProvider::where('type', 'EWALLET')->count(),
+            'bankCount' => PaymentProvider::where('type', 'BANK')->count(),
         ]);
     }
 
@@ -72,8 +71,40 @@ class PaymentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        // PAYMENT REQUEST VALIDATION
+        if ($request->payment_due < Carbon::now()) {
+            return redirect()->route('registrations.index')->with('failed', 'You have run out of time to complete the payment!');
+        }
+
+        $request->validate([
+            'registration_id'=> 'required|integer',
+            'payment_type'=> 'required|string',
+            'provider_name'=> 'required|string',
+            'account_number'=> 'required|string',
+            'account_name'=> 'required|string',
+            'payment_amount'=> 'required|integer',
+            'payment_proof' => 'image|nullable|max:1999|mimes:jpg,png,jpeg',
+        ]);
+
+        if ($request->hasFile('payment_proof')) {
+            $extension = $request->file('payment_proof')->getClientOriginalExtension();
+            $proofNameToStore = $request->input('account_number') . '_' . $request->input('account_name') . '_' . time() . '.' . $extension;
+            $request->file('payment_proof')->storeAs('public/images/payment_proofs', $proofNameToStore);
+        }
+
+        Payment::create([
+            'registration_id' => $request->registration_id,
+            'payment_type' => $request->payment_type,
+            'provider_name' => $request->provider_name,
+            'account_number' => $request->account_number,
+            'account_name' => $request->account_name,
+            'payment_amount' => $request->payment_amount,
+            'payment_proof' => $proofNameToStore,
+            'is_confirmed' => 0,
+        ]);
+
+        return redirect()->route('registrations.index')->with('success', 'Please wait for payment verification from the committee.');
     }
 
     /**

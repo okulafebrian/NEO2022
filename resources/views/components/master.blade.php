@@ -12,7 +12,7 @@
 
 <body>
     <div id="app">
-        {{-- <x-alert></x-alert> --}}
+        <x-alert></x-alert>
 
         @if (isset($navbarGuest))
             <x-navbar-guest></x-navbar-guest>
@@ -25,6 +25,9 @@
         @endif
 
         <main>
+            @if (isset($adminSidebar))
+                <x-admin-sidebar></x-admin-sidebar>
+            @endif
             {{ $slot }}
         </main>
     </div>
