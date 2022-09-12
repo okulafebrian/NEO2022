@@ -4,12 +4,12 @@
 // Variables
 @import 'variables';
 
-// Components
-@import 'components';
-
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
 @import '~bootstrap-icons/font/bootstrap-icons';
+
+// Components
+@import 'components';
 
 // Font Awesome
 $fa-font-path: "../webfonts";
