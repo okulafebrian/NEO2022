@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('registration_detail_id');
             $table->foreign('registration_detail_id')->references('id')->on('registration_details')->onUpdate('cascade')->onDelete('cascade');
             $table->string('name');
+            $table->string('competition');
             $table->string('gender');
             $table->string('grade');
             $table->string('address');

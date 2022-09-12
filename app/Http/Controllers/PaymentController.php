@@ -18,7 +18,15 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        //
+        $payments = 
+            DB::table('payments')
+                ->join('registrations', 'payments.registration_id', 'registrations.id')
+                ->join('users', 'registrations.user_id', 'users.id')
+                ->get();
+        
+        return view('payments.index', [
+            "payments" => $payments
+        ]);
     }
 
     /**
@@ -112,4 +120,9 @@ class PaymentController extends Controller
     {
         //
     }
+
+    // public function manage()
+    // {
+        
+    // }
 }

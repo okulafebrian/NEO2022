@@ -17,6 +17,7 @@ Route::resource('participants', ParticipantController::class);
 Route::resource('payments', PaymentController::class);
 Route::resource('registrations', RegistrationController::class);
 
+// Route::put('update-participant/{id}', [ParticipantController::class, 'update']);
 
 
 Auth::routes(['verify' => true]);

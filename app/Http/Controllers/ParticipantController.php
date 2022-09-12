@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Participant;
+use App\Models\Competition;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ParticipantController extends Controller
 {
@@ -14,7 +16,17 @@ class ParticipantController extends Controller
      */
     public function index()
     {
-        //
+        $partic_details = 
+            DB::table('participants')
+                ->join('registration_details', 'participants.registration_detail_id', 'registration_details.id')
+                ->join('competitions', 'registration_details.competition_id', 'competitions.id')
+                ->select('participants.id', 'participants.name', 'participants.competition', 'participants.gender', 'participants.grade', 'participants.email', 'participants.line_id', 'participants.whatsapp_number', 'participants.registration_detail_id')
+                ->get();
+            
+            return view('admin.index', [
+                "competitions" => Competition::all(),
+                "partic_details" => $partic_details
+            ]);
     }
 
     /**
@@ -67,9 +79,22 @@ class ParticipantController extends Controller
      * @param  \App\Models\Participant  $participant
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Participant $participant)
+    public function update(Request $request, $id)
     {
-        //
+
+        $participant = Participant::find($id);
+        $participant->name = $request->input('name');
+        $participant->competition = $request->input('competition');
+        $participant->gender = $request->input('gender');
+        $participant->grade = $request->input('grade');
+        $participant->address = $request->input('address');
+        $participant->email = $request->input('email');
+        $participant->whatsapp_number = $request->input('whatsapp_number');
+        $participant->institute_name = $request->input('institute_name');
+        $participant->institute_address = $request->input('institute_address');
+        $participant->update();
+
+        return redirect('participants');
     }
 
     /**
@@ -80,6 +105,28 @@ class ParticipantController extends Controller
      */
     public function destroy(Participant $participant)
     {
-        //
+        $participant->delete();
+        return redirect('participants');
+
+        // Participant::where('id', $participant->id)->delete();
+        // return redirect('admin.index');
+
+        // Participant::destroy($participant->id);
+        // DB::delete('delete from participants where id = ?', [$participant->id]);
+        // return redirect()->route('participants');
+        // $partic_details = 
+        
+        //     DB::table('participants')
+        //         ->join('registration_details', 'participants.registration_detail_id', 'registration_details.id')
+        //         ->join('competitions', 'registration_details.competition_id', 'competitions.id')
+        //         ->select('competitions.id', 'participants.name', 'participants.gender', 'participants.grade', 'participants.email', 'participants.line_id', 'participants.whatsapp_number', 'participants.registration_detail_id')
+        //         ->get();
+            
+            // return view('admin.index', [
+            //     "competitions" => Competition::all(),
+            //     "partic_details" => $partic_details
+            // ]);
+
+        
     }
 }
