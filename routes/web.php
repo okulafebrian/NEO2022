@@ -9,15 +9,19 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Models\Payment;
+use App\Http\Controllers\PaymentController;
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('dashboard', DashboardController::class)->name('dashboard');
 
-Route::resource('competitions', CompetitionController::class);
-Route::resource('participants', ParticipantController::class);
-Route::resource('registrations', RegistrationController::class);
+Route::get('/', function () {
+    return view('welcome');
+});
 
-
+Route::get('/Registration', function () {
+    return view('participants.registration');
+});
 
 Auth::routes(['verify' => true]);
 

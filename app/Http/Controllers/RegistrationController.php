@@ -2,14 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Competition;
-use App\Models\Offer;
-use App\Models\Participant;
 use App\Models\Registration;
-use App\Models\RegistrationDetail;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class RegistrationController extends Controller
 {   
