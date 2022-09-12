@@ -1,10 +1,10 @@
 /node_modules
 /public/hot
-/public/storage
+# /public/storage
 /storage/*.key
 /vendor
-.env
-.env.backup
+# .env
+# .env.backup
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
