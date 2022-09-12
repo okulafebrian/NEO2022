@@ -19,8 +19,15 @@ class PaymentController extends Controller
     public function index()
     {
         //
+        return view("payments.index", [
+            "payments" => Payment::all()
+        ]);
+
+
     }
 
+    
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -110,5 +117,12 @@ class PaymentController extends Controller
     public function destroy(Payment $payment)
     {
         //
+    }
+
+    public function manage()
+    {
+        return view("payments.manage", [
+            "payments" => Payment::all()
+        ]);
     }
 }

@@ -36,7 +36,7 @@
 
             {{-- PEMBAYARAN SUDAH DIKONFIRMASI --}}
             <x-status :registration='$registration' status="confirmed" />
-        @empty
+            @empty
             {{-- BELOM ADA REGISTRASI --}}
             <div class="py-4 border-top border-bottom">
                 <h4>No competitions registerd...yet!</h4>
