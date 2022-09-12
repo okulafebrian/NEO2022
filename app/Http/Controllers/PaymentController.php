@@ -18,7 +18,10 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        //
+        return view("payments.index",[
+            "payments" => Payment::all(),   
+            "users"=>User::all(),
+        ]);
     }
 
     /**
@@ -111,5 +114,11 @@ class PaymentController extends Controller
     public function destroy(Payment $payment)
     {
         //
+    }
+    public function manage()
+    {
+        return view("payments.manage",[
+            "payments" => Payment::all()
+        ]);
     }
 }
