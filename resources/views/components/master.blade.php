@@ -25,6 +25,9 @@
         @endif
 
         <main>
+            @if (isset($adminSidebar))
+                <x-admin-sidebar></x-admin-sidebar>
+            @endif
             {{ $slot }}
         </main>
     </div>

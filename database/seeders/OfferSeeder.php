@@ -17,13 +17,13 @@ class OfferSeeder extends Seeder
     {
         DB::table('offers')->insert([
             [
-                'type' => 'Normal',
+                'type' => 'normal',
                 'start' => '2022-10-16 00:00:00',
                 'end' => '2022-10-31 23:59:59',
                 'is_active' => false
             ],
             [
-                'type' => 'Early Bird',
+                'type' => 'early',
                 'start' => '2022-10-01 00:00:00',
                 'end' => '2022-10-15 23:59:59',
                 'is_active' => true

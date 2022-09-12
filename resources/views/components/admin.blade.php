@@ -1,4 +1,4 @@
 <x-master title="{{ $title }}">
-    <x-slot name="navbarAdmin"></x-slot>
+    <x-slot name="sidebarAdmin"></x-slot>
     {{ $slot }}
 </x-master>

@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('institute_name');
             $table->string('institute_address');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

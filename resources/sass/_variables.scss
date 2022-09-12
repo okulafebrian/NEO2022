@@ -1,8 +1,27 @@
-// Body
-
 // Typography
 $font-family-sans-serif: 'Inter', sans-serif;
 $font-size-base: 0.9rem;
-$line-height-base: 1.6;
 
-$accordion-bg: white;
+// Shadow
+$box-shadow-sm: 0 1px 6px 0 var(--color-shadow,rgba(49,53,59,0.12));
+
+// Colors
+$primary: #0d6efd;
+$dark: #3A3A3C;
+$bd-violet : var(--bs-purple);
+
+// Add colors
+@import 'bootstrap/scss/_functions';
+@import 'bootstrap/scss/_variables';
+
+$custom-colors: (
+    "light-red" : #F8D7DA,
+    "dark-red" : #842029,
+    "light-grey" : #F0F0F0,
+    "white" : white,
+);
+
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+
+
