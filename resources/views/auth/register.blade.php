@@ -42,21 +42,7 @@
                                 </div>
                                 <div class="row">
                                     
-                                    <div class="col">
-                                        <div class="form-outline mb-5">
-                                            <label for="whatsappNumber" class="col-md-6 col-form-label text-md-start">{{ __('Whatsapp Number') }}</label>
-                                        
-                                            <input id="whatsappNumber" type="text" class="form-control @error('whatsappNumber') is-invalid @enderror" name="whatsappNumber" value="{{ old('whatsappNumber') }}" required autocomplete="whatsappNumber" autofocus>
-            
-                                            @error('whatsappNumber')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                        
-                                        
-                                    </div>
+    
                                     <div class="col">
                                         <div class="form-outline mb-5">
                                             <label for="email" class="col-md-6 col-form-label text-md-start">{{ __('Email Address') }}</label>

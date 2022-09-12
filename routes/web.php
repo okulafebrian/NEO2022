@@ -23,19 +23,16 @@ Route::resource('competitions', CompetitionController::class);
 Route::resource('participants', ParticipantController::class);
 Route::resource('registrations', RegistrationController::class);
 
-<<<<<<< HEAD
 Route::get('/Home', function () {
     return view('participants.home');
 });
 
 
-=======
 // Payment
 Route::resource('payments', PaymentController::class)->except('create');
 Route::prefix('payments')->name('payments.')->group(function () {
     Route::get('{registration}/create', [PaymentController::class, 'create'])->name('create');
 });
->>>>>>> e068489fc303570b0d8c62e9b961d1ca1035f99a
 
 Auth::routes(['verify' => true]);
 

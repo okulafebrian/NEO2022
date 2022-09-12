@@ -238,48 +238,10 @@
                 $('#regDetailsModal').modal('show');
             });
 
-<<<<<<< HEAD
-            {{-- MENUNGGU PEMBAYARAN --}}
-            @if (!$registration->payment)
-                <form method="GET" action="{{ route('payments.create') }}" enctype="multipart/form-data">
-                    @csrf
-                    <input type="hidden" name="registration_id" value="{{ $registration->id }}">
-                    <x-status :registration='$registration' status="waiting" />
-                </form>
-                <script>
-                    var id = "{{ $registration->id }}"
-                    var time = "{{ $registration->payment_due }}"
-                    $('#paymentDue' + id).countdown(time, function(event) {
-                        $(this).html(event.strftime('%H:%M:%S'))
-                    })
-                </script>
-                @continue
-            @endif
-
-            {{-- PEMBAYARAN BELOM DIKONFIRMASI --}}
-            @if ($registration->payment->is_confirmed == false)
-                <x-status :registration='$registration' status="unconfirmed" />
-                @continue
-            @endif
-
-            {{-- PEMBAYARAN SUDAH DIKONFIRMASI --}}
-            <x-status :registration='$registration' status="confirmed" />
-            @empty
-            {{-- BELOM ADA REGISTRASI --}}
-            <div class="py-4 border-top border-bottom">
-                <h4>No competitions registerd...yet!</h4>
-                <p class="bd-lead">It's time to show your talent and win the competition</p>
-                <a class="btn btn-primary" href="{{ route('dashboard') }}" role="button">Register Now</a>
-            </div>
-        @endforelse
-
-    </div>
-=======
             const myModalEl = document.getElementById('regDetailsModal')
             myModalEl.addEventListener('hidden.bs.modal', event => {
                 window.location.href = "{{ route('registrations.index') }}"
             })
         </script>
     @endisset
->>>>>>> e068489fc303570b0d8c62e9b961d1ca1035f99a
 </x-user>
