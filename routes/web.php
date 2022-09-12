@@ -23,6 +23,12 @@ Route::resource('participants', ParticipantController::class);
 Route::resource('payments', PaymentController::class);
 Route::resource('registrations', RegistrationController::class);
 
+Route::get('/Home', function () {
+    return view('participants.home');
+});
+
+
+
 Auth::routes(['verify' => true]);
 
 
