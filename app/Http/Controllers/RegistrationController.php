@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Competition;
+use App\Models\Offer;
+use App\Models\Participant;
 use App\Models\Registration;
+use App\Models\RegistrationDetail;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RegistrationController extends Controller
 {   
@@ -136,6 +142,7 @@ class RegistrationController extends Controller
 
                 // LOOP SEBANYAK JUMLAH PESERTA DALAM 1 FORM
                 for ($k=0; $k < $participantCount; $k++) {
+                    
                     Participant::create([
                         'name' => $request->name[$competID][$j][$k],
                         'registration_detail_id' => $registration_detail->id,

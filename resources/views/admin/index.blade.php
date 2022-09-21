@@ -19,10 +19,10 @@
             <div class="">
                 <div class="pe-5 m-0 fw-semibold">
                     <a href="" class="text-decoration-none m-0"><p class="text-dark ps-5 pt-3 pb-3 m-0">Dashboard</p></a>
-                    <a href="" class="text-decoration-none m-0"><p class="text-dark ps-5 pt-3 pb-3 m-0">User</p></a>
-                    <a href="" class="text-decoration-none m-0"><p class="text-dark ps-5 pt-3 pb-3 m-0">Participant</p></a>
+                    <a href="/users" class="text-decoration-none m-0"><p class="text-dark ps-5 pt-3 pb-3 m-0">User</p></a>
+                    <a href="/participants" class="text-decoration-none m-0"><p class="text-light rounded-end ps-5 pt-3 pb-3 m-0" style="background-color: #3A3A3C;">Participant</p></a>
                     <a href="" class="text-decoration-none m-0"><p class="text-dark ps-5 pt-3 pb-3 m-0">Payment</p></a>
-                    <a href="" class="text-decoration-none m-0"><p class="text-light rounded-end ps-5 pt-3 pb-3 m-0" style="background-color: #3A3A3C;">Competition</p></a>
+                    <a href="/competitions" class="text-decoration-none m-0"><p class="text-dark ps-5 pt-3 pb-3 m-0">Competition</p></a>
                     <a href="" class="text-decoration-none m-0"><p class="text-dark ps-5 pt-3 pb-3 m-0">Result</p></a>
                     <a href="" class="text-decoration-none m-0"><p class="text-dark ps-5 pt-3 pb-3 m-0">FAQ</p></a>
                     <a href="" class="text-decoration-none m-0"><p class="text-dark ps-5 pt-3 pb-3 m-0">Publication</p></a>
@@ -65,189 +65,917 @@
                         </tr>
                       </tbody>
                 </table>
-            </section>         
-            
-            <section class="container-fluid mt-5 col-9 p-0 m-0 gx-0 position-absolute" style="min-height: 52.5vh;">
-                <div class="h-100 position-absolute start-0 overflow-scroll border-top" style="width: 80vw;">
-                    <table class="table table-striped">
-                        <thead class="sticky-top" style="z-index: 1; background-color: white;">
-                            <tr>
-                                <th class="ps-5 text-center">Action</th>  
-                                <th class="ps-5 text-center">No.</th>
-                                <th class="ps-5">Full Name</th>
-                                <th class="ps-5">Competition</th>
-                                <th class="ps-5">Gender</th>
-                                <th class="ps-5">Grade</th>
-                                <th class="ps-5">Email</th>
-                                <th class="ps-5">LINE_ID</th>
-                                <th class="ps-5">WA_Number</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($partic_details as $partic_detail)
-                            <tr>
-                                <td class="ps-5 text-center">
-                                    <div class="dropdown dropend">
-                                        <a class="text-decoration-none text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="">
-                                          ...
-                                        </a>
-                                      
-                                        <ul class="dropdown-menu position-absolute p-0" style="min-width: 1vw; z-index: 50; ">
-                                          <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleEdit" href="#">Edit</a></li>
-                                          <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleDelete" href="#">Delete</a></li>
-                                        </ul>
-                                    </div>
+            </section>        
 
-                                    <section>
-                                        <div class="modal fade text-center" id="exampleDelete" tabindex="-1" aria-labelledby="exampleDeleteLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-                                                <div class="modal-content p-5">
-                                                    <div class="modal-header border-0">
-                                                        <i class="bi bi-exclamation-circle w-100 fs-1" style="color: #EE8143;"></i>
-                                                    </div>
-                                                    
-                                                        <div class="modal-body">
-                                                            
-                                                            <strong>Are you sure to delete this partisipant's data?</strong>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="debate-tab" data-bs-toggle="tab" data-bs-target="#debate-tab-pane" type="button" role="tab" aria-controls="debate-tab-pane" aria-selected="true" style="color: #EE8143;">Debate</button>
+                </li>
 
-                                                            <div class="modal-footer row border-0 d-flex justify-content-center">
-                                                                <button type="button" class="btn text-light col-5" style="background-color: #3A3A3C;" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                                                                <button type="button" class="btn text-light col-5" style="background-color: #EE8143;" data-bs-toggle="modal" data-bs-target="#exampleConfirmDel">Confirm</button>
-                                                            </div>
-                                                        </div>
-                                                    
-                                                  </div>
-                                            </div>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="newscasting-tab" data-bs-toggle="tab" data-bs-target="#newscasting-tab-pane" type="button" role="tab" aria-controls="newscasting-tab-pane" aria-selected="false" style="color: #EE8143;">Newscasting</button>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="speechjhs-tab" data-bs-toggle="tab" data-bs-target="#speechjhs-tab-pane" type="button" role="tab" aria-controls="speechjhs-tab-pane" aria-selected="false" style="color: #EE8143;">Speech (JHS)</button>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="speechopen-tab" data-bs-toggle="tab" data-bs-target="#speechopen-tab-pane" type="button" role="tab" aria-controls="speechopen-tab-pane" aria-selected="false" style="color: #EE8143;">Speech (OPEN)</button>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="ssw-tab" data-bs-toggle="tab" data-bs-target="#ssw-tab-pane" type="button" role="tab" aria-controls="ssw-tab-pane" aria-selected="false" style="color: #EE8143;">Short Story Writing</button>
+                </li>
+                
+              </ul>
+
+              <div class="tab-content" id="myTabContent">
+                {{-- DEBATE --}}
+                <div class="tab-pane fade show active" id="debate-tab-pane" role="tabpanel" aria-labelledby="debate-tab" tabindex="0">
+                    <section class="container-fluid mt-5 col-9 p-0 m-0 gx-0 position-absolute" style="min-height: 52.5vh;">
+                    <div class="h-100 position-absolute start-0 overflow-scroll border-top" style="width: 80vw;">
+                        <table class="table table-striped">
+                            <thead class="sticky-top" style="z-index: 1; background-color: white;">
+                                <tr>
+                                    <th class="ps-5 text-center">Action</th>  
+                                    <th class="ps-5 text-center">No.</th>
+                                    <th class="ps-5">Full Name</th>
+                                    <th class="ps-5">Gender</th>
+                                    <th class="ps-5">Grade</th>
+                                    <th class="ps-5">Email</th>
+                                    <th class="ps-5">LINE_ID</th>
+                                    <th class="ps-5">WA_Number</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($partic_details as $partic_detail)
+                                @if($partic_detail->competition_id === 1)
+                                <tr>
+                                    <td class="ps-5 text-center">
+                                        <div class="dropdown dropend">
+                                            <a class="text-decoration-none text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="">
+                                              ...
+                                            </a>
+                                          
+                                            <ul class="dropdown-menu position-absolute p-0" style="min-width: 1vw; z-index: 50; ">
+                                              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleEdit" href="#">Edit</a></li>
+                                              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleDelete" href="#">Delete</a></li>
+                                            </ul>
                                         </div>
-                                    </section>
-
-                                    <section>
-                                        <div class="modal fade text-center" id="exampleConfirmDel" tabindex="-1" aria-labelledby="exampleConfirmDelLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-                                                <div class="modal-content p-3">
-                                                    <div class="modal-header border-0">
-                                                        <i class="bi bi-patch-check-fill fs-1 w-100" style="color: #EE8143;"></i>
-                                                    </div>
-                                                    <form action="{{ route('participants.destroy', $partic_detail->id) }}" method="POST">
-                                                        <div class="modal-body text-center">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <h3>Data has been deleted<br>successfully!</h3>
-                                                            <div class="modal-footer row border-0 d-flex justify-content-center">
-                                                                <button type="submit" class="btn text-light w-100" style="background-color: #EE8143;" data-bs-dismiss="modal" aria-label="Close">Close</button>
-                                                            </div>
+    
+                                        <section>
+                                            <div class="modal fade text-center" id="exampleDelete" tabindex="-1" aria-labelledby="exampleDeleteLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                                                    <div class="modal-content p-5">
+                                                        <div class="modal-header border-0">
+                                                            <i class="bi bi-exclamation-circle w-100" style="color: #EE8143; font-size: 100px;"></i>
                                                         </div>
-                                                    </form>
-                                                  </div>
-                                            </div>
-                                        </div>
-                                    </section>
-
-                                    <section>
-                                        <div class="modal fade" id="exampleEdit" tabindex="-1" aria-labelledby="exampleEditLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-                                                <div class="modal-content p-5">
-                                                    <div class="modal-header border-0">
-                                                      <h5 class="modal-title" id="exampleEditLabel">Edit Participants</h5>
-                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <form method="POST" action="{{ route('participants.update', $partic_detail->id) }}" enctype="multipart/form-data" class="overflow-auto">
-                                                        <div class="modal-body">
-                                                            @csrf
-                                                            @method('UPDATE')
-                                                            <div class="mb-3 d-flex">
-                                                                <label for="fullName" class="col-form-label col-2">Full Name</label>
-                                                                <input type="text" class="form-control" id="name" name="name">
+                                                        
+                                                            <div class="modal-body">
+                                                                
+                                                                <strong>Are you sure to delete this participant's data?</strong>
+    
+                                                                <div class="modal-footer row border-0 d-flex justify-content-center">
+                                                                    <button type="button" class="btn text-light col-5" style="background-color: #3A3A3C;" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                                                                    <button type="button" class="btn text-light col-5" style="background-color: #EE8143;" data-bs-toggle="modal" data-bs-target="#exampleConfirmDel">Confirm</button>
+                                                                </div>
                                                             </div>
-                                                            <div class="mb-3 d-flex">
-                                                                <label for="competition" class="col-form-label col-2">Competition</label>
-                                                                <input type="text" class="form-control" id="competition" name="competition">
-                                                            </div>
-                                                            <div class="mb-3 d-flex">
-                                                                <label for="gender" class="col-form-label col-2">Gender</label>
-                                                                <input type="text" class="form-control" id="gender" name="gender">
-                                                            </div>
-                                                            <div class="mb-3 d-flex">
-                                                                <label for="grade" class="col-form-label col-2">Grade</label>
-                                                                <input type="text" class="form-control" id="grade" name="grade">
-                                                            </div>
-                                                            <div class="mb-3 d-flex">
-                                                                <label for="email" class="col-form-label col-2">Email</label>
-                                                                <input type="email" class="form-control" id="email" name="email">
-                                                            </div>
-                                                            <div class="mb-3 d-flex">
-                                                                <label for="lineID" class="col-form-label col-2">LINE ID</label>
-                                                                <input type="text" class="form-control" id="line_id" name="line_id">
-                                                            </div>
-                                                            <div class="mb-3 d-flex">
-                                                                <label for="waNumber" class="col-form-label col-2">WA Number</label>
-                                                                <input type="text" class="form-control" id="whatsapp_number" name="whatsapp_number">
-                                                            </div>
-                                                            <div class="mb-3 d-flex">
-                                                                <label for="address" class="col-form-label col-2">Address</label>
-                                                                <textarea class="form-control" id="address" name="address"></textarea>
-                                                            </div>
-                                                            <div class="mb-3 d-flex">
-                                                                <label for="nameInstitute" class="col-form-label col-2">Name of Institute</label>
-                                                                <input type="text" class="form-control" id="institute_name" name="institute_name">
-                                                            </div>
-                                                            <div class="mb-3 d-flex">
-                                                                <label for="instituteAddress" class="col-form-label col-2">Institute Address</label>
-                                                                <textarea class="form-control" id="institute_address" name="institute_address"></textarea>
-                                                            </div>
-
-                                                            <div class="modal-footer mt-3 gap-4 row border-0 d-flex justify-content-center">
-                                                                <button type="button" class="btn text-light col-4" style="background-color: #3A3A3C;" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                                                                @method('PUT')
-                                                                <button type="submit" class="btn text-light col-6" style="background-color: #EE8143;">Save Changes</button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
+                                                      </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </section>
-
-                                    <section>
-                                        <div class="modal fade text-center" id="exampleConfirmEdit" tabindex="-1" aria-labelledby="exampleConfirmEditLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-                                                <div class="modal-content p-3">
-                                                    <div class="modal-header border-0">
-                                                        <i class="bi bi-patch-check-fill fs-1 w-100" style="color: #EE8143;"></i>
-                                                    </div>
-                                                    <div class="modal-body text-center">
-                                                        <h3>Data has been edited<br>successfully!</h3>
-                                                    </div>
-                                                    <div class="modal-footer row border-0 d-flex justify-content-center">
-                                                      <button type="button" class="btn text-light col-9" style="background-color: #EE8143;" data-bs-dismiss="modal" aria-label="Close">Close</button>
-                                                    </div>
-                                                  </div>
+                                        </section>
+    
+                                        <section>
+                                            <div class="modal fade text-center" id="exampleConfirmDel" tabindex="-1" aria-labelledby="exampleConfirmDelLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
+                                                    <div class="modal-content p-3">
+                                                        <div class="modal-header border-0">
+                                                            <i class="bi bi-patch-check-fill w-100" style="font-size: 100px; color: #EE8143;"></i>
+                                                        </div>
+                                                        <form action="{{ route('participants.destroy', $partic_detail->id) }}" method="POST">
+                                                            <div class="modal-body text-center">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <h4>Data has been deleted<br>successfully!</h4>
+                                                                <div class="modal-footer row border-0 d-flex justify-content-center">
+                                                                    <button type="submit" class="btn text-light w-100" style="background-color: #EE8143;" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                      </div>
+                                                </div>
                                             </div>
+                                        </section>
+    
+                                        <section>
+                                            <div class="modal fade" id="exampleEdit" tabindex="-1" aria-labelledby="exampleEditLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                                                    <div class="modal-content p-5">
+                                                        <div class="modal-header border-0">
+                                                          <h5 class="modal-title" id="exampleEditLabel">Edit Participants</h5>
+                                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <form method="POST" action="{{ route('participants.update', $partic_detail->id) }}" enctype="multipart/form-data" class="overflow-auto">
+                                                            <div class="modal-body">
+                                                                @csrf
+                                                                @method('UPDATE')
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="fullName" class="col-form-label col-2">Full Name</label>
+                                                                    <input type="text" class="form-control" id="name" name="name">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="competition" class="col-form-label col-2">Competition</label>
+                                                                    <input type="text" class="form-control" id="competition" name="competition">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="gender" class="col-form-label col-2">Gender</label>
+                                                                    <input type="text" class="form-control" id="gender" name="gender">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="grade" class="col-form-label col-2">Grade</label>
+                                                                    <input type="text" class="form-control" id="grade" name="grade">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="email" class="col-form-label col-2">Email</label>
+                                                                    <input type="email" class="form-control" id="email" name="email">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="lineID" class="col-form-label col-2">LINE ID</label>
+                                                                    <input type="text" class="form-control" id="line_id" name="line_id">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="waNumber" class="col-form-label col-2">WA Number</label>
+                                                                    <input type="text" class="form-control" id="whatsapp_number" name="whatsapp_number">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="address" class="col-form-label col-2">Address</label>
+                                                                    <textarea class="form-control" id="address" name="address"></textarea>
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="nameInstitute" class="col-form-label col-2">Name of Institute</label>
+                                                                    <input type="text" class="form-control" id="institute_name" name="institute_name">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="instituteAddress" class="col-form-label col-2">Institute Address</label>
+                                                                    <textarea class="form-control" id="institute_address" name="institute_address"></textarea>
+                                                                </div>
+    
+                                                                <div class="modal-footer mt-3 gap-4 row border-0 d-flex justify-content-center">
+                                                                    <button type="button" class="btn text-light col-4" style="background-color: #3A3A3C;" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                                                                    @method('PUT')
+                                                                    <button type="submit" class="btn text-light col-6" style="background-color: #EE8143;">Save Changes</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+    
+                                        <section>
+                                            <div class="modal fade text-center" id="exampleConfirmEdit" tabindex="-1" aria-labelledby="exampleConfirmEditLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                                                    <div class="modal-content p-3">
+                                                        <div class="modal-header border-0">
+                                                            <i class="bi bi-patch-check-fill fs-1 w-100" style="color: #EE8143;"></i>
+                                                        </div>
+                                                        <div class="modal-body text-center">
+                                                            <h3>Data has been edited<br>successfully!</h3>
+                                                        </div>
+                                                        <div class="modal-footer row border-0 d-flex justify-content-center">
+                                                          <button type="button" class="btn text-light col-9" style="background-color: #EE8143;" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                                                        </div>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </td>
+                                        <td class="ps-5 text-center">{{ $partic_detail->id }}</td>
+                                        <td class="ps-5">{{ $partic_detail->name }}</td>
+                                        <td class="ps-5">{{ $partic_detail->gender }}</td>
+                                        <td class="ps-5">{{ $partic_detail->grade }}</td>
+                                        <td class="ps-5">{{ $partic_detail->email }}</td>
+                                        <td class="ps-5">{{ $partic_detail->line_id }}</td>
+                                        <td class="ps-5">{{ $partic_detail->whatsapp_number }}</td>
+                                </tr>
+                                @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    </section>
+                </div>
+
+                {{-- NEWSCASTING --}}
+                <div class="tab-pane fade" id="newscasting-tab-pane" role="tabpanel" aria-labelledby="newscasting-tab" tabindex="0">
+                    <section class="container-fluid mt-5 col-9 p-0 m-0 gx-0 position-absolute" style="min-height: 52.5vh;">
+                    <div class="h-100 position-absolute start-0 overflow-scroll border-top" style="width: 80vw;">
+                        <table class="table table-striped">
+                            <thead class="sticky-top" style="z-index: 1; background-color: white;">
+                                <tr>
+                                    <th class="ps-5 text-center">Action</th>  
+                                    <th class="ps-5 text-center">No.</th>
+                                    <th class="ps-5">Full Name</th>
+                                    <th class="ps-5">Gender</th>
+                                    <th class="ps-5">Grade</th>
+                                    <th class="ps-5">Email</th>
+                                    <th class="ps-5">LINE_ID</th>
+                                    <th class="ps-5">WA_Number</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($partic_details as $partic_detail)
+                                @if($partic_detail->competition_id === 2)
+                                <tr>
+                                    <td class="ps-5 text-center">
+                                        <div class="dropdown dropend">
+                                            <a class="text-decoration-none text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="">
+                                              ...
+                                            </a>
+                                          
+                                            <ul class="dropdown-menu position-absolute p-0" style="min-width: 1vw; z-index: 50; ">
+                                              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleEdit" href="#">Edit</a></li>
+                                              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleDelete" href="#">Delete</a></li>
+                                            </ul>
                                         </div>
-                                    </section>
-                                </td>
-                                    <td class="ps-5 text-center">{{ $partic_detail->registration_detail_id }}</td>
-                                    <td class="ps-5">{{ $partic_detail->name }}</td>
-                                    <td class="ps-5">{{ $partic_detail->competition }}</td>
-                                    <td class="ps-5">{{ $partic_detail->gender }}</td>
-                                    <td class="ps-5">{{ $partic_detail->grade }}</td>
-                                    <td class="ps-5">{{ $partic_detail->email }}</td>
-                                    <td class="ps-5">{{ $partic_detail->line_id }}</td>
-                                    <td class="ps-5">{{ $partic_detail->whatsapp_number }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-            </div>
-            </section>
+    
+                                        <section>
+                                            <div class="modal fade text-center" id="exampleDelete" tabindex="-1" aria-labelledby="exampleDeleteLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                                                    <div class="modal-content p-5">
+                                                        <div class="modal-header border-0">
+                                                            <i class="bi bi-exclamation-circle w-100" style="color: #EE8143; font-size: 100px;"></i>
+                                                        </div>
+                                                        
+                                                            <div class="modal-body">
+                                                                
+                                                                <strong>Are you sure to delete this participant's data?</strong>
+    
+                                                                <div class="modal-footer row border-0 d-flex justify-content-center">
+                                                                    <button type="button" class="btn text-light col-5" style="background-color: #3A3A3C;" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                                                                    <button type="button" class="btn text-light col-5" style="background-color: #EE8143;" data-bs-toggle="modal" data-bs-target="#exampleConfirmDel">Confirm</button>
+                                                                </div>
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                        </section>
+    
+                                        <section>
+                                            <div class="modal fade text-center" id="exampleConfirmDel" tabindex="-1" aria-labelledby="exampleConfirmDelLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
+                                                    <div class="modal-content p-3">
+                                                        <div class="modal-header border-0">
+                                                            <i class="bi bi-patch-check-fill w-100" style="font-size: 100px; color: #EE8143;"></i>
+                                                        </div>
+                                                        <form action="{{ route('participants.destroy', $partic_detail->id) }}" method="POST">
+                                                            <div class="modal-body text-center">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <h4>Data has been deleted<br>successfully!</h4>
+                                                                <div class="modal-footer row border-0 d-flex justify-content-center">
+                                                                    <button type="submit" class="btn text-light w-100" style="background-color: #EE8143;" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                        </section>
+    
+                                        <section>
+                                            <div class="modal fade" id="exampleEdit" tabindex="-1" aria-labelledby="exampleEditLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                                                    <div class="modal-content p-5">
+                                                        <div class="modal-header border-0">
+                                                          <h5 class="modal-title" id="exampleEditLabel">Edit Participants</h5>
+                                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <form method="POST" action="{{ route('participants.update', $partic_detail->id) }}" enctype="multipart/form-data" class="overflow-auto">
+                                                            <div class="modal-body">
+                                                                @csrf
+                                                                @method('UPDATE')
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="fullName" class="col-form-label col-2">Full Name</label>
+                                                                    <input type="text" class="form-control" id="name" name="name">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="competition" class="col-form-label col-2">Competition</label>
+                                                                    <input type="text" class="form-control" id="competition" name="competition">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="gender" class="col-form-label col-2">Gender</label>
+                                                                    <input type="text" class="form-control" id="gender" name="gender">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="grade" class="col-form-label col-2">Grade</label>
+                                                                    <input type="text" class="form-control" id="grade" name="grade">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="email" class="col-form-label col-2">Email</label>
+                                                                    <input type="email" class="form-control" id="email" name="email">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="lineID" class="col-form-label col-2">LINE ID</label>
+                                                                    <input type="text" class="form-control" id="line_id" name="line_id">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="waNumber" class="col-form-label col-2">WA Number</label>
+                                                                    <input type="text" class="form-control" id="whatsapp_number" name="whatsapp_number">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="address" class="col-form-label col-2">Address</label>
+                                                                    <textarea class="form-control" id="address" name="address"></textarea>
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="nameInstitute" class="col-form-label col-2">Name of Institute</label>
+                                                                    <input type="text" class="form-control" id="institute_name" name="institute_name">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="instituteAddress" class="col-form-label col-2">Institute Address</label>
+                                                                    <textarea class="form-control" id="institute_address" name="institute_address"></textarea>
+                                                                </div>
+    
+                                                                <div class="modal-footer mt-3 gap-4 row border-0 d-flex justify-content-center">
+                                                                    <button type="button" class="btn text-light col-4" style="background-color: #3A3A3C;" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                                                                    @method('PUT')
+                                                                    <button type="submit" class="btn text-light col-6" data-bs-toggle="modal" data-bs-target="#exampleConfirmEdit" style="background-color: #EE8143;">Save Changes</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+    
+                                        <section>
+                                            <div class="modal fade text-center" id="exampleConfirmEdit" tabindex="-1" aria-labelledby="exampleConfirmEditLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                                                    <div class="modal-content p-3">
+                                                        <div class="modal-header border-0">
+                                                            <i class="bi bi-patch-check-fill fs-1 w-100" style="color: #EE8143;"></i>
+                                                        </div>
+                                                        <div class="modal-body text-center">
+                                                            <h3>Data has been edited<br>successfully!</h3>
+                                                        </div>
+                                                        <div class="modal-footer row border-0 d-flex justify-content-center">
+                                                          <button type="button" class="btn text-light col-9" style="background-color: #EE8143;" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                                                        </div>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </td>
+                                        <td class="ps-5 text-center">{{ $partic_detail->id }}</td>
+                                        <td class="ps-5">{{ $partic_detail->name }}</td>
+                                        <td class="ps-5">{{ $partic_detail->gender }}</td>
+                                        <td class="ps-5">{{ $partic_detail->grade }}</td>
+                                        <td class="ps-5">{{ $partic_detail->email }}</td>
+                                        <td class="ps-5">{{ $partic_detail->line_id }}</td>
+                                        <td class="ps-5">{{ $partic_detail->whatsapp_number }}</td>
+                                </tr>
+                                @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    </section>
+                </div>
 
-            <!-- pop up modal -->
-            
+                {{-- SPEECH JHS --}}
+                <div class="tab-pane fade" id="speechjhs-tab-pane" role="tabpanel" aria-labelledby="speechjhs-tab" tabindex="0">
+                    <section class="container-fluid mt-5 col-9 p-0 m-0 gx-0 position-absolute" style="min-height: 52.5vh;">
+                    <div class="h-100 position-absolute start-0 overflow-scroll border-top" style="width: 80vw;">
+                        <table class="table table-striped">
+                            <thead class="sticky-top" style="z-index: 1; background-color: white;">
+                                <tr>
+                                    <th class="ps-5 text-center">Action</th>  
+                                    <th class="ps-5 text-center">No.</th>
+                                    <th class="ps-5">Full Name</th>
+                                    <th class="ps-5">Gender</th>
+                                    <th class="ps-5">Grade</th>
+                                    <th class="ps-5">Email</th>
+                                    <th class="ps-5">LINE_ID</th>
+                                    <th class="ps-5">WA_Number</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($partic_details as $partic_detail)
+                                @if($partic_detail->competition_id === 3)
+                                <tr>
+                                    <td class="ps-5 text-center">
+                                        <div class="dropdown dropend">
+                                            <a class="text-decoration-none text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="">
+                                              ...
+                                            </a>
+                                          
+                                            <ul class="dropdown-menu position-absolute p-0" style="min-width: 1vw; z-index: 50; ">
+                                              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleEdit" href="#">Edit</a></li>
+                                              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleDelete" href="#">Delete</a></li>
+                                            </ul>
+                                        </div>
+    
+                                        <section>
+                                            <div class="modal fade text-center" id="exampleDelete" tabindex="-1" aria-labelledby="exampleDeleteLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                                                    <div class="modal-content p-5">
+                                                        <div class="modal-header border-0">
+                                                            <i class="bi bi-exclamation-circle w-100" style="color: #EE8143; font-size: 100px;"></i>
+                                                        </div>
+                                                        
+                                                            <div class="modal-body">
+                                                                
+                                                                <strong>Are you sure to delete this participant's data?</strong>
+    
+                                                                <div class="modal-footer row border-0 d-flex justify-content-center">
+                                                                    <button type="button" class="btn text-light col-5" style="background-color: #3A3A3C;" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                                                                    <button type="button" class="btn text-light col-5" style="background-color: #EE8143;" data-bs-toggle="modal" data-bs-target="#exampleConfirmDel">Confirm</button>
+                                                                </div>
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                        </section>
+    
+                                        <section>
+                                            <div class="modal fade text-center" id="exampleConfirmDel" tabindex="-1" aria-labelledby="exampleConfirmDelLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
+                                                    <div class="modal-content p-3">
+                                                        <div class="modal-header border-0">
+                                                            <i class="bi bi-patch-check-fill w-100" style="font-size: 100px; color: #EE8143;"></i>
+                                                        </div>
+                                                        <form action="{{ route('participants.destroy', $partic_detail->id) }}" method="POST">
+                                                            <div class="modal-body text-center">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <h4>Data has been deleted<br>successfully!</h4>
+                                                                <div class="modal-footer row border-0 d-flex justify-content-center">
+                                                                    <button type="submit" class="btn text-light w-100" style="background-color: #EE8143;" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                        </section>
+    
+                                        <section>
+                                            <div class="modal fade" id="exampleEdit" tabindex="-1" aria-labelledby="exampleEditLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                                                    <div class="modal-content p-5">
+                                                        <div class="modal-header border-0">
+                                                          <h5 class="modal-title" id="exampleEditLabel">Edit Participants</h5>
+                                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <form method="POST" action="{{ route('participants.update', $partic_detail->id) }}" enctype="multipart/form-data" class="overflow-auto">
+                                                            <div class="modal-body">
+                                                                @csrf
+                                                                @method('UPDATE')
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="fullName" class="col-form-label col-2">Full Name</label>
+                                                                    <input type="text" class="form-control" id="name" name="name">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="competition" class="col-form-label col-2">Competition</label>
+                                                                    <input type="text" class="form-control" id="competition" name="competition">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="gender" class="col-form-label col-2">Gender</label>
+                                                                    <input type="text" class="form-control" id="gender" name="gender">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="grade" class="col-form-label col-2">Grade</label>
+                                                                    <input type="text" class="form-control" id="grade" name="grade">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="email" class="col-form-label col-2">Email</label>
+                                                                    <input type="email" class="form-control" id="email" name="email">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="lineID" class="col-form-label col-2">LINE ID</label>
+                                                                    <input type="text" class="form-control" id="line_id" name="line_id">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="waNumber" class="col-form-label col-2">WA Number</label>
+                                                                    <input type="text" class="form-control" id="whatsapp_number" name="whatsapp_number">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="address" class="col-form-label col-2">Address</label>
+                                                                    <textarea class="form-control" id="address" name="address"></textarea>
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="nameInstitute" class="col-form-label col-2">Name of Institute</label>
+                                                                    <input type="text" class="form-control" id="institute_name" name="institute_name">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="instituteAddress" class="col-form-label col-2">Institute Address</label>
+                                                                    <textarea class="form-control" id="institute_address" name="institute_address"></textarea>
+                                                                </div>
+    
+                                                                <div class="modal-footer mt-3 gap-4 row border-0 d-flex justify-content-center">
+                                                                    <button type="button" class="btn text-light col-4" style="background-color: #3A3A3C;" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                                                                    @method('PUT')
+                                                                    <button type="submit" class="btn text-light col-6" style="background-color: #EE8143;">Save Changes</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+    
+                                        <section>
+                                            <div class="modal fade text-center" id="exampleConfirmEdit" tabindex="-1" aria-labelledby="exampleConfirmEditLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                                                    <div class="modal-content p-3">
+                                                        <div class="modal-header border-0">
+                                                            <i class="bi bi-patch-check-fill fs-1 w-100" style="color: #EE8143;"></i>
+                                                        </div>
+                                                        <div class="modal-body text-center">
+                                                            <h3>Data has been edited<br>successfully!</h3>
+                                                        </div>
+                                                        <div class="modal-footer row border-0 d-flex justify-content-center">
+                                                          <button type="button" class="btn text-light col-9" style="background-color: #EE8143;" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                                                        </div>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </td>
+                                        <td class="ps-5 text-center">{{ $partic_detail->id }}</td>
+                                        <td class="ps-5">{{ $partic_detail->name }}</td>
+                                        <td class="ps-5">{{ $partic_detail->gender }}</td>
+                                        <td class="ps-5">{{ $partic_detail->grade }}</td>
+                                        <td class="ps-5">{{ $partic_detail->email }}</td>
+                                        <td class="ps-5">{{ $partic_detail->line_id }}</td>
+                                        <td class="ps-5">{{ $partic_detail->whatsapp_number }}</td>
+                                </tr>
+                                @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    </section>
+                </div>
 
-            
+                {{-- SPEECH OPEN --}}
+                <div class="tab-pane fade" id="speechopen-tab-pane" role="tabpanel" aria-labelledby="speechopen-tab" tabindex="0">
+                    <section class="container-fluid mt-5 col-9 p-0 m-0 gx-0 position-absolute" style="min-height: 52.5vh;">
+                    <div class="h-100 position-absolute start-0 overflow-scroll border-top" style="width: 80vw;">
+                        <table class="table table-striped">
+                            <thead class="sticky-top" style="z-index: 1; background-color: white;">
+                                <tr>
+                                    <th class="ps-5 text-center">Action</th>  
+                                    <th class="ps-5 text-center">No.</th>
+                                    <th class="ps-5">Full Name</th>
+                                    <th class="ps-5">Gender</th>
+                                    <th class="ps-5">Grade</th>
+                                    <th class="ps-5">Email</th>
+                                    <th class="ps-5">LINE_ID</th>
+                                    <th class="ps-5">WA_Number</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($partic_details as $partic_detail)
+                                @if($partic_detail->competition_id === 4)
+                                <tr>
+                                    <td class="ps-5 text-center">
+                                        <div class="dropdown dropend">
+                                            <a class="text-decoration-none text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="">
+                                              ...
+                                            </a>
+                                          
+                                            <ul class="dropdown-menu position-absolute p-0" style="min-width: 1vw; z-index: 50; ">
+                                              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleEdit" href="#">Edit</a></li>
+                                              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleDelete" href="#">Delete</a></li>
+                                            </ul>
+                                        </div>
+    
+                                        <section>
+                                            <div class="modal fade text-center" id="exampleDelete" tabindex="-1" aria-labelledby="exampleDeleteLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                                                    <div class="modal-content p-5">
+                                                        <div class="modal-header border-0">
+                                                            <i class="bi bi-exclamation-circle w-100" style="color: #EE8143; font-size: 100px;"></i>
+                                                        </div>
+                                                        
+                                                            <div class="modal-body">
+                                                                
+                                                                <strong>Are you sure to delete this participant's data?</strong>
+    
+                                                                <div class="modal-footer row border-0 d-flex justify-content-center">
+                                                                    <button type="button" class="btn text-light col-5" style="background-color: #3A3A3C;" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                                                                    <button type="button" class="btn text-light col-5" style="background-color: #EE8143;" data-bs-toggle="modal" data-bs-target="#exampleConfirmDel">Confirm</button>
+                                                                </div>
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                        </section>
+    
+                                        <section>
+                                            <div class="modal fade text-center" id="exampleConfirmDel" tabindex="-1" aria-labelledby="exampleConfirmDelLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
+                                                    <div class="modal-content p-3">
+                                                        <div class="modal-header border-0">
+                                                            <i class="bi bi-patch-check-fill w-100" style="font-size: 100px; color: #EE8143;"></i>
+                                                        </div>
+                                                        <form action="{{ route('participants.destroy', $partic_detail->id) }}" method="POST">
+                                                            <div class="modal-body text-center">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <h4>Data has been deleted<br>successfully!</h4>
+                                                                <div class="modal-footer row border-0 d-flex justify-content-center">
+                                                                    <button type="submit" class="btn text-light w-100" style="background-color: #EE8143;" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                        </section>
+    
+                                        <section>
+                                            <div class="modal fade" id="exampleEdit" tabindex="-1" aria-labelledby="exampleEditLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                                                    <div class="modal-content p-5">
+                                                        <div class="modal-header border-0">
+                                                          <h5 class="modal-title" id="exampleEditLabel">Edit Participants</h5>
+                                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <form method="POST" action="{{ route('participants.update', $partic_detail->id) }}" enctype="multipart/form-data" class="overflow-auto">
+                                                            <div class="modal-body">
+                                                                @csrf
+                                                                @method('UPDATE')
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="fullName" class="col-form-label col-2">Full Name</label>
+                                                                    <input type="text" class="form-control" id="name" name="name">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="competition" class="col-form-label col-2">Competition</label>
+                                                                    <input type="text" class="form-control" id="competition" name="competition">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="gender" class="col-form-label col-2">Gender</label>
+                                                                    <input type="text" class="form-control" id="gender" name="gender">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="grade" class="col-form-label col-2">Grade</label>
+                                                                    <input type="text" class="form-control" id="grade" name="grade">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="email" class="col-form-label col-2">Email</label>
+                                                                    <input type="email" class="form-control" id="email" name="email">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="lineID" class="col-form-label col-2">LINE ID</label>
+                                                                    <input type="text" class="form-control" id="line_id" name="line_id">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="waNumber" class="col-form-label col-2">WA Number</label>
+                                                                    <input type="text" class="form-control" id="whatsapp_number" name="whatsapp_number">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="address" class="col-form-label col-2">Address</label>
+                                                                    <textarea class="form-control" id="address" name="address"></textarea>
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="nameInstitute" class="col-form-label col-2">Name of Institute</label>
+                                                                    <input type="text" class="form-control" id="institute_name" name="institute_name">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="instituteAddress" class="col-form-label col-2">Institute Address</label>
+                                                                    <textarea class="form-control" id="institute_address" name="institute_address"></textarea>
+                                                                </div>
+    
+                                                                <div class="modal-footer mt-3 gap-4 row border-0 d-flex justify-content-center">
+                                                                    <button type="button" class="btn text-light col-4" style="background-color: #3A3A3C;" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                                                                    @method('PUT')
+                                                                    <button type="submit" class="btn text-light col-6" style="background-color: #EE8143;">Save Changes</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+    
+                                        <section>
+                                            <div class="modal fade text-center" id="exampleConfirmEdit" tabindex="-1" aria-labelledby="exampleConfirmEditLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                                                    <div class="modal-content p-3">
+                                                        <div class="modal-header border-0">
+                                                            <i class="bi bi-patch-check-fill fs-1 w-100" style="color: #EE8143;"></i>
+                                                        </div>
+                                                        <div class="modal-body text-center">
+                                                            <h3>Data has been edited<br>successfully!</h3>
+                                                        </div>
+                                                        <div class="modal-footer row border-0 d-flex justify-content-center">
+                                                          <button type="button" class="btn text-light col-9" style="background-color: #EE8143;" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                                                        </div>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </td>
+                                        <td class="ps-5 text-center">{{ $partic_detail->id }}</td>
+                                        <td class="ps-5">{{ $partic_detail->name }}</td>
+                                        <td class="ps-5">{{ $partic_detail->gender }}</td>
+                                        <td class="ps-5">{{ $partic_detail->grade }}</td>
+                                        <td class="ps-5">{{ $partic_detail->email }}</td>
+                                        <td class="ps-5">{{ $partic_detail->line_id }}</td>
+                                        <td class="ps-5">{{ $partic_detail->whatsapp_number }}</td>
+                                </tr>
+                                @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    </section>
+                </div>
+
+                {{-- SSW --}}
+                <div class="tab-pane fade" id="ssw-tab-pane" role="tabpanel" aria-labelledby="ssw-tab" tabindex="0">
+                    <section class="container-fluid mt-5 col-9 p-0 m-0 gx-0 position-absolute" style="min-height: 52.5vh;">
+                    <div class="h-100 position-absolute start-0 overflow-scroll border-top" style="width: 80vw;">
+                        <table class="table table-striped">
+                            <thead class="sticky-top" style="z-index: 1; background-color: white;">
+                                <tr>
+                                    <th class="ps-5 text-center">Action</th>  
+                                    <th class="ps-5 text-center">No.</th>
+                                    <th class="ps-5">Full Name</th>
+                                    <th class="ps-5">Gender</th>
+                                    <th class="ps-5">Grade</th>
+                                    <th class="ps-5">Email</th>
+                                    <th class="ps-5">LINE_ID</th>
+                                    <th class="ps-5">WA_Number</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($partic_details as $partic_detail)
+                                @if($partic_detail->competition_id === 5)
+                                <tr>
+                                    <td class="ps-5 text-center">
+                                        <div class="dropdown dropend">
+                                            <a class="text-decoration-none text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="">
+                                              ...
+                                            </a>
+                                          
+                                            <ul class="dropdown-menu position-absolute p-0" style="min-width: 1vw; z-index: 50; ">
+                                              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleEdit" href="#">Edit</a></li>
+                                              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleDelete" href="#">Delete</a></li>
+                                            </ul>
+                                        </div>
+    
+                                        <section>
+                                            <div class="modal fade text-center" id="exampleDelete" tabindex="-1" aria-labelledby="exampleDeleteLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                                                    <div class="modal-content p-5">
+                                                        <div class="modal-header border-0">
+                                                            <i class="bi bi-exclamation-circle w-100" style="color: #EE8143; font-size: 100px;"></i>
+                                                        </div>
+                                                        
+                                                            <div class="modal-body">
+                                                                
+                                                                <strong>Are you sure to delete this participant's data?</strong>
+    
+                                                                <div class="modal-footer row border-0 d-flex justify-content-center">
+                                                                    <button type="button" class="btn text-light col-5" style="background-color: #3A3A3C;" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                                                                    <button type="button" class="btn text-light col-5" style="background-color: #EE8143;" data-bs-toggle="modal" data-bs-target="#exampleConfirmDel">Confirm</button>
+                                                                </div>
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                        </section>
+    
+                                        <section>
+                                            <div class="modal fade text-center" id="exampleConfirmDel" tabindex="-1" aria-labelledby="exampleConfirmDelLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
+                                                    <div class="modal-content p-3">
+                                                        <div class="modal-header border-0">
+                                                            <i class="bi bi-patch-check-fill w-100" style="font-size: 100px; color: #EE8143;"></i>
+                                                        </div>
+                                                        <form action="{{ route('participants.destroy', $partic_detail->id) }}" method="POST">
+                                                            <div class="modal-body text-center">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <h4>Data has been deleted<br>successfully!</h4>
+                                                                <div class="modal-footer row border-0 d-flex justify-content-center">
+                                                                    <button type="submit" class="btn text-light w-100" style="background-color: #EE8143;" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                        </section>
+    
+                                        <section>
+                                            <div class="modal fade" id="exampleEdit" tabindex="-1" aria-labelledby="exampleEditLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                                                    <div class="modal-content p-5">
+                                                        <div class="modal-header border-0">
+                                                          <h5 class="modal-title" id="exampleEditLabel">Edit Participants</h5>
+                                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <form method="POST" action="{{ route('participants.update', $partic_detail->id) }}" enctype="multipart/form-data" class="overflow-auto">
+                                                            <div class="modal-body">
+                                                                @csrf
+                                                                @method('UPDATE')
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="fullName" class="col-form-label col-2">Full Name</label>
+                                                                    <input type="text" class="form-control" id="name" name="name">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="competition" class="col-form-label col-2">Competition</label>
+                                                                    <input type="text" class="form-control" id="competition" name="competition">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="gender" class="col-form-label col-2">Gender</label>
+                                                                    <input type="text" class="form-control" id="gender" name="gender">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="grade" class="col-form-label col-2">Grade</label>
+                                                                    <input type="text" class="form-control" id="grade" name="grade">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="email" class="col-form-label col-2">Email</label>
+                                                                    <input type="email" class="form-control" id="email" name="email">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="lineID" class="col-form-label col-2">LINE ID</label>
+                                                                    <input type="text" class="form-control" id="line_id" name="line_id">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="waNumber" class="col-form-label col-2">WA Number</label>
+                                                                    <input type="text" class="form-control" id="whatsapp_number" name="whatsapp_number">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="address" class="col-form-label col-2">Address</label>
+                                                                    <textarea class="form-control" id="address" name="address"></textarea>
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="nameInstitute" class="col-form-label col-2">Name of Institute</label>
+                                                                    <input type="text" class="form-control" id="institute_name" name="institute_name">
+                                                                </div>
+                                                                <div class="mb-3 d-flex">
+                                                                    <label for="instituteAddress" class="col-form-label col-2">Institute Address</label>
+                                                                    <textarea class="form-control" id="institute_address" name="institute_address"></textarea>
+                                                                </div>
+    
+                                                                <div class="modal-footer mt-3 gap-4 row border-0 d-flex justify-content-center">
+                                                                    <button type="button" class="btn text-light col-4" style="background-color: #3A3A3C;" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                                                                    @method('PUT')
+                                                                    <button type="submit" class="btn text-light col-6" style="background-color: #EE8143;">Save Changes</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+    
+                                        <section>
+                                            <div class="modal fade text-center" id="exampleConfirmEdit" tabindex="-1" aria-labelledby="exampleConfirmEditLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                                                    <div class="modal-content p-3">
+                                                        <div class="modal-header border-0">
+                                                            <i class="bi bi-patch-check-fill fs-1 w-100" style="color: #EE8143;"></i>
+                                                        </div>
+                                                        <div class="modal-body text-center">
+                                                            <h3>Data has been edited<br>successfully!</h3>
+                                                        </div>
+                                                        <div class="modal-footer row border-0 d-flex justify-content-center">
+                                                          <button type="button" class="btn text-light col-9" style="background-color: #EE8143;" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                                                        </div>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </td>
+                                        <td class="ps-5 text-center">{{ $partic_detail->id }}</td>
+                                        <td class="ps-5">{{ $partic_detail->name }}</td>
+                                        <td class="ps-5">{{ $partic_detail->gender }}</td>
+                                        <td class="ps-5">{{ $partic_detail->grade }}</td>
+                                        <td class="ps-5">{{ $partic_detail->email }}</td>
+                                        <td class="ps-5">{{ $partic_detail->line_id }}</td>
+                                        <td class="ps-5">{{ $partic_detail->whatsapp_number }}</td>
+                                </tr>
+                                @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    </section>
+                </div>
+              </div>
         </main>
     </div>
     
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
+    </script>
+    
   </body>
 </html>

@@ -18,11 +18,11 @@
 
             <div class="">
                 <div class="pe-5 m-0 fw-semibold">
-                    <a href="" class="text-decoration-none m-0"><p class="text-dark ps-5 pt-3 pb-3 m-0">Dashboard</p></a>
-                    <a href="" class="text-decoration-none m-0"><p class="text-dark ps-5 pt-3 pb-3 m-0">User</p></a>
-                    <a href="" class="text-decoration-none m-0"><p class="text-dark ps-5 pt-3 pb-3 m-0">Participant</p></a>
+                    <a href="/dashboard" class="text-decoration-none m-0"><p class="text-dark ps-5 pt-3 pb-3 m-0">Dashboard</p></a>
+                    <a href="/user" class="text-decoration-none m-0"><p class="text-light rounded-end ps-5 pt-3 pb-3 m-0" style="background-color: #3A3A3C;">User</p></a>
+                    <a href="/participants" class="text-decoration-none m-0"><p class="text-dark ps-5 pt-3 pb-3 m-0">Participant</p></a>
                     <a href="" class="text-decoration-none m-0"><p class="text-dark ps-5 pt-3 pb-3 m-0">Payment</p></a>
-                    <a href="" class="text-decoration-none m-0"><p class="text-light rounded-end ps-5 pt-3 pb-3 m-0" style="background-color: #3A3A3C;">Competition</p></a>
+                    <a href="/competitions" class="text-decoration-none m-0"><p class="text-dark ps-5 pt-3 pb-3 m-0">Competition</p></a>
                     <a href="" class="text-decoration-none m-0"><p class="text-dark ps-5 pt-3 pb-3 m-0">Result</p></a>
                     <a href="" class="text-decoration-none m-0"><p class="text-dark ps-5 pt-3 pb-3 m-0">FAQ</p></a>
                     <a href="" class="text-decoration-none m-0"><p class="text-dark ps-5 pt-3 pb-3 m-0">Publication</p></a>
@@ -42,7 +42,7 @@
         <main class="w-100 mt-4" style="margin-left: 20vw;">
             <section class="container-fluid d-flex row col-12 pe-4">
                 <div class="col-3 gx-0 d-flex justify-content-center pe-4">
-                    <h3><strong>Registered Users</strong> </h3>
+                    <h3><strong>Registered Users</strong></h3>
                 </div>
                 
                 <div class="col-9 d-flex justify-content-end">
@@ -64,7 +64,6 @@
                                 <th class="ps-5">Name</th>
                                 <th class="ps-5">Role</th>
                                 <th class="ps-5">Email</th>
-                                <th class="ps-5">WA_Number</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,15 +71,14 @@
                             <tr>
                                 <td class="ps-5 text-center">{{ $admin->id }}</td>
                                 <td class="ps-5">{{ $admin->name }}</td>
-                                <td class="ps-5">{{ $admin->position }}</td>
+                                <td class="ps-5">{{ $admin->role }}</td>
                                 <td class="ps-5">{{ $admin->email }}</td>
-                                <td class="ps-5">{{ $admin-> }}</td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
-            </div>
+                </div>
             </section>
-
         </main>
     </div>
     

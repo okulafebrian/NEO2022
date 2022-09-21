@@ -14,7 +14,9 @@ class CompetitionController extends Controller
      */
     public function index()
     {
-        //
+        return view('competitions.index', [
+            "competitions" => Competition::all()
+        ]);
     }
 
     /**
@@ -35,7 +37,47 @@ class CompetitionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $request->validate([
+        //     'name' => 'required|string',
+        //     'category' => 'required|string',
+        //     'category_init' => 'required|string',
+        //     'content' => 'nullable|string',
+        //     'ebooklet' => 'nullable|string',
+        //     'early_price' => 'required|integer',
+        //     'early_quota' => 'required|integer',
+        //     'normal_price' => 'required|integer',
+        //     'normal_quota' => 'required|integer',
+        //     'link_group' => 'nullable|string'
+        // ]);
+
+        
+        Competition::create([
+            'name' => $request->name,
+            'category' => $request->category,
+            'category_init' => $request->category_init,
+            'content' => $request->content,
+            'ebooklet' => $request->ebooklet,
+            'early_price' => $request->early_price,
+            'early_quota' => $request->early_quota,
+            'normal_price' => $request->normal_price,
+            'normal_quota' => $request->normal_quota,
+            'link_group' => $request->link_group
+        ]);
+
+        return redirect('competitions');
+
+        // $competition = new Competition;
+        // $competition->name = $request->input('name');
+        // $competition->category = $request->input('category');
+        // $competition->category_init = $request->input('category_init');
+        // $competition->content = $request->input('content');
+        // $competition->ebooklet = $request->input('ebooklet');
+        // $competition->early_price = $request->input('early_price');
+        // $competition->early_quota = $request->input('early_quota');
+        // $competition->normal_price = $request->input('normal_price');
+        // $competition->normal_quota = $request->input('normal_quota');
+        // $competition->link_group = $request->input('link_group');
+        // $competition->save();
     }
 
     /**
@@ -80,6 +122,8 @@ class CompetitionController extends Controller
      */
     public function destroy(Competition $competition)
     {
-        //
+        dd($competition);
+        $competition->delete();
+        return redirect('competitions');
     }
 }

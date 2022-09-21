@@ -20,7 +20,7 @@ class ParticipantController extends Controller
             DB::table('participants')
                 ->join('registration_details', 'participants.registration_detail_id', 'registration_details.id')
                 ->join('competitions', 'registration_details.competition_id', 'competitions.id')
-                ->select('participants.id', 'participants.name', 'participants.competition', 'participants.gender', 'participants.grade', 'participants.email', 'participants.line_id', 'participants.whatsapp_number', 'participants.registration_detail_id')
+                ->select('registration_details.competition_id', 'participants.id', 'participants.name', 'participants.gender', 'participants.grade', 'participants.email', 'participants.line_id', 'participants.whatsapp_number', 'participants.registration_detail_id')
                 ->get();
             
             return view('admin.index', [
@@ -84,15 +84,16 @@ class ParticipantController extends Controller
 
         $participant = Participant::find($id);
         $participant->name = $request->input('name');
-        $participant->competition = $request->input('competition');
         $participant->gender = $request->input('gender');
         $participant->grade = $request->input('grade');
         $participant->address = $request->input('address');
         $participant->email = $request->input('email');
+        $participant->line_id = $request->input('line_id');
         $participant->whatsapp_number = $request->input('whatsapp_number');
         $participant->institute_name = $request->input('institute_name');
         $participant->institute_address = $request->input('institute_address');
         $participant->update();
+        session()->flash('flashModal');
 
         return redirect('participants');
     }
@@ -107,26 +108,5 @@ class ParticipantController extends Controller
     {
         $participant->delete();
         return redirect('participants');
-
-        // Participant::where('id', $participant->id)->delete();
-        // return redirect('admin.index');
-
-        // Participant::destroy($participant->id);
-        // DB::delete('delete from participants where id = ?', [$participant->id]);
-        // return redirect()->route('participants');
-        // $partic_details = 
-        
-        //     DB::table('participants')
-        //         ->join('registration_details', 'participants.registration_detail_id', 'registration_details.id')
-        //         ->join('competitions', 'registration_details.competition_id', 'competitions.id')
-        //         ->select('competitions.id', 'participants.name', 'participants.gender', 'participants.grade', 'participants.email', 'participants.line_id', 'participants.whatsapp_number', 'participants.registration_detail_id')
-        //         ->get();
-            
-            // return view('admin.index', [
-            //     "competitions" => Competition::all(),
-            //     "partic_details" => $partic_details
-            // ]);
-
-        
     }
 }

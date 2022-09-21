@@ -7,20 +7,24 @@ use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Models\Payment;
-use App\Http\Controllers\PaymentController;
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('dashboard', DashboardController::class)->name('dashboard');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::resource('competitions', CompetitionController::class);
+Route::resource('participants', ParticipantController::class);
+Route::resource('registrations', RegistrationController::class);
+Route::resource('users', UserController::class);
+Route::resource('competitions', CompetitionController::class);
 
-Route::get('/Registration', function () {
-    return view('participants.registration');
+// Payment
+Route::resource('payments', PaymentController::class)->except('create');
+Route::prefix('payments')->name('payments.')->group(function () {
+    Route::get('{registration}/create', [PaymentController::class, 'create'])->name('create');
 });
 
 Auth::routes(['verify' => true]);

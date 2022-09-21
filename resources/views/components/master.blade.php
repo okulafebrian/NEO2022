@@ -12,11 +12,7 @@
 
 <body>
     <div id="app">
-<<<<<<< HEAD
-        {{-- <x-alert></x-alert> --}}
-=======
-        {{-- <x-alert></x-alert> --}}
->>>>>>> 96f1ae12ed2d33104147524e878f6f1613558f21
+        <x-alert></x-alert>
 
         @if (isset($navbarGuest))
             <x-navbar-guest></x-navbar-guest>
@@ -29,9 +25,6 @@
         @endif
 
         <main>
-            @if (isset($adminSidebar))
-                <x-admin-sidebar></x-admin-sidebar>
-            @endif
             {{ $slot }}
         </main>
     </div>
