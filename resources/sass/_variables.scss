@@ -1,24 +1,24 @@
 // Typography
-$font-family-sans-serif: 'Inter', sans-serif;
+$font-family-sans-serif: 'Open Sans', sans-serif;
 $font-size-base: 0.9rem;
+$line-height-base: 1.6;
+$headings-font-weight: 600;
 
 // Shadow
 $box-shadow-sm: 0 1px 6px 0 var(--color-shadow,rgba(49,53,59,0.12));
 
 // Colors
-$primary: #0d6efd;
-$dark: #3A3A3C;
-$bd-violet : var(--bs-purple);
+$primary: #691B99;
 
 // Add colors
 @import 'bootstrap/scss/_functions';
 @import 'bootstrap/scss/_variables';
 
 $custom-colors: (
-    "light-red" : #F8D7DA,
-    "dark-red" : #842029,
-    "light-grey" : #F0F0F0,
-    "white" : white,
+    'purple-100' : #F2E8F8,
+    'red-100' : $red-100,
+    'red-800' : $red-800,
+    'orange-400' : $orange-400,
 );
 
 $theme-colors: map-merge($theme-colors, $custom-colors);

@@ -26,14 +26,13 @@ class Registration extends Model
         return $this->belongsToMany(Competition::class, 'registration_details')->withPivot(['price']);
     }
 
+    public function registrationDetails()
+    {
+        return $this->hasMany(RegistrationDetail::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-
-    public function offer()
-    {
-        return $this->hasOne(Offer::class);
-    }
-
 }

@@ -19,7 +19,7 @@ class RegistrationDetail extends Model
     {
         return $this->hasMany(Participant::class);
     }
-
+    
     public function competition()
     {
         return $this->belongsTo(Competition::class);

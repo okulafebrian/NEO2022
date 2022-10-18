@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('competition_id');
             $table->foreign('competition_id')->references('id')->on('competitions')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('price');
+            $table->boolean('has_promo');
             $table->timestamps();
             $table->softDeletes();
         });

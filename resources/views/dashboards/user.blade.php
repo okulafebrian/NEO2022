@@ -1,156 +1,104 @@
-<x-user title="Dashboard - NEO 2022">
-    <form method="GET" action="{{ route('registrations.create') }}" enctype="multipart/form-data" autocomplete="off">
-        @csrf
-        <input type="hidden" name="offerID" value="{{ $offer->id }}">
+<x-app title="Dashboard | NEO 2022">
 
-        <div class="container-lg px-md-5 pt-md-4 pb-md-5 p-4">
-            <div class="row g-md-5 g-4">
-                {{-- BANNER --}}
-                <div class="col-12">
-                    <img src="/storage/images/assets/Banner.png" class="rounded-4" alt="" width="100%">
-                </div>
+    <x-slot name="navbarUser"></x-slot>
 
-                {{-- COMPETITION LIST --}}
-                <div class="col-12">
-                    <div class="row g-4">
-                        <div class="col-12">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <h3>What category would you like to join?</h3>
-                                    <p class="m-0 bd-lead">Now you can register multiple competitions at once</p>
-                                </div>
-                                <div class="col-md-4 d-none d-sm-flex justify-content-end align-items-center">
-                                    <button class="total-ticket btn btn-outline-dark py-2 px-3 me-2" disabled>0
-                                        ticket</button>
-                                    <button class="btn-register btn btn-dark py-2 px-3" type="submit"
-                                        disabled>Register</button>
-                                </div>
-                            </div>
-                        </div>
+    <div class="container-lg my-5">
+        <section id="competition-list">
+            <div class="mb-4 text-center">
+                <h3>Which competition would you like to enter?</h3>
+                <p class="text-muted">You can register more than one competition at once.</p>
+            </div>
 
-                        <div class="col-12">
-                            <div class="row row-cols-lg-5 row-cols-md-4 row-cols-sm-2 row-cols-1 g-3">
-                                @foreach ($competitions as $competition)
-                                    <div class="col">
-                                        <div class="card card-competition p-0 border-0" type="button"
-                                            data-bs-toggle="modal" data-bs-target="#ticket{{ $competition->id }}Modal">
-                                            <div class="row g-md-2 g-3">
-                                                <div class="col-md-12 col-4">
-                                                    <img src="/storage/images/assets/Competition.png" alt=""
-                                                        width="100%" class="rounded-4">
-                                                </div>
-                                                <div class="col-md-12 col-8">
-                                                    <div class="card-body p-1 text-start">
-                                                        <h5 id="{{ $competition->id }}title" class="text-truncate mb-1">
-                                                            <span id="{{ $competition->id }}badge"></span>
-                                                            {{ $competition->name }}
-                                                        </h5>
-                                                        <p class="mb-1 text-muted">{{ $competition->category }}</p>
+            <div class="m-auto" style="max-width: 600px">
+                <form method="POST" action="{{ route('registrations.create') }}" enctype="multipart/form-data"
+                    autocomplete="off">
+                    @csrf
 
-                                                        @if ($offer->type == 'normal')
-                                                            <h6>Rp
-                                                                {{ number_format($competition->normal_price, 0, '.', '.') }}
-                                                            </h6>
-                                                        @else
-                                                            <h6>Rp
-                                                                {{ number_format($competition->early_price, 0, '.', '.') }}
-                                                            </h6>
-                                                            <h6>
-                                                                <small
-                                                                    class="text-decoration-line-through text-muted me-1">
-                                                                    Rp
-                                                                    {{ number_format($competition->normal_price, 0, '.', '.') }}
-                                                                </small>
-                                                                <span
-                                                                    class="badge bg-light-red text-danger rounded-pill">
-                                                                    Early Bird
-                                                                </span>
-                                                            </h6>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                                <input type="hidden" class="ticket-amount"
-                                                    name="ticketAmount[{{ $competition->id }}]" value="0">
-                                            </div>
-                                        </div>
+                    @foreach ($competitions as $competition)
+                        <div id="ticketCard{{ $competition->id }}" class="card card-custom rounded-4 mb-3">
 
-                                        @if (!$loop->last)
-                                            <hr class="d-block d-sm-none">
+                            <input type="hidden" name="has_promo[{{ $competition->id }}]"
+                                value="{{ $promotion && $competition->promo_quota - $competition->promo_registrations_count > 0 ? true : false }}">
+                            <input type="hidden" name="price[{{ $competition->id }}]"
+                                value="{{ $promotion && $competition->promo_quota - $competition->promo_registrations_count > 0 ? $competition->promo_price : $competition->price }}">
+
+                            <div class="card-body row g-0">
+                                <div class="col">
+                                    @if ($promotion && $competition->promo_quota - $competition->promo_registrations_count > 0)
+                                        <small class="fw-bold text-danger">{{ strtoupper($promotion->name) }}</small>
+                                    @endif
+                                    <h5 class="my-1">{{ $competition->name }}</h5>
+                                    <p class="fs-5 mb-1 text-muted">{{ $competition->category }}</p>
+                                    <h5>
+                                        @if ($promotion && $competition->promo_quota - $competition->promo_registrations_count > 0)
+                                            Rp {{ number_format($competition->promo_price, 0, '.', '.') }}
+                                            <small class="text-decoration-line-through text-muted ms-2">
+                                                Rp {{ number_format($competition->price, 0, '.', '.') }}
+                                            </small>
+                                        @else
+                                            Rp {{ number_format($competition->price, 0, '.', '.') }}
                                         @endif
-                                    </div>
-
-                                    {{-- Modal Choose Ticket Amount --}}
-                                    <div class="modal fade" id="ticket{{ $competition->id }}Modal"
-                                        data-id="{{ $competition->id }}" data-bs-backdrop="static"
-                                        data-bs-keyboard="false" tabindex="-1">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content rounded-4 shadow p-3">
-                                                <div class="modal-header border-bottom-0">
-                                                    <h5 class="modal-title">Number of Tickets</h5>
-                                                </div>
-                                                <div class="modal-body py-0 mx-2">
-                                                    <div class="row border border-1 rounded-4 p-3">
-                                                        <div class="col">
-                                                            <p class="mb-1">
-                                                                {{ $competition->name == 'Speech' ? $competition->name . ' ' . $competition->category : $competition->name }}
-                                                            </p>
-                                                            <h6 class="mb-1">
-                                                                @if ($offer->type == 'normal')
-                                                                    RP
-                                                                    {{ number_format($competition->normal_price, 0, '.', '.') }}
-                                                                @else
-                                                                    RP
-                                                                    {{ number_format($competition->early_price, 0, '.', '.') }}
-                                                                @endif
-                                                            </h6>
-                                                            <p class="text-muted m-0">
-                                                                @if ($offer->type == 'normal')
-                                                                    {{ $competition->normal_quota_avail }} tickets
-                                                                    available
-                                                                @else
-                                                                    {{ $competition->early_quota_avail }} tickets
-                                                                    available
-                                                                @endif
-                                                            </p>
-                                                        </div>
-                                                        <div class="col-sm-5 my-sm-auto mt-3">
-                                                            <input type="number" id="ticketAmount"
-                                                                class="input-spinner" value="1" min="1"
-                                                                max="{{ $offer->type == 'normal' ? $competition->normal_quota_avail : $competition->early_quota_avail }}" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer border-top-0">
-                                                    <button type="button" id="cancelTicket"
-                                                        class="btn btn-outline-dark"
-                                                        data-bs-dismiss="modal">Cancel</button>
-                                                    <button type="button" id="confirmTicket" class="btn btn-dark px-3"
-                                                        data-bs-dismiss="modal">Add</button>
-                                                </div>
-                                            </div>
+                                    </h5>
+                                </div>
+                                <div class="col-md-3 col-5 text-end">
+                                    <img src="/storage/images/logos/{{ $competition->logo }}"
+                                        alt="{{ $competition->name }}" class="rounded-4 mb-3" width="70%">
+                                    <div>
+                                        <button class="btn btn-outline-primary rounded-pill" style="width:70%"
+                                            type="button">Select</button>
+                                        <div class="form-input d-none">
+                                            <input type="text" class="input-spinner" step="1"
+                                                name="ticket_qty[{{ $competition->id }}]" value="0" min="0"
+                                                max="{{ $promotion && $competition->promo_quota - $competition->promo_registrations_count > 0 ? $competition->promo_quota - $competition->promo_registrations_count : $competition->quota }}">
                                         </div>
                                     </div>
-                                @endforeach
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                        <script>
+                            $('#ticketCard{{ $competition->id }} button').on('click', function(e) {
+                                $(this).hide()
+                                $(this).next('.form-input').find('input').val(1)
+                                $(this).next('.form-input').toggleClass('d-none')
+                                updateTotalTicket()
+                            })
 
-        <div class="card d-block d-sm-none border-0 rounded-0 shadow-sm sticky-bottom">
-            <div class="card-body">
-                <div class="row g-3">
-                    <div class="col-7">
-                        <button type="button" class="total-ticket btn btn-outline-dark btn-lg w-100" disabled>0
-                            ticket</button>
-                    </div>
-                    <div class="col-5">
-                        <button type="submit" class="btn-register btn btn-dark btn-lg w-100" disabled>Register</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+                            $(document).on('click', '#ticketCard{{ $competition->id }} .btn-decrement', function() {
+                                if ($(this).closest('.form-input').find('input').val() < 1) {
+                                    $(this).closest('.form-input').toggleClass('d-none')
+                                    $(this).closest('.form-input').prev('button').show()
+                                }
+                                updateTotalTicket()
+                            })
 
-    </form>
-</x-user>
+                            $(document).on('click', '#ticketCard{{ $competition->id }} .btn-increment', function() {
+                                updateTotalTicket()
+                            })
+
+                            function updateTotalTicket() {
+                                var totalTicket = 0
+
+                                $('.input-spinner:not(.form-control)').each(function(i, el) {
+                                    totalTicket += parseInt($(this).val())
+                                })
+
+                                if (totalTicket > 0) {
+                                    $('#registerBtn').prop("disabled", false)
+                                    $('#totalTicketLabel').show().text('(' + totalTicket + ')')
+                                } else {
+                                    $('#registerBtn').prop("disabled", true)
+                                    $('#totalTicketLabel').hide()
+                                }
+                            }
+                        </script>
+                    @endforeach
+
+                    <button type="submit" id="registerBtn" class="btn btn-primary btn-lg rounded-pill w-100 mt-2"
+                        disabled>
+                        Register <span id="totalTicketLabel"></span>
+                    </button>
+                </form>
+            </div>
+        </section>
+    </div>
+</x-app>

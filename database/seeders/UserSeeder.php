@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'IT DIVISION',
                 'role' => 'ADMIN',
-                'email' => 'neo_ITDIV',
+                'email' => 'NEOITDIV',
                 'password' => Hash::make('abc12345'),
             ]
         ]);

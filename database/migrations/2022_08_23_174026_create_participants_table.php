@@ -19,13 +19,12 @@ return new class extends Migration
             $table->foreign('registration_detail_id')->references('id')->on('registration_details')->onUpdate('cascade')->onDelete('cascade');
             $table->string('name');
             $table->string('gender');
-            $table->string('grade');
+            $table->string('level');
             $table->string('address');
             $table->string('email');
-            $table->string('whatsapp_number');
+            $table->string('phone_num');
             $table->string('line_id')->nullable();
-            $table->string('institute_name');
-            $table->string('institute_address');
+            $table->string('institution');
             $table->timestamps();
             $table->softDeletes();
         });

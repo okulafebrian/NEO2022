@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Offer extends Model
+class Promotion extends Model
 {
     use HasFactory;
-    protected $table = 'offers';
+    protected $table = 'promotions';
     protected $primaryKey = 'id';
     protected $timestamp = true;
     protected $guarded = [];
 
-    public function registrations()
+    public function competitions()
     {
-        return $this->belongsToMany(Registration::class);
+        return $this->belongsToMany(Competition::class);
     }
 }

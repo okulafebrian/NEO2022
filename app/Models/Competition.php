@@ -15,6 +15,16 @@ class Competition extends Model
 
     public function registrations()
     {
-        return $this->belongsToMany(Registration::class, 'registration_details');
+        return $this->belongsToMany(Registration::class, 'registration_details')->withPivot(['price']);
+    }
+
+    public function promoRegistrations()
+    {
+        return $this->belongsToMany(Registration::class, 'registration_details')->wherePivot('has_promo', 1);
+    }
+
+    public function promotions()
+    {
+        return $this->belongsTo(Promotion::class);
     }
 }

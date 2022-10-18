@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('account_number');
             $table->integer('payment_amount');
             $table->string('payment_proof');
-            $table->boolean('is_confirmed');
+            $table->boolean('is_verified');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -1,7 +1,8 @@
-<x-master title="NEO 2022">
-    <x-slot name="navbarGuest"></x-slot>
+<x-app title="NEO 2022">
+
+    <x-slot name="navbar"></x-slot>
 
     <div class="container">
         HOME
     </div>
-</x-master>
+</x-app>

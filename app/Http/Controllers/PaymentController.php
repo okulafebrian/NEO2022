@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Competition;
 use App\Models\Payment;
 use App\Models\PaymentProvider;
+use App\Models\Promotion;
+use App\Models\PromotionDetail;
 use App\Models\Registration;
 use App\Models\RegistrationDetail;
 use Carbon\Carbon;
@@ -29,28 +32,22 @@ class PaymentController extends Controller
      */
     public function create(Registration $registration)
     {   
-        // PAYMENT REQUEST VALIDATION
-        if ($registration->payment_due < Carbon::now()) {
-            return redirect()->route('registrations.index')->with('failed', 'You have run out of time to complete the payment!');
+        // PAYMENT DUE VALIDATION
+        if (strtotime($registration->payment_due) < time() && !$registration->payment) {
+            return redirect()->route('registrations.index')->with('failed', 'Your payment due has expired.');
         }
 
-        $paymentSummaries = 
-            DB::table('registration_details')
-                ->join('competitions', 'registration_details.competition_id', 'competitions.id')
-                ->select('competitions.name', 'competitions.category', 'registration_details.price', DB::raw('count(*) as total'))
-                ->where('registration_details.registration_id', $registration->id)
-                ->groupBy('competitions.name', 'competitions.category', 'registration_details.price')
-                ->get();
+        $competitions = DB::table('competitions')
+                        ->join('registration_details', 'competitions.id', 'registration_details.competition_id')
+                        ->select('competitions.name', 'competitions.category', 'registration_details.price', DB::raw('count(*) as registrations_count'))
+                        ->where('registration_details.registration_id', $registration->id)
+                        ->groupBy('competitions.name', 'competitions.category', 'registration_details.price')
+                        ->get();
 
-        $totalPayment = 0;
-        foreach ($paymentSummaries as $paymentSummary) {
-            $totalPayment += $paymentSummary->price * $paymentSummary->total;
-        }
-        
         return view('payments.create', [
             'registration' => $registration,
-            'paymentSummaries' => $paymentSummaries,
-            'totalPayment' => $totalPayment,
+            'competitions' => $competitions,
+            'payment_amount' => $registration->competitions->sum('price'),
             'paymentProviders' => PaymentProvider::all(),
             'bankCount' => PaymentProvider::where('type', 'BANK')->count(),
         ]);
@@ -64,36 +61,40 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {   
-        // PAYMENT REQUEST VALIDATION
-        if ($request->payment_due < Carbon::now()) {
-            return redirect()->route('registrations.index')->with('failed', 'You have run out of time to complete the payment!');
-        }
-
         $request->validate([
             'registration_id'=> 'required|integer',
-            'payment_type'=> 'required|string',
-            'provider_name'=> 'required|string',
+            'payment_method'=> 'required|string',
             'account_number'=> 'required|string',
             'account_name'=> 'required|string',
             'payment_amount'=> 'required|integer',
-            'payment_proof' => 'image|nullable|max:1999|mimes:jpg,png,jpeg',
+            'payment_proof' => 'image|max:1999|mimes:jpg,png,jpeg',
         ]);
 
+        // PAYMENT DUE VALIDATION
+        $registration = Registration::find($request->registration_id);
+     
+        if (strtotime($registration->payment_due) < time() && !$registration->payment) {
+            return redirect()->route('registrations.index')->with('failed', 'Your payment due has expired.');
+        }
+        
         if ($request->hasFile('payment_proof')) {
             $extension = $request->file('payment_proof')->getClientOriginalExtension();
             $proofNameToStore = $request->input('account_number') . '_' . $request->input('account_name') . '_' . time() . '.' . $extension;
             $request->file('payment_proof')->storeAs('public/images/payment_proofs', $proofNameToStore);
         }
 
+        $payment_type = explode(" ", $request->payment_method)[0];
+        $provider_name = explode(" ", $request->payment_method)[1];
+
         Payment::create([
             'registration_id' => $request->registration_id,
-            'payment_type' => $request->payment_type,
-            'provider_name' => $request->provider_name,
+            'payment_type' => $payment_type,
+            'provider_name' => $provider_name,
             'account_number' => $request->account_number,
             'account_name' => $request->account_name,
             'payment_amount' => $request->payment_amount,
             'payment_proof' => $proofNameToStore,
-            'is_confirmed' => 0,
+            'is_verified' => 0,
         ]);
 
         return redirect()->route('registrations.index')->with('success', 'Please wait for payment verification from the committee.');
@@ -118,7 +119,9 @@ class PaymentController extends Controller
      */
     public function edit(Payment $payment)
     {
-        //
+        return view('payments.edit', [
+            'payment' => $payment,
+        ]);
     }
 
     /**
@@ -130,7 +133,25 @@ class PaymentController extends Controller
      */
     public function update(Request $request, Payment $payment)
     {
-        //
+        $request->validate([
+            'account_number' => 'required|string',
+            'account_name' => 'required|string',
+            'payment_proof' => 'required|image|max:1999|mimes:jpg,png,jpeg',
+        ]);
+        
+        if ($request->hasFile('payment_proof')) {
+            $extension = $request->file('payment_proof')->getClientOriginalExtension();
+            $proofNameToStore = $request->input('account_number') . '_' . $request->input('account_name') . '_' . time() . '.' . $extension;
+            $request->file('payment_proof')->storeAs('public/images/payment_proofs', $proofNameToStore);
+        }
+
+        $payment->update([
+            'account_number' => $request->account_number,
+            'account_name' => $request->account_name,
+            'payment_proof' => $proofNameToStore,
+        ]);
+
+        return redirect()->route('registrations.index')->with('success', 'Data updated successfully.');
     }
 
     /**
@@ -142,5 +163,14 @@ class PaymentController extends Controller
     public function destroy(Payment $payment)
     {
         //
+    }
+
+    public function accept(Payment $payment)
+    {
+        $payment->update([
+            'is_verified' => 1,
+        ]);
+
+        return redirect()->route('registrations.manage')->with('success', 'Payment Verified');
     }
 }

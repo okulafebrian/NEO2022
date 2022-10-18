@@ -1,157 +1,77 @@
-$(document).ready(function() {
-
-    // Validate Registration Form Before Popup Modal
-    $(document).on('click', '#confirmRegisterBtn', function() {
-        // Disable Submit Process
-        $("form").submit(function(e) {
-            e.preventDefault();
-        });
-
-        var formInvalid = false;
-
-        $('#registrationForm input').each(function() {
-            if ($(this).val() === '')
-                formInvalid = true;
-        });
-
-        $('#registrationForm textarea').each(function() {
-            if ($(this).val().length < 1)
-                formInvalid = true;
-        });
-
-        $('#registrationForm select').each(function() {
-            if (!$(this).val())
-                formInvalid = true;
-        });
-
-        var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-        $('#registrationForm input[type="email"]').each(function() {
-            var inputEmail = $(this).val()
-            if (!emailReg.test(inputEmail))
-                formInvalid = true;
-        });
-        
-        if (!formInvalid)
-            $('#confirmRegisterModal').modal('show')
+$(document).ready(function () {
+    // Copy Button
+    $(document).on('click', '#copy', function() {
+        var copyText = $('#destAccountNumber').text()
+        navigator.clipboard.writeText(copyText);
     })
 
-    // Activate Submit Process
-    $(document).on('click', '#submitRegisterBtn', function() {
-        $("#registrationForm").unbind('submit');
+    // Input img custom
+    $("#logo").change(function() {
+        readURL(this)
     })
     
-    // Validate Payment Method
-    $(document).on('click', '#submitPayment', function() {
-        if( !$('input[name="provider_list"]:checked').val() ) {
-            $('#invalid-1').show()
-        } else {
-            $('.invalid-message').hide()
+    // Price Formatter
+    $('.price-format').mask('000.000.000.000.000', {
+        reverse: true
+    })
+
+    // Check All
+    $(".check-all").change(function(){
+        $('.check-item').prop('checked', this.checked)
+    })
+
+    $(".check-item").change(function(){
+        if (!$(this).prop('checked')) {
+            $('.check-all').prop('checked', false)
+        }
+
+        if ($('.check-item:checked').length == $('.check-item').length) {
+            $('.check-all').prop('checked', true)
         }
     })
 
-    // Payment Method
-    $(document).on('click', '#savePaymentMethod', function() {
+    // Tooltip
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
-        if( !$('input[name="provider_list"]:checked').val() ) {
-            $('#invalid-2').show()
-            return
-        }
+    // Toggle Chevron
+    $('#headMenu').click(function() {
+        $(this).children('.bi').toggleClass('bi-chevron-up bi-chevron-down')
+    })
 
-        var provider = $('input[name="provider_list"]:checked').val();
-        var paymentType = provider.split(' ')[0]
-        var providerName = provider.split(' ')[1]
-
-        if(providerName == "Other") {
-            var otherBankName = $('input[id="otherBANKProvider"]').val()
-            var otherEwalletName = $('input[id="otherEWALLETProvider"]').val()
-
-            if (paymentType == "BANK" && !otherBankName) {
-                $('#invalid-3').show()
-                $('#invalid-4').hide()
-                return
-            }
-
-            if (paymentType == "EWALLET" && !otherEwalletName) {
-                $('#invalid-4').show()
-                $('#invalid-3').hide()
-                return
-            }
-
-            if (paymentType == "BANK" && otherBankName) {
-                $('#paymentProviderName').html(otherBankName)
-                $('input[name="provider_name').val(otherBankName)
-            } else {
-                $('#paymentProviderName').html(otherEwalletName)
-                $('input[name="provider_name').val(otherEwalletName)
-            }
-        } else {
-            $('#paymentProviderName').html(providerName)
-            $('input[name="provider_name').val(providerName)
-        }
-
-        $('input[name="payment_type').val(paymentType)
-        $('#paymentMethodModal').modal('toggle')
-        $('.invalid-message').hide()
+    // DataTables
+    $('.table-participant').DataTable({
+        "autoWidth": false,
     })
 
     // Input Spinner
-    $('.input-spinner').inputSpinner({buttonsOnly: true, autoInterval: undefined})
-
-    // Confirm Ticket
-    $(document).on('click', '#confirmTicket', function() {
-        var id =  $(this).closest('.modal').data('id');
-        var ticketAmount = $(this).closest('.modal').find('#ticketAmount').val()
-
-        $('input[name="ticketAmount[' + id + ']').val(ticketAmount)
-        $('#' + id + 'title').css('color', 'green')
-        $('#' + id + 'badge').show().html(ticketAmount + 'x')
-        updateTotalTicket()
-    })
-
-    // Cancel Ticket
-    $(document).on('click', '#cancelTicket', function() {
-        var id =  $(this).closest('.modal').data('id')
-
-        $('input[name="ticketAmount[' + id + ']').val(0)
-        $('#' + id + 'title').css('color', '')
-        $('#' + id + 'badge').hide()
-        updateTotalTicket()
+    $('.input-spinner').inputSpinner({
+        template: '<div class="input-group ${groupClass}">' +
+            '<button style="min-width: ${buttonsWidth}" class="btn btn-decrement btn-outline-primary btn-minus rounded-5" type="button">${decrementButton}</button>' +
+            '<input type="text" inputmode="decimal" style="text-align: ${textAlign}; border: 0" class="form-control form-control-text-input">' +
+            '<button style="min-width: ${buttonsWidth}" class="btn btn-increment btn-outline-primary btn-plus rounded-5" type="button">${incrementButton}</button>' +
+            '</div>'
     })
 
     //  Show Modal
-    var myModal = new bootstrap.Modal(document.getElementById('alert'));
-    myModal.show();
-});
+    var myModal = new bootstrap.Modal(document.getElementById('alert'))
+    myModal.show()
+})
 
-function getTotalTicket() {
-    var competitions = $('.card-competition')
-    var total = 0
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader()
 
-    for (let i = 0; i < competitions.length; i++) {
-        var competition = competitions[i]
-        var quantityElement = competition.getElementsByClassName('ticket-amount')[0]
-        var quantity = parseInt(quantityElement.value) 
-        total = total + quantity
+        reader.onload = function(e) {
+            $('.input-img').css("border", "none")
+            $('.input-img-label').hide()
+            $('.img-preview').attr('src', e.target.result).css({
+                "visibility": "visible",
+                "border": "1.5px solid #ced4da", 
+                "border-radius": "1em"
+            })
+        }
+
+        reader.readAsDataURL(input.files[0])
     }
-  
-    return total
-}
-
-function updateTotalTicket() {
-    var total = getTotalTicket()
-    
-    total > 0 ? $('.btn-register').prop("disabled", false) : $('.btn-register').prop("disabled", true)
-    total > 1 ? $('.total-ticket').html(total + ' tickets') : $('.total-ticket').html(total + ' ticket')
-}
-
-function ValidateForm() {
-  var formInvalid = false;
-  $('#registrationForm input').each(function() {
-    if ($(this).val() === '') {
-      formInvalid = true;
-    }
-  });
-
-  if (formInvalid)
-    alert('One or Two fields are empty. Please fill up all fields');
 }
