@@ -18,13 +18,25 @@ class Competition extends Model
         return $this->belongsToMany(Registration::class, 'registration_details')->withPivot(['price']);
     }
 
-    public function promoRegistrations()
+    public function earlyRegistrations()
     {
-        return $this->belongsToMany(Registration::class, 'registration_details')->wherePivot('has_promo', 1);
+        return $this->belongsToMany(Registration::class, 'registration_details')->wherePivot('type', '!=', 'NORMAL');
     }
 
-    public function promotions()
+    public function registrationDetails()
     {
-        return $this->belongsTo(Promotion::class);
+        return $this->hasMany(RegistrationDetail::class)->whereHas('verifiedPayment');
+    }
+     
+    public function participants()
+    {
+        return $this->hasManyThrough(Participant::class, RegistrationDetail::class, 'competition_id', 'registration_detail_id')
+                    ->whereHas('registrationDetail.verifiedPayment');
+    }
+
+    public function debateTeams()
+    {
+        return $this->hasManyThrough(DebateTeam::class, RegistrationDetail::class, 'competition_id', 'registration_detail_id')
+                    ->whereHas('registrationDetail.verifiedPayment');
     }
 }

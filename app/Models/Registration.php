@@ -21,6 +21,11 @@ class Registration extends Model
         return $this->hasOne(Payment::class);
     }
 
+     public function refund()
+    {
+        return $this->hasOne(Refund::class);
+    }
+
     public function competitions()
     {
         return $this->belongsToMany(Competition::class, 'registration_details')->withPivot(['price']);
@@ -29,10 +34,20 @@ class Registration extends Model
     public function registrationDetails()
     {
         return $this->hasMany(RegistrationDetail::class);
+    }  
+  
+    public function participants()
+    {
+        return $this->hasManyThrough(Participant::class, RegistrationDetail::class, 'competition_id', 'registration_detail_id');
     }
-
+    
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function representative()
+    {
+        return $this->hasOne(Representative::class);
     }
 }

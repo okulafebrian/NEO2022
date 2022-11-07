@@ -13,11 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('promotions', function (Blueprint $table) {
+        Schema::create('accesses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->dateTime('start');
-            $table->dateTime('end');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('promotions');
+        Schema::dropIfExists('accesses');
     }
 };

@@ -18,14 +18,16 @@ class PaymentProviderSeeder extends Seeder
         DB::table('payment_providers')->insert([
             [ 'type' => 'BANK', 'name' => 'BCA' ],
             [ 'type' => 'BANK', 'name' => 'BNI' ],
-            [ 'type' => 'BANK', 'name' => 'Mandiri' ],
             [ 'type' => 'BANK', 'name' => 'BRI' ],
+            [ 'type' => 'BANK', 'name' => 'BTN' ],
+            [ 'type' => 'BANK', 'name' => 'Mandiri' ],
             [ 'type' => 'BANK', 'name' => 'Other' ],
+            [ 'type' => 'EWALLET', 'name' => 'DANA' ],
             [ 'type' => 'EWALLET', 'name' => 'GoPay' ],
+            [ 'type' => 'EWALLET', 'name' => 'LinkAja' ],
             [ 'type' => 'EWALLET', 'name' => 'OVO' ],
             [ 'type' => 'EWALLET', 'name' => 'ShopeePay' ],
-            [ 'type' => 'EWALLET', 'name' => 'DANA' ],
-            [ 'type' => 'EWALLET', 'name' => 'Other' ]
+            [ 'type' => 'EWALLET', 'name' => 'Other' ],
         ]);
     }
 }

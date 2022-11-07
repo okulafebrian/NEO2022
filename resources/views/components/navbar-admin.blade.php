@@ -1,30 +1,35 @@
-<nav class="navbar navbar-expand-lg bg-white shadow-sm fixed-top">
+<nav class="navbar navbar-expand-md bg-white shadow-sm fixed-top">
     <div class="container-fluid px-5">
         <a class="navbar-brand" href="{{ route('dashboard') }}">
-            <img src="/storage/images/assets/logo_neo.png" alt="NEO" width="90">
+            <img src="/storage/images/assets/NEO_1.webp" alt="NEO" width="90">
         </a>
 
-        <div class="d-flex align-items-center">
-            <i class="bi bi-bell fa-lg"></i>
-            <div class="mx-4 border-end" style="height: 1.5rem"></div>
-            <div class="dropdown">
-                <button class="btn btn-light rounded-pill" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <i class="bi bi-person-circle fa-lg me-2"></i>
+        <div class="dropdown">
+            <a class="text-decoration-none btn-dropdown" role="button" data-bs-toggle="dropdown">
+                <span class="fa-stack fa-sm">
+                    <i class="bi bi-circle-fill fa-stack-2x"></i>
+                    <i class="bi bi-person-fill fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="fw-medium">
                     {{ auth()->user()->name }}
-                </button>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a href="{{ route('logout') }}" type="button" class="dropdown-item"
-                            onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                            <h6 class="m-0">{{ __('Logout') }}</h6>
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                    </li>
-                </ul>
-            </div>
+                </span>
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-end p-1 border-0 shadow-sm rounded-3" style="font-size: 14px">
+                <li>
+                    <a class="dropdown-item p-2 rounded-3" href="{{ route('home') }}">{{ __('Home') }}</a>
+                </li>
+                <li>
+                    <a href="{{ route('logout') }}" type="button" class="dropdown-item p-2 rounded-3"
+                        onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </li>
+            </ul>
         </div>
+
     </div>
 </nav>

@@ -2,34 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\InvoiceMail;
 use App\Models\Competition;
+use App\Models\DebateTeam;
+use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\PaymentProvider;
-use App\Models\Promotion;
-use App\Models\PromotionDetail;
 use App\Models\Registration;
-use App\Models\RegistrationDetail;
-use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class PaymentController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+{   
+    public function __construct()
+    {
+        $this->middleware(['auth']);
+        $this->middleware(['user'])->only(['create', 'edit', 'store']);
+        $this->middleware(['admin'])->only(['accept', 'reject', 'downloadInvoice']);
+        // $this->middleware('access.control:10')->except('index');
+    }
+
     public function index()
     {
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create(Registration $registration)
     {   
         // PAYMENT DUE VALIDATION
@@ -47,18 +48,11 @@ class PaymentController extends Controller
         return view('payments.create', [
             'registration' => $registration,
             'competitions' => $competitions,
-            'payment_amount' => $registration->competitions->sum('price'),
+            'payment_amount' => $registration->competitions->sum('pivot.price'),
             'paymentProviders' => PaymentProvider::all(),
-            'bankCount' => PaymentProvider::where('type', 'BANK')->count(),
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {   
         $request->validate([
@@ -70,53 +64,33 @@ class PaymentController extends Controller
             'payment_proof' => 'image|max:1999|mimes:jpg,png,jpeg',
         ]);
 
-        // PAYMENT DUE VALIDATION
-        $registration = Registration::find($request->registration_id);
-     
-        if (strtotime($registration->payment_due) < time() && !$registration->payment) {
+        // PAYMENT DUE VALIDATION     
+        if (strtotime($request->payment_due) < time())
             return redirect()->route('registrations.index')->with('failed', 'Your payment due has expired.');
-        }
         
         if ($request->hasFile('payment_proof')) {
             $extension = $request->file('payment_proof')->getClientOriginalExtension();
             $proofNameToStore = $request->input('account_number') . '_' . $request->input('account_name') . '_' . time() . '.' . $extension;
             $request->file('payment_proof')->storeAs('public/images/payment_proofs', $proofNameToStore);
         }
-
-        $payment_type = explode(" ", $request->payment_method)[0];
-        $provider_name = explode(" ", $request->payment_method)[1];
-
+        
         Payment::create([
             'registration_id' => $request->registration_id,
-            'payment_type' => $payment_type,
-            'provider_name' => $provider_name,
+            'method' => $request->payment_method,
             'account_number' => $request->account_number,
             'account_name' => $request->account_name,
-            'payment_amount' => $request->payment_amount,
-            'payment_proof' => $proofNameToStore,
-            'is_verified' => 0,
+            'amount' => $request->payment_amount,
+            'proof' => $proofNameToStore,
         ]);
 
         return redirect()->route('registrations.index')->with('success', 'Please wait for payment verification from the committee.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Payment  $payment
-     * @return \Illuminate\Http\Response
-     */
     public function show(Payment $payment)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Payment  $payment
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Payment $payment)
     {
         return view('payments.edit', [
@@ -124,13 +98,6 @@ class PaymentController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Payment  $payment
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Payment $payment)
     {
         $request->validate([
@@ -154,23 +121,59 @@ class PaymentController extends Controller
         return redirect()->route('registrations.index')->with('success', 'Data updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Payment  $payment
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Payment $payment)
     {
         //
     }
 
     public function accept(Payment $payment)
-    {
+    {   
+        DB::transaction(function () use($payment) {
+            // UPDATE VERIFIY
+            $payment->update([
+                'is_verified' => 1,
+            ]);
+            
+            foreach ($payment->registration->participants as $participant) {
+                $password = 'P' . $participant->registrationDetail->competition->id . str_pad($participant->id, 3, '0', STR_PAD_LEFT);
+
+                $participant->update([
+                    'password' => Hash::make($password),
+                ]);
+            }
+
+            // SEND INVOICE MAIL
+            Mail::to($payment->registration->user->email)->send(new InvoiceMail($payment));
+        });
+
+        return redirect()->route('registrations.manage')->with('success', 'Invoice sent successfully.');
+    }
+
+    public function reject(Payment $payment)
+    {   
         $payment->update([
-            'is_verified' => 1,
+            'is_verified' => 0,
         ]);
 
-        return redirect()->route('registrations.manage')->with('success', 'Payment Verified');
+        return redirect()->route('registrations.manage')->with('success', 'Payment rejected');
+    }
+
+    public function downloadInvoice(Payment $payment)
+    {   
+        $competitions = DB::table('competitions')
+                            ->join('registration_details', 'competitions.id', 'registration_details.competition_id')
+                            ->select('competitions.name', 'competitions.category', 'registration_details.price', 'registration_details.type', DB::raw('count(*) as registrations_count'))
+                            ->where('registration_details.registration_id', $payment->registration->id)
+                            ->groupBy('competitions.name', 'competitions.category', 'registration_details.price', 'registration_details.type')
+                            ->get();
+
+        $invoiceFile = Pdf::loadView('payments.invoice', [
+                            'payment' => $payment,
+                            'competitions' => $competitions,
+                        ]);
+
+        $invoiceID = str_pad($payment->id, 3, '0', STR_PAD_LEFT);
+
+        return $invoiceFile->download('Invoice ' . $invoiceID .'.pdf');
     }
 }

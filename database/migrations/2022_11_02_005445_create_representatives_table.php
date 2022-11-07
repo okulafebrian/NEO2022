@@ -13,10 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('grade_levels', function (Blueprint $table) {
+        Schema::create('representatives', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('registration_id');
+            $table->foreign('registration_id')->references('id')->on('registrations')->onDelete('cascade');
             $table->string('name');
-            $table->string('category');
+            $table->string('phone_number');
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('grade_levels');
+        Schema::dropIfExists('representatives');
     }
 };

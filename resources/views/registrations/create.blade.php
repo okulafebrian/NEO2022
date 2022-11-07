@@ -3,104 +3,160 @@
     <x-slot name="navbarUser"></x-slot>
 
     <form id="registrationForm" class="needs-validation" method="POST" action="{{ route('registrations.store') }}"
-        enctype="multipart/form-data" novalidate>
+        enctype="multipart/form-data">
         @csrf
-        <div class="container-lg my-5">
+
+        <div class="container my-5">
             <div class="mb-4 text-center">
-                <h3>Your Registration</h3>
-                <p class="text-muted">For debate competition, you must fill in the data of both speaker.</p>
+                <h4 class="text-primary fw-semibold">Registration Form</h4>
+                <p class="text-muted">
+                    Fill in all details and review your registration.
+                </p>
             </div>
 
             <div class="row">
                 <div class="col-lg-8">
-                    {{-- Participant Details --}}
-                    @foreach ($competitions as $competition)
-                        @if ($ticketQty[$competition->id] > 0)
-                            <input type="hidden" name="id[]" value="{{ $competition->id }}">
-                            <input type="hidden" name="price[]" value="{{ $competition->price }}">
-                            <input type="hidden" name="has_promo[]" value="{{ $hasPromo[$competition->id] }}">
-                        @endif
-
-                        @for ($j = 0; $j < $ticketQty[$competition->id]; $j++)
-                            <div class="card card-custom rounded-4 mb-4">
-                                <div class="card-body">
-                                    <h5 class="mb-4">
-                                        <span class="title-bar"></span>
-                                        {{ $competition->name == 'Speech' ? $competition->name . ' ' . $competition->category : $competition->name }}
-                                        {{ $j + 1 }}
-                                    </h5>
-
-                                    @if ($competition->name == 'Debate')
-                                        <ul class="nav nav-tabs mb-4" id="tabs-tab" role="tablist">
-                                            <li class="nav-item me-2" role="presentation">
-                                                <button class="nav-link active" id="speakerA-tab" data-bs-toggle="pill"
-                                                    data-bs-target="#speakerA{{ $competition->id }}{{ $j }}"
-                                                    type="button" role="tab">Speaker A</button>
-                                            </li>
-                                            <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="speakerB-tab" data-bs-toggle="pill"
-                                                    data-bs-target="#speakerB{{ $competition->id }}{{ $j }}"
-                                                    type="button" role="tab">Speaker B</button>
-                                            </li>
-                                        </ul>
-                                    @endif
-
-                                    @if ($competition->name == 'Debate')
-                                        <div class="tab-content" id="tabs-tabContent">
-                                            <div class="tab-pane fade show active"
-                                                id="speakerA{{ $competition->id }}{{ $j }}"
-                                                role="tabpanel">
-                                                <x-form-create id="{{ $competition->id }}" :j=$j :k=0
-                                                    category="{{ $competition->category }}" />
-                                            </div>
-
-                                            <div class="tab-pane fade"
-                                                id="speakerB{{ $competition->id }}{{ $j }}"
-                                                role="tabpanel">
-                                                <x-form-create id="{{ $competition->id }}" :j=$j :k=1
-                                                    category="{{ $competition->category }}" />
-                                            </div>
-                                        </div>
-                                    @else
-                                        <x-form-create id="{{ $competition->id }}" :j=$j :k=0
-                                            category="{{ $competition->category }}" />
-                                    @endif
+                    <section class="mb-5">
+                        <h4 class="mb-3" style="font-size: 20px">Representative Data</h4>
+                        <div class="card card-custom">
+                            <div class="card-body">
+                                <div id="representative" class="row g-4 mb-3">
+                                    <div class="col-md">
+                                        <label class="form-label">Full Name</label>
+                                        <input type="text" class="form-control" name="representative_name" required>
+                                    </div>
+                                    <div class="col-md">
+                                        <label class="form-label">Phone Number</label>
+                                        <input type="text" class="form-control" name="representative_phone" required>
+                                    </div>
+                                </div>
+                                <div>
+                                    <input class="form-check-input" type="checkbox" name="noRepresentative">
+                                    {{-- <input type="hidden" name="noRepresentative" value="0"> --}}
+                                    <label class="form-check-label">
+                                        We have no representative
+                                    </label>
                                 </div>
                             </div>
-                        @endfor
-                    @endforeach
+                        </div>
+
+                        <script>
+                            $('input[name="noRepresentative"]').on('click', function() {
+                                if ($(this).is(':checked')) {
+                                    $('#representative .form-control').prop('disabled', true)
+                                    $("input[name='noRepresentative']").val(1)
+                                } else {
+                                    $('#representative .form-control').prop('disabled', false)
+                                    $("input[name='noRepresentative']").val(0)
+                                }
+                            })
+                        </script>
+                    </section>
+
+                    <section>
+                        <h4 class="mb-3" style="font-size: 20px">Participant Data</h4>
+
+                        @foreach ($competitions as $competition)
+                            <input type="hidden" name="ticket[{{ $competition->id }}]"
+                                value="{{ $ticket[$competition->id] }}">
+
+                            @if ($ticket[$competition->id] > 0)
+                                <input type="hidden" name="price[{{ $competition->id }}]"
+                                    value="{{ $price[$competition->id] }}">
+                                <input type="hidden" name="type[{{ $competition->id }}]"
+                                    value="{{ $type[$competition->id] }}">
+                            @endif
+
+                            @for ($j = 0; $j < $ticket[$competition->id]; $j++)
+                                <div class="card card-custom mb-4">
+                                    <div class="card-body">
+                                        <h5 class="mb-4" style="font-size: 18px">
+                                            <span class="title-bar"></span>
+                                            {{ $competition->name == 'Speech' ? $competition->name . ' ' . $competition->category : $competition->name }}
+                                            #{{ $j + 1 }}
+                                        </h5>
+
+                                        @if ($competition->name == 'Debate')
+                                            <div class="row mb-4">
+                                                <div class="col-6">
+                                                    <label class="form-label">Team Name</label>
+                                                    <input type="text" class="form-control" name="debate_team_name[]"
+                                                        required>
+                                                </div>
+                                            </div>
+
+                                            <ul class="nav nav-tabs mb-4" id="tabs-tab" role="tablist">
+                                                <li class="nav-item" role="presentation">
+                                                    <button class="nav-link active" id="speakerA-tab"
+                                                        data-bs-toggle="pill"
+                                                        data-bs-target="#speakerA{{ $competition->id }}{{ $j }}"
+                                                        type="button" role="tab">Speaker A</button>
+                                                </li>
+                                                <li class="nav-item" role="presentation">
+                                                    <button class="nav-link" id="speakerB-tab" data-bs-toggle="pill"
+                                                        data-bs-target="#speakerB{{ $competition->id }}{{ $j }}"
+                                                        type="button" role="tab">Speaker B</button>
+                                                </li>
+                                            </ul>
+
+                                            <div class="tab-content" id="tabs-tabContent">
+                                                <div class="tab-pane fade show active"
+                                                    id="speakerA{{ $competition->id }}{{ $j }}"
+                                                    role="tabpanel">
+                                                    <x-form id="{{ $competition->id }}" :j=$j :k=0
+                                                        category="{{ $competition->category }}" />
+                                                </div>
+
+                                                <div class="tab-pane fade"
+                                                    id="speakerB{{ $competition->id }}{{ $j }}"
+                                                    role="tabpanel">
+                                                    <x-form id="{{ $competition->id }}" :j=$j :k=1
+                                                        category="{{ $competition->category }}" />
+                                                </div>
+                                            </div>
+                                        @else
+                                            <x-form id="{{ $competition->id }}" :j=$j :k=0
+                                                category="{{ $competition->category }}" />
+                                        @endif
+                                    </div>
+                                </div>
+                            @endfor
+                        @endforeach
+                    </section>
                 </div>
 
                 {{-- Price Summary --}}
-                <div class="col-lg">
-                    <div class="card card-custom rounded-4 sticky-top" style="top:2rem">
+                <div class="col">
+                    <div class="card card-custom sticky-top" style="top: 5rem;">
                         <div class="card-body">
-                            <h4>Price Summary</h4>
+                            <h4 class="mb-4" style="font-size: 20px">Price Summary</h4>
 
-                            <div class="my-4 border-bottom">
-                                @foreach ($competitions as $competition)
-                                    @if ($ticketQty[$competition->id] > 0)
-                                        <div class="row g-0 text-muted">
-                                            <div class="col">
-                                                <p>
-                                                    {{ $ticketQty[$competition->id] }}x
+                            <table class="table table-borderless m-0 td-custom" style="table-layout: fixed;">
+                                <tbody>
+                                    @foreach ($competitions as $competition)
+                                        @if ($ticket[$competition->id] > 0)
+                                            <tr>
+                                                <td class="text-truncate col-7">
+                                                    {{ $ticket[$competition->id] }}x
                                                     {{ $competition->name == 'Speech' ? $competition->name . ' ' . $competition->category : $competition->name }}
-                                                </p>
-                                            </div>
-                                            <div class="col-5 text-end">
-                                                <p>Rp
-                                                    {{ number_format($price[$competition->id] * $ticketQty[$competition->id], 0, '.', '.') }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endforeach
+                                                </td>
+                                                <td class="text-end">Rp
+                                                    {{ number_format($price[$competition->id] * $ticket[$competition->id], 0, '.', '.') }}
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                </tbody>
+                            </table>
+
+                            <hr style="border-style: dashed">
+
+                            <div class="table-custom mb-4">
+                                <h6>Total Price</h6>
+                                <h6>Rp {{ number_format($totalPrice, 0, '.', '.') }}</h6>
                             </div>
-                            <div class="d-flex justify-content-between mb-4">
-                                <h5>Total Price</h5>
-                                <h5>Rp {{ number_format($totalPrice, 0, '.', '.') }}</h5>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-lg w-100">
+
+                            <button type="submit" class="btn btn-primary py-2 fw-medium w-100">
                                 Continue to Payment
                             </button>
                         </div>

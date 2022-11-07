@@ -29,11 +29,13 @@
             <x-navbar-admin />
         @elseif (isset($navbarUser))
             <x-navbar-user />
+        @elseif (isset($navbarParticipant))
+            <x-navbar-participant />
         @endif
 
 
         @if (isset($sidebarAdmin))
-            <main class="d-flex mt-5">
+            <main class="d-flex pt-5">
                 <x-sidebar-admin />
                 <div class="page-content">
                     {{ $slot }}

@@ -1,150 +1,175 @@
 <x-app title="Edit Participant | NEO 2022">
 
-    <x-slot name="sidebarAdmin"></x-slot>
+    <x-slot name="navbarAdmin"></x-slot>
 
-    <div class="container p-5">
-        <h3 class="mb-4">Edit Participant</h3>
+    <div class="container" style="padding: 6rem 0; max-width: 60rem">
+        <h3 class="mb-4 text-primary">Edit Participant</h3>
 
         <form method="POST" action="{{ route('participants.update', $participant) }}">
             @csrf
-            <div class="card border-0 shadow-sm rounded-3 mb-3">
-                <div class="card-body-custom">
+
+            <div class="card card-custom mb-3">
+                <div class="card-body">
                     <div class="row mb-3">
-                        <label for="name" class="col-3 col-form-label">Full Name</label>
+                        <label class="col-3 col-form-label">Full Name</label>
                         <div class="col">
-                            <input type="text" class="form-control" id="name" name="name"
-                                value="{{ $participant->name }}" required>
+                            <input type="text" class="form-control" name="name" value="{{ $participant->name }}"
+                                required>
                         </div>
                     </div>
 
                     <div class="row mb-3">
-                        <label for="gender" class="col-3 col-form-label">Gender</label>
+                        <label class="col-3 col-form-label">Gender</label>
                         <div class="col">
-                            <select id="gender" class="form-select" name="gender" required>
-                                <option selected disabled value="">Select</option>
-                                <option {{ $participant->gender == 'Male' ? 'selected' : null }}>Male</option>
-                                <option {{ $participant->gender == 'Female' ? 'selected' : null }}>Female
-                                </option>
-                                <option {{ $participant->gender == 'Rather not say' ? 'selected' : null }}>
-                                    Rather
-                                    not
-                                    say
-                                </option>
-                            </select>
+                            <fieldset>
+                                <input type="radio" class="btn-check" id="male" name="gender" value="Male"
+                                    {{ $participant->gender == 'Male' ? 'checked' : '' }} required>
+                                <label for="male" class="btn btn-input rounded-pill">Male</label>
+
+                                <input type="radio" class="btn-check" id="female" name="gender" value="Female"
+                                    {{ $participant->gender == 'Female' ? 'checked' : '' }}>
+                                <label for="female" class="btn btn-input rounded-pill">Female</label>
+
+                                <input type="radio" class="btn-check" id="unknown" name="gender"
+                                    {{ $participant->gender == 'Prefer not to say' ? 'checked' : '' }}
+                                    value="Prefer not to say">
+                                <label for="unknown" class="btn btn-input rounded-pill">Prefer not to say</label>
+                            </fieldset>
+                        </div>
+                        <div class="invalid-feedback">
+                            Please select gender
                         </div>
                     </div>
 
                     <div class="row mb-3">
-                        <label for="grade" class="col-3 col-form-label">Grade / Year</label>
+                        <label class="col-3 col-form-label">Email</label>
                         <div class="col">
-                            <select id="grade" class="form-select" name="grade" required>
-                                <option selected disabled value="">Select</option>
-                                @if ($participant->registrationDetail->competition->name == 'Junior High School')
+                            <input type="email" class="form-control" name="email" value="{{ $participant->email }}"
+                                required>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-3 col-form-label">Phone Number</label>
+                        <div class="col">
+                            <input type="text" class="form-control" name="phone_number"
+                                value="{{ $participant->phone_number }}" required>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-3 col-form-label">LINE ID</label>
+                        <div class="col">
+                            <input type="text" class="form-control" name="line_id"
+                                value="{{ $participant->line_id }}" required>
+                        </div>
+                    </div>
+
+                    <hr class="border-0">
+                    <h5 class="mb-3">Address Details</h5>
+
+                    <div class="row mb-3">
+                        <label class="col-3 col-form-label">Province</label>
+                        <div class="col">
+                            <input type="text" class="form-control" name="province"
+                                value="{{ $participant->province }}" required>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-3 col-form-label">District/City</label>
+                        <div class="col">
+                            <input type="text" class="form-control" name="district"
+                                value="{{ $participant->district }}" required>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-3 col-form-label">Address</label>
+                        <div class="col">
+                            <textarea class="form-control" name="address" rows="2" value="{{ $participant->address }}" required>{{ $participant->address }}</textarea>
+                        </div>
+                    </div>
+
+                    <hr class="border-0">
+                    <h5 class="mb-3">Education Details</h5>
+
+                    <div class="row mb-3">
+                        <label class="col-3 col-form-label">Level</label>
+                        <div class="col">
+                            <select class="form-select" name="grade" required>
+                                <option disabled value="">Select education level</option>
+                                @if ($participant->competitionTeam->competition->category == 'Junior High School')
                                     <optgroup label="Junior High School">
-                                        <option {{ $participant->grade == 'Grade 7' ? 'selected' : null }}>Grade
-                                            7
+                                        <option value="Grade 7"
+                                            {{ $participant->grade == 'Grade 7' ? 'selected' : '' }}>Grade 7
                                         </option>
-                                        <option {{ $participant->grade == 'Grade 8' ? 'selected' : null }}>Grade
-                                            8
+                                        <option value="Grade 8"
+                                            {{ $participant->grade == 'Grade 8' ? 'selected' : '' }}>Grade 8
                                         </option>
-                                        <option {{ $participant->grade == 'Grade 9' ? 'selected' : null }}>Grade
-                                            9
+                                        <option value="Grade 9"
+                                            {{ $participant->grade == 'Grade 9' ? 'selected' : '' }}>Grade 9
                                         </option>
-                                    @else
+                                    </optgroup>
+                                @endif
+                                @if ($participant->competitionTeam->competition->category == 'Senior High School' ||
+                                    $participant->competitionTeam->competition->category == 'Open Category')
                                     <optgroup label="Senior High School">
-                                        <option {{ $participant->grade == 'Grade 10' ? 'selected' : null }}>
-                                            Grade 10
+                                        <option value="Grade 10"
+                                            {{ $participant->grade == 'Grade 10' ? 'selected' : '' }}>Grade 10
                                         </option>
-                                        <option {{ $participant->grade == 'Grade 11' ? 'selected' : null }}>
-                                            Grade 11
+                                        <option value="Grade 11"
+                                            {{ $participant->grade == 'Grade 11' ? 'selected' : '' }}>Grade 11
                                         </option>
-                                        <option {{ $participant->grade == 'Grade 12' ? 'selected' : null }}>
-                                            Grade
-                                            12
+                                        <option value="Grade 12"
+                                            {{ $participant->grade == 'Grade 12' ? 'selected' : '' }}>Grade 12
                                         </option>
-                                        <option {{ $participant->grade == 'Gap Year' ? 'selected' : null }}>Gap
-                                            Year
+                                        <option value="Gap Year"
+                                            {{ $participant->grade == 'Gap Year' ? 'selected' : '' }}>Gap Year
                                         </option>
+                                    </optgroup>
+                                @endif
+                                @if ($participant->competitionTeam->competition->category == 'University' ||
+                                    $participant->competitionTeam->competition->category == 'Open Category')
                                     <optgroup label="University">
-                                        <option {{ $participant->grade == 'Year 1' ? 'selected' : null }}>
+                                        <option value="Year 1"
+                                            {{ $participant->grade == 'Year 1' ? 'selected' : '' }}>
                                             Year 1
                                         </option>
-                                        <option {{ $participant->grade == 'Year 2' ? 'selected' : null }}>Year
-                                            2
+                                        <option value="Year 2"
+                                            {{ $participant->grade == 'Year 2' ? 'selected' : '' }}>
+                                            Year 2
                                         </option>
-                                        <option {{ $participant->grade == 'Year 3' ? 'selected' : null }}>Year
-                                            3
+                                        <option value="Year 3"
+                                            {{ $participant->grade == 'Year 3' ? 'selected' : '' }}>
+                                            Year 3
                                         </option>
-                                        <option {{ $participant->grade == 'Year 4' ? 'selected' : null }}>Year
-                                            4
+                                        <option value="Year 4"
+                                            {{ $participant->grade == 'Year 4' ? 'selected' : '' }}>
+                                            Year 4
                                         </option>
+                                    </optgroup>
                                 @endif
                             </select>
                         </div>
                     </div>
 
                     <div class="row mb-3">
-                        <label for="address" class="col-3 col-form-label">Address</label>
+                        <label class="col-3 col-form-label">Institution</label>
                         <div class="col">
-                            <textarea class="form-control check-form" id="address" name="address" rows="2"
-                                value="{{ $participant->address }}" required>{{ $participant->address }}</textarea>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label for="email" class="col-3 col-form-label">Email</label>
-                        <div class="col">
-                            <input type="email" class="form-control check-form" id="email" name="email"
-                                value="{{ $participant->email }}" required>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label for="whatsapp_number" class="col-3 col-form-label">Phone Number</label>
-                        <div class="col">
-                            <div class="input-group">
-                                <span class="input-group-text">+62</span>
-                                <input type="text" class="form-control check-form" id="whatsapp_number"
-                                    name="whatsapp_number" placeholder="e.g 812345678"
-                                    value="{{ $participant->whatsapp_number }}" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label for="line_id" class="col-3 col-form-label">LINE ID</label>
-                        <div class="col">
-                            <input type="text" class="form-control check-form" id="line_id" name="line_id"
-                                value="{{ $participant->line_id }}" required>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label for="institute_name" class="col-3 col-form-label">School / University
-                            Name</label>
-                        <div class="col">
-                            <input type="text" class="form-control check-form" id="institute_name"
-                                name="institute_name" value="{{ $participant->institute_name }}" required>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <label for="institute_address" class="col-3 col-form-label">School / University
-                            Address</label>
-                        <div class="col">
-                            <textarea class="form-control check-form" id="institute_address" name="institute_address" rows="2"
-                                value="{{ $participant->institute_address }}" required>{{ $participant->institute_address }}</textarea>
+                            <input type="text" class="form-control" name="institution"
+                                value="{{ $participant->institution }}" required>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="d-grid gap-2 d-flex justify-content-end">
-                <a href="{{ route('participants.index') }}" type="button" class="btn btn-outline-primary w-25">
+                <a href="{{ route('participants.index') }}" type="button" class="btn btn-outline-primary px-5">
                     Cancel
                 </a>
                 @method('PUT')
-                <button type="submit" class="btn btn-primary w-25">Save Changes</button>
+                <button type="submit" class="btn btn-primary px-5">Save Changes</button>
             </div>
         </form>
     </div>

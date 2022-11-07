@@ -22,6 +22,12 @@ class UserSeeder extends Seeder
                 'role' => 'ADMIN',
                 'email' => 'NEOITDIV',
                 'password' => Hash::make('abc12345'),
+            ],
+            [
+                'name' => 'Vincent Febrien',
+                'role' => 'USER',
+                'email' => 'okulafebrian@gmail.com',
+                'password' => Hash::make('abc12345'),
             ]
         ]);
     }

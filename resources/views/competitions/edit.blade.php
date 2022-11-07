@@ -3,7 +3,7 @@
     <x-slot name="navbarAdmin"></x-slot>
 
     <div class="container" style="padding: 6rem 0; max-width: 60rem">
-        <h3 class="mb-4">Edit Competition</h3>
+        <h3 class="mb-4 text-primary">Edit Competition</h3>
 
         <form method="POST" action="{{ route('competitions.update', $competition) }}" enctype="multipart/form-data">
             @csrf
@@ -21,15 +21,15 @@
                                 images use a minimum size of 700 x 700 px).
                             </div>
                         </div>
-                        <div class="col offset-1">
+                        <div class="col">
                             <label for="logo">
                                 <div class="input-img text-center text-secondary">
-                                    <img class="img-preview" src="/storage/images/logos/{{ $competition->logo }}"
-                                        width="100%">
+                                    <img class="img-preview rounded-3"
+                                        src="/storage/images/logos/{{ $competition->logo }}" width="100%">
                                 </div>
                             </label>
-                            <input id="logo" name="logo" type="file" required
-                                class="d-none form-control @error('logo') is-invalid @enderror" />
+                            <input class="form-control @error('logo') is-invalid @enderror" id="logo"
+                                name="logo" type="file" hidden />
                             @error('logo')
                                 <div class="invalid-feedback">
                                     Mininum size: 300 x 300px and maximum size: 700 x 700px.
@@ -51,26 +51,24 @@
                     <h5 class="mb-4">Competition Details</h5>
 
                     <div class="row mb-3">
-                        <label for="name" class="col-4 col-form-label">Competition Name <span
-                                class="text-danger">*</span></label>
+                        <label class="col-3 col-form-label">Competition Name <span class="text-danger">*</span></label>
                         <div class="col">
-                            <input type="text" class="form-control" id="name" name="name"
-                                value="{{ $competition->name }}" required>
+                            <input type="text" class="form-control" name="name" value="{{ $competition->name }}"
+                                required>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="category" class="col-4 col-form-label">Category <span
-                                class="text-danger">*</span></label>
+                        <label class="col-3 col-form-label">Category <span class="text-danger">*</span></label>
                         <div class="col">
-                            <select id="category" class="form-select" name="category" required>
+                            <select class="form-select" name="category" required>
                                 <option selected disabled value="">Select Category</option>
                                 <option {{ $competition->category == 'Junior High School' ? 'selected' : '' }}>
                                     Junior High School
                                 </option>
                                 <option {{ $competition->category == 'Senior High School' ? 'selected' : '' }}>
                                     Senior High School</option>
-                                <option {{ $competition->category == 'Univeristy' ? 'selected' : '' }}>
-                                    Univeristy
+                                <option {{ $competition->category == 'University' ? 'selected' : '' }}>
+                                    University
                                 </option>
                                 <option {{ $competition->category == 'Open Category' ? 'selected' : '' }}>
                                     Open Category
@@ -79,33 +77,46 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="price" class="col-4 col-form-label">Price <span
-                                class="text-danger">*</span></label>
+                        <label class="col-3 col-form-label">Normal Price <span class="text-danger">*</span></label>
                         <div class="input-group col">
                             <span class="input-group-text">Rp</span>
-                            <input class="form-control price-format" type="text" id="price" name="price"
-                                value="{{ $competition->price }}" required>
+                            <input class="form-control price-format" type="text" name="normal_price"
+                                value="{{ $competition->normal_price }}" required>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="quota" class="col-4 col-form-label">Quota <span
-                                class="text-danger">*</span></label>
+                        <label class="col-3 col-form-label">Normal Quota <span class="text-danger">*</span></label>
                         <div class="col">
-                            <input class="form-control" type="number" id="quota" name="quota"
-                                value="{{ $competition->quota }}" required>
+                            <input class="form-control" type="number" name="normal_quota"
+                                value="{{ $competition->normal_quota }}" required>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="ebooklet" class="col-4 col-form-label">E-Booklet</label>
+                        <label class="col-3 col-form-label">Early Price</label>
+                        <div class="input-group col">
+                            <span class="input-group-text">Rp</span>
+                            <input class="form-control price-format" type="text" name="early_price"
+                                value="{{ $competition->early_price }}">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-3 col-form-label">Early Quota</label>
                         <div class="col">
-                            <input class="form-control" type="file" id="ebooklet" name="ebooklet"
+                            <input class="form-control" type="number" name="early_quota"
+                                value="{{ $competition->early_quota }}">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label class="col-3 col-form-label">E-Booklet</label>
+                        <div class="col">
+                            <input class="form-control" type="file" name="ebooklet"
                                 value="{{ $competition->ebooklet }}">
                         </div>
                     </div>
                     <div class="row">
-                        <label for="link_group" class="col-4 col-form-label">Link Group</label>
+                        <label class="col-3 col-form-label">Link Group</label>
                         <div class="col">
-                            <input class="form-control" type="text" id="link_group" name="link_group"
+                            <input class="form-control" type="text" name="link_group"
                                 value="{{ $competition->link_group }}">
                         </div>
                     </div>
@@ -122,11 +133,11 @@
             </div>
 
             <div class="d-grid gap-2 d-flex justify-content-end">
-                <a href="{{ route('competitions.index') }}" type="button" class="btn btn-outline-primary py-2 px-5">
+                <a href="{{ route('competitions.index') }}" type="button" class="btn btn-outline-primary px-5">
                     Cancel
                 </a>
                 @method('PUT')
-                <button type="submit" class="btn btn-primary py-2 px-5">Save Changes</button>
+                <button type="submit" class="btn btn-primary px-5">Save Changes</button>
             </div>
         </form>
     </div>

@@ -2,7 +2,7 @@
 
     <x-slot name="navbarUser"></x-slot>
 
-    <div class="container-lg my-5" style="max-width: 50rem">
+    <div class="container-lg my-5" style="max-width: 45rem">
         <h3 class="text-center mb-4">Edit Payment Proof</h3>
 
         <form method="POST" action="{{ route('payments.update', $payment) }}" enctype="multipart/form-data">
@@ -11,8 +11,8 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-6">
-                            <img src="/storage/images/payment_proofs/{{ $payment->payment_proof }}" alt="NEO"
-                                width="100%">
+                            <img src="/storage/images/payment_proofs/{{ $payment->payment_proof }}"
+                                alt="{{ $payment->payment_proof }}" width="100%">
                         </div>
                         <div class="col">
                             <div class="mb-3">

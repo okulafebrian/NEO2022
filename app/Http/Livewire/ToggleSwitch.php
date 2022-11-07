@@ -26,7 +26,8 @@ class ToggleSwitch extends Component
     {
         $this->model->setAttribute($this->field, $value)->save();
 
-        session()->flash('message', 'Post successfully updated.');
-        return redirect()->route('competitions.index');
+        $message = $value == true ? 'Competition is enabled.' : 'Competition is disabled.';
+
+        return redirect()->route('competitions.index')->with('success', $message);
     }
 }
