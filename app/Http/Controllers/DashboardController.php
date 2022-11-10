@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Competition;
 use App\Models\Environment;
 use App\Models\Payment;
+use App\Models\Refund;
 use App\Models\Registration;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -38,7 +39,8 @@ class DashboardController extends Controller
             $competitions = Competition::all();
         
             return view('dashboards.admin', [
-                'unverifiedRegistrations' => Registration::whereRelation('payment', 'is_verified', null)->count(),
+                'unverifiedCount' => Registration::whereRelation('payment', 'is_verified', null)->count(),
+                'refundCount' => Refund::where('is_verified', null)->count(),
                 'competitions' => Competition::all(),
             ]);
 

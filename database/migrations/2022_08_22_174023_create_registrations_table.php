@@ -19,7 +19,6 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->dateTime('payment_due');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

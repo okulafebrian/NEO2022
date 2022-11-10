@@ -3,11 +3,11 @@
 
     <div class="container" style="padding: 6rem 0; max-width: 40rem">
         <div class="mb-4">
-            <h3 class="text-primary">{{ $round->name }} -
+            <h4 class="text-primary fw-semibold">{{ $round->name }} -
                 {{ $competition->name == 'Speech' ? $competition->name . ' ' . $competition->category : $competition->name }}
-            </h3>
+            </h4>
             <p class="m-0 text-muted">
-                Select {{ $competition->name == 'Debate' ? 'teams' : 'participants' }} that qualified to this round
+                Select the {{ $competition->name == 'Debate' ? 'teams' : 'participants' }} that qualify for this round
             </p>
         </div>
 
@@ -15,41 +15,51 @@
             @csrf
 
             <input type="hidden" name="round_id" value="{{ $round->id }}">
-            <input type="hidden" name="competition_name" value="{{ $competition->name }}">
 
-            <div class="card card-custom mb-3">
-                <div class="card-body">
-                    <ul class="list-group">
+            <div class="card card-custom p-3 mb-3">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <input class="form-check-input me-1" type="checkbox" id="selectAll">
+                        <label class="form-check-label stretched-link fw-semibold" for="selectAll">
+                            Select all
+                        </label>
+                    </li>
+                    @foreach ($registrationDetails as $registrationDetail)
                         @if ($competition->name == 'Debate')
-                            @foreach ($competition->registrationDetails as $registrationDetail)
-                                <li class="list-group-item">
-                                    <input class="form-check-input me-1" type="checkbox" name="registration_detail_id[]"
-                                        value="{{ $registrationDetail->id }}" id="T{{ $registrationDetail->id }}">
-                                    <label class="form-check-label stretched-link"
-                                        for="T{{ $registrationDetail->id }}">{{ $registrationDetail->debateTeam->name }}</label>
-                                </li>
-                            @endforeach
+                            <li class="list-group-item">
+                                <input class="form-check-input me-1" type="checkbox" name="registration_detail_id[]"
+                                    value="{{ $registrationDetail->id }}" id="T{{ $registrationDetail->id }}">
+                                <label class="form-check-label stretched-link"
+                                    for="T{{ $registrationDetail->id }}">{{ $registrationDetail->debateTeam->name }}</label>
+                            </li>
                         @else
-                            @foreach ($competition->participants as $participant)
-                                <li class="list-group-item">
-                                    <input class="form-check-input me-1" type="checkbox" name="participant_id[]"
-                                        value="{{ $participant->id }}" id="P{{ $participant->id }}">
-                                    <label class="form-check-label stretched-link"
-                                        for="P{{ $participant->id }}">{{ $participant->name }}</label>
-                                </li>
-                            @endforeach
+                            <li class="list-group-item">
+                                <input class="form-check-input me-1" type="checkbox" name="registration_detail_id[]"
+                                    value="{{ $registrationDetail->id }}"
+                                    id="P{{ $registrationDetail->participants[0]->id }}">
+                                <label class="form-check-label stretched-link"
+                                    for="P{{ $registrationDetail->participants[0]->id }}">
+                                    {{ $registrationDetail->participants[0]->name }}
+                                </label>
+                            </li>
                         @endif
-                    </ul>
-                </div>
+                    @endforeach
+                </ul>
             </div>
 
             <div class="d-grid gap-2 d-flex justify-content-end">
                 <a href="{{ route('qualifications.index') }}" type="button" class="btn btn-outline-primary py-2 px-5">
                     Cancel
                 </a>
-                <button type="submit" class="btn btn-primary py-2 px-5">Save</button>
+                <button type="submit" class="btn btn-primary py-2 px-5"
+                    {{ count($registrationDetails) < 1 ? 'disabled' : '' }}>Save</button>
             </div>
         </form>
     </div>
-
 </x-app>
+
+<script>
+    $('#selectAll').on('click', function() {
+        $('input:checkbox').not(this).prop('checked', this.checked);
+    })
+</script>

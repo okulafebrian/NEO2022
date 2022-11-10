@@ -1,8 +1,13 @@
 // Typography
-$font-family-sans-serif: 'Open Sans', sans-serif;
+$font-family-sans-serif: 'Poppins', sans-serif;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
-$headings-font-weight: 600;
+// $headings-font-weight: 600;
+
+// Form
+$form-label-font-size: 14px;
+$form-label-font-weight: 500;
+// $form-label-color: #73767A;
 
 // Shadow
 $box-shadow-sm: 0 1px 6px 0 var(--color-shadow,rgba(49,53,59,0.12));
@@ -11,14 +16,18 @@ $box-shadow-sm: 0 1px 6px 0 var(--color-shadow,rgba(49,53,59,0.12));
 $primary: #691B99;
 
 // Add colors
-@import 'bootstrap/scss/_functions';
-@import 'bootstrap/scss/_variables';
+@import '~bootstrap/scss/_functions';
+@import '~bootstrap/scss/_variables';
 
 $custom-colors: (
-    'purple-100' : #F2E8F8,
-    'red-100' : $red-100,
-    'red-800' : $red-800,
-    'orange-400' : $orange-400,
+    'purple-50' : #F8EEFF,
+    'purple-100' : $purple-100,
+    'purple-200' : $purple-200,
+    'blue' : #229BD8,
+    'blue-100' : #E9F5FC,
+    'purple-muted': #856C94,
+    'purple-700' : $purple-700,
+    'green-100' : $green-100,
 );
 
 $theme-colors: map-merge($theme-colors, $custom-colors);

@@ -8,20 +8,62 @@ use App\Models\Registration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Exports\ParticipantExport;
+use App\Exports\ParticipantsExport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\Controller;
+use App\Models\Environment;
+use App\Models\Qualification;
 
 class ParticipantController extends Controller
 {   
     public function __construct()
     {
-        $this->middleware(['auth']);
-        $this->middleware(['participant'])->only('invoke');
-        $this->middleware(['admin'])->except('invoke');
+        $this->middleware(['auth'])->only('index', 'edit', 'update', 'export');
+        $this->middleware(['participant'])->except('index', 'edit', 'update', 'export');
+        $this->middleware(['admin'])->only('index', 'edit', 'update', 'export');
         // $this->middleware('access.control:10')->except('index');
     }
     
     public function __invoke()
     {   
-        return view('dashboards.participant');
+        $qualifications = Qualification::where('registration_detail_id', Auth::guard('participant')->user()->registrationDetail->id)->get();
+        $environments = Environment::where('start_time', null)->get();
+
+        $attendanceQualifications = [];
+        $submissionQualifications = [];
+        $reRegisterQualifications = [];
+
+        foreach ($qualifications as $qualification) {
+            // ATTENDANCES
+            if ($qualification->round->name == 'Preliminary' && $environments[3]->is_shown == true) {
+                $attendanceQualifications[] = $qualification;
+            } elseif ($qualification->round->name == 'Semifinal' && $environments[4]->is_shown == true) {
+                $attendanceQualifications[] = $qualification;
+            } elseif ($qualification->round->name == 'Final' && $environments[5]->is_shown == true) {
+                $attendanceQualifications[] = $qualification;
+            }
+
+            // SUBMISSIONS
+            if ($qualification->registrationDetail->competition->name == 'Short Story Writing') {
+                if ($qualification->round->name == 'Preliminary' && $environments[1]->is_shown == true) {
+                    $submissionQualifications[] = $qualification;
+                } elseif ($qualification->round->name == 'Final' && $environments[2]->is_shown == true) {
+                    $submissionQualifications[] = $qualification;
+                }
+            }
+
+            // RE-REGISTRATION
+            if ($qualification->round->name == 'Semifinal' && $environments[0]->is_shown == true) {
+                $reRegisterQualifications[] = $qualification;
+            }
+        }
+        
+        return view('dashboards.participant', [
+            'attendanceQualifications' => $attendanceQualifications,
+            'submissionQualifications' => $submissionQualifications,
+            'reRegisterQualifications' => $reRegisterQualifications
+        ]);
     }
 
     public function index()
@@ -89,6 +131,11 @@ class ParticipantController extends Controller
     public function destroy(Participant $participant)
     {
         //
+    }
+
+    public function export()
+    {
+        return Excel::download(new ParticipantsExport, 'participant.xlsx');
     }
 
     public function showLoginForm()

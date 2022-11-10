@@ -27,6 +27,7 @@ class Competition extends Model
     {
         return $this->hasMany(RegistrationDetail::class)->whereHas('verifiedPayment');
     }
+    
      
     public function participants()
     {

@@ -41,7 +41,7 @@
                                                     {{ $competition->category }}
                                                 </p>
                                                 <h5 class="m-0" style="font-size: 16px">
-                                                    @if ($competition->is_active == false)
+                                                    @if ($competition->normal_quota - $competition->registrations_count < 1)
                                                         <span class="text-danger">Tickets sold out</span>
                                                     @elseif ($isEarlyBirdOngoing && $competition->early_quota - $competition->early_registrations_count > 0)
                                                         Rp {{ number_format($competition->early_price, 0, '.', '.') }}
@@ -60,10 +60,10 @@
                                                     alt="{{ $competition->name }}" class="rounded-4" width="100%">
                                             </div>
                                         </div>
-
                                         <div class="text-end">
-                                            <button {{ $competition->is_active == false ? 'disabled' : '' }}
-                                                class="btn {{ $competition->is_active == false ? 'btn-outline-secondary' : 'btn-outline-primary' }} rounded-pill"
+                                            <button
+                                                {{ $competition->is_active == false || $competition->normal_quota - $competition->registrations_count < 1 ? 'disabled' : '' }}
+                                                class="btn {{ $competition->is_active == false || $competition->normal_quota - $competition->registrations_count < 1 ? 'btn-outline-secondary' : 'btn-outline-primary' }} rounded-pill"
                                                 type="button" style="font-size:14px; min-width:25%">
                                                 Select
                                             </button>
@@ -127,7 +127,7 @@
                                     </h5>
                                 </div>
                                 <div class="col-lg-2 col-md-3">
-                                    <button type="submit" class="btn btn-secondary btn-register btn-lg fw-medium w-100"
+                                    <button type="submit" class="btn btn-secondary btn-register py-2 fw-medium w-100"
                                         disabled>
                                         Register <span class="total-ticket-btn d-md-none"></span>
                                     </button>
@@ -139,7 +139,9 @@
             </section>
         @else
             <div class="text-center">
-                <h3>Registration Closed</h3>
+                <img src="/storage/images/assets/lock.webp" alt="Registration Closed" class="img-size">
+                <h3 class="fw-semibold text-primary">Registration Closed</h3>
+                <p class="text-purple-muted">Thank you for your enthusiasm in the NEO 2022.</p>
             </div>
         @endif
 

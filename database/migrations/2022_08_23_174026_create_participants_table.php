@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('line_id');
             $table->string('institution');
             $table->string('allergy')->nullable();
+            $table->string('vaccination')->nullable();
             $table->string('username')->nullable();
             $table->string('password')->nullable();
             $table->rememberToken();

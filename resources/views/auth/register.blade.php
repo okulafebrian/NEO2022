@@ -1,15 +1,8 @@
-@extends('layouts.app')
+<x-app title="Sign Up | NEO 2022">
+    <div class="container my-5" style="max-width: 28rem">
+        <h3 class="text-primary text-center">{{ __('Create an account') }}</h3>
 
-@section('content')
-    <div class="container" style="max-width: 28rem">
         <div class="card border-0">
-            <div class="text-center">
-                <a href="{{ route('home') }}">
-                    <img src="/storage/images/assets/logo_neo_complete.png" alt="NEO" width="50%">
-                </a>
-                <h2 class="mt-3 text-primary">{{ __('Create an account') }}</h3>
-            </div>
-
             <div class="card-body">
                 <form method="POST" action="{{ route('register') }}">
                     @csrf
@@ -41,8 +34,9 @@
 
                     <div class="mb-4">
                         <label for="password" class="form-label">{{ __('Password') }}</label>
-                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
-                            name="password" required autocomplete="new-password">
+                        <input id="password" type="password"
+                            class="form-control @error('password') is-invalid @enderror" name="password" required
+                            autocomplete="password">
 
                         @error('password')
                             <span class="invalid-feedback" role="alert">
@@ -52,7 +46,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary w-100">
-                        {{ __('Create account') }}
+                        {{ __('Sign up') }}
                     </button>
                 </form>
 
@@ -65,4 +59,4 @@
             </div>
         </div>
     </div>
-@endsection
+</x-app>

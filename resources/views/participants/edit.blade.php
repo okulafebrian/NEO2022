@@ -24,16 +24,16 @@
                             <fieldset>
                                 <input type="radio" class="btn-check" id="male" name="gender" value="Male"
                                     {{ $participant->gender == 'Male' ? 'checked' : '' }} required>
-                                <label for="male" class="btn btn-input rounded-pill">Male</label>
+                                <label for="male" class="btn btn-selection rounded-pill">Male</label>
 
                                 <input type="radio" class="btn-check" id="female" name="gender" value="Female"
                                     {{ $participant->gender == 'Female' ? 'checked' : '' }}>
-                                <label for="female" class="btn btn-input rounded-pill">Female</label>
+                                <label for="female" class="btn btn-selection rounded-pill">Female</label>
 
                                 <input type="radio" class="btn-check" id="unknown" name="gender"
                                     {{ $participant->gender == 'Prefer not to say' ? 'checked' : '' }}
                                     value="Prefer not to say">
-                                <label for="unknown" class="btn btn-input rounded-pill">Prefer not to say</label>
+                                <label for="unknown" class="btn btn-selection rounded-pill">Prefer not to say</label>
                             </fieldset>
                         </div>
                         <div class="invalid-feedback">
@@ -95,12 +95,12 @@
                     <h5 class="mb-3">Education Details</h5>
 
                     <div class="row mb-3">
-                        <label class="col-3 col-form-label">Level</label>
+                        <label class="col-3 col-form-label">Grade</label>
                         <div class="col">
                             <select class="form-select" name="grade" required>
                                 <option disabled value="">Select education level</option>
-                                @if ($participant->competitionTeam->competition->category == 'Junior High School')
-                                    <optgroup label="Junior High School">
+                                @if ($participant->registrationDetail->competition->category == 'Junior High')
+                                    <optgroup label="Junior High">
                                         <option value="Grade 7"
                                             {{ $participant->grade == 'Grade 7' ? 'selected' : '' }}>Grade 7
                                         </option>
@@ -112,9 +112,9 @@
                                         </option>
                                     </optgroup>
                                 @endif
-                                @if ($participant->competitionTeam->competition->category == 'Senior High School' ||
-                                    $participant->competitionTeam->competition->category == 'Open Category')
-                                    <optgroup label="Senior High School">
+                                @if ($participant->registrationDetail->competition->category == 'Senior High' ||
+                                    $participant->registrationDetail->competition->category == 'Open Category')
+                                    <optgroup label="Senior High">
                                         <option value="Grade 10"
                                             {{ $participant->grade == 'Grade 10' ? 'selected' : '' }}>Grade 10
                                         </option>
@@ -129,8 +129,8 @@
                                         </option>
                                     </optgroup>
                                 @endif
-                                @if ($participant->competitionTeam->competition->category == 'University' ||
-                                    $participant->competitionTeam->competition->category == 'Open Category')
+                                @if ($participant->registrationDetail->competition->category == 'University' ||
+                                    $participant->registrationDetail->competition->category == 'Open Category')
                                     <optgroup label="University">
                                         <option value="Year 1"
                                             {{ $participant->grade == 'Year 1' ? 'selected' : '' }}>
@@ -161,6 +161,53 @@
                                 value="{{ $participant->institution }}" required>
                         </div>
                     </div>
+
+                    @if ($participant->binusian)
+                        <div class="row mb-3">
+                            <label class="col-3 col-form-label">NIM</label>
+                            <div class="col">
+                                <input type="text" class="form-control" name="nim"
+                                    value="{{ $participant->binusian->nim }}" required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-3 col-form-label">Region</label>
+                            <div class="col">
+                                <select class="form-select" required name="region">
+                                    <option selected disabled value="">Select campus region</option>
+                                    <option value="Kemanggisan"
+                                        {{ $participant->binusian->region == 'Kemanggisan' ? 'selected' : '' }}>
+                                        Kemanggisan
+                                    </option>
+                                    <option value="Alam Sutera"
+                                        {{ $participant->binusian->region == 'Alam Sutera' ? 'selected' : '' }}>
+                                        Alam Sutera
+                                    </option>
+                                    <option value="Bekasi"
+                                        {{ $participant->binusian->region == 'Bekasi' ? 'selected' : '' }}>
+                                        Bekasi
+                                    </option>
+                                    <option value="Senayan"
+                                        {{ $participant->binusian->region == 'Senayan' ? 'selected' : '' }}>
+                                        Senayan
+                                    </option>
+                                    <option value="Bandung"
+                                        {{ $participant->binusian->region == 'Bandung' ? 'selected' : '' }}>
+                                        Bandung
+                                    </option>
+                                    <option value="Malang"
+                                        {{ $participant->binusian->region == 'Malang' ? 'selected' : '' }}>
+                                        Malang
+                                    </option>
+                                    <option value="Semarang"
+                                        {{ $participant->binusian->region == 'Semarang' ? 'selected' : '' }}>
+                                        Semarang
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
 

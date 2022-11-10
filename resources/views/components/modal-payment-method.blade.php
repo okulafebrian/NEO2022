@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" style="max-width: 35rem">
         <div class="modal-content border-0" style="max-height: 30rem;">
             <div class="modal-header py-4">
-                <h5 class="m-auto ">Select Payment Method</h5>
+                <h5 class="m-auto fw-semibold">Select Payment Method</h5>
                 <i class="bi bi-x fa-2xl" role="button" data-bs-dismiss="modal"></i>
             </div>
 
@@ -69,7 +69,7 @@
                 <a type="button" class="text-dark px-2" data-bs-target="#paymentMethod" data-bs-toggle="modal">
                     <i class="fa-solid fa-chevron-left"></i>
                 </a>
-                <h5 class="modal-title ms-2">
+                <h5 class="fw-semibold ms-2">
                     Fill in Bank Name
                 </h5>
             </div>
@@ -96,7 +96,7 @@
                 <a type="button" class="text-dark px-2" data-bs-target="#paymentMethod" data-bs-toggle="modal">
                     <i class="fa-solid fa-chevron-left"></i>
                 </a>
-                <h5 class="modal-title ms-2">
+                <h5 class="fw-semibold ms-2">
                     Fill in E-Wallet Name
                 </h5>
             </div>

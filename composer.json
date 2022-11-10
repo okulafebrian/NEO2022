@@ -12,7 +12,9 @@
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.0",
-        "livewire/livewire": "^2.10"
+        "livewire/livewire": "^2.10",
+        "maatwebsite/excel": "^3.1",
+        "psr/simple-cache": "^2.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",

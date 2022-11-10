@@ -2,84 +2,92 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Competition;
+use App\Models\Qualification;
+use App\Models\RegistrationDetail;
+use App\Models\Round;
 use App\Models\Submission;
 use Illuminate\Http\Request;
 
 class SubmissionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function __construct()
     {
-        //
+        $this->middleware(['auth'])->only('index', 'download');
+        $this->middleware(['participant'])->except('index', 'download');
+        $this->middleware(['admin'])->only('index', 'download');
+        // $this->middleware('access.control:10')->except('index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function index()
+    {
+        $rounds = Round::all();
+        $competitions = Competition::all();
+        $qualifications = [];
+
+        foreach ($rounds as $round) {
+            foreach ($competitions as $competition) {
+                $temp = Qualification::where('round_id', $round->id)
+                        ->whereRelation('registrationDetail', 'competition_id', $competition->id)->get();
+
+                $qualifications[$round->id][$competition->id] =  $temp;
+            }
+        }
+        
+        return view('submissions.index', [
+            'rounds' => $rounds,
+            'competitions' => $competitions,
+            'qualifications' => $qualifications,
+        ]);
+    }
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
-    {
-        //
+    {   
+        $request->validate([
+            'qualification_id' => 'required|integer',
+            'file' => 'required|file|mimes:pdf'
+        ]);
+        
+        if ($request->hasFile('file')) {
+            $proofNameToStore = $request->file('file')->getClientOriginalName();
+            $request->file('file')->storeAs('public/submissions', $proofNameToStore);
+        }
+
+        Submission::create([
+            'qualification_id' => $request->qualification_id,
+            'file' => $proofNameToStore
+        ]);
+
+        return redirect()->back();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Submission  $submission
-     * @return \Illuminate\Http\Response
-     */
     public function show(Submission $submission)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Submission  $submission
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Submission $submission)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Submission  $submission
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Submission $submission)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Submission  $submission
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Submission $submission)
     {
         //
+    }
+
+    public function download(Submission $submission)
+    {
+        return response()->download(public_path('/storage/submissions/'. $submission->file));
     }
 }

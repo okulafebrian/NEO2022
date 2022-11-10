@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->dateTime('start_time')->nullable();
             $table->dateTime('end_time')->nullable();
-            $table->boolean('is_activated')->nullable();
+            $table->boolean('is_shown')->nullable();
             $table->timestamps();
         });
     }

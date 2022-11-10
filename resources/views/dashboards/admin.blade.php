@@ -4,14 +4,14 @@
     <x-slot name="sidebarAdmin"></x-slot>
 
     <div class="container p-5">
-        <h3 class="mb-4 text-primary">Admin Dashboard</h3>
+        <h4 class="mb-4 fw-semibold text-primary">Dashboard</h4>
 
         <div class="row row-cols-5 g-3 mb-4">
             <div class="col">
                 <div class="card border-0 shadow-sm rounded-3">
                     <div class="card-body">
                         <p class="mb-2 text-muted">To verify</p>
-                        <h3>{{ $unverifiedRegistrations }}</h3>
+                        <h3>{{ $unverifiedCount }}</h3>
                     </div>
                 </div>
             </div>
@@ -19,7 +19,7 @@
                 <div class="card border-0 shadow-sm rounded-3">
                     <div class="card-body">
                         <p class="mb-2 text-muted">New Refund</p>
-                        <h3>0</h3>
+                        <h3>{{ $refundCount }}</h3>
                     </div>
                 </div>
             </div>

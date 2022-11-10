@@ -6,12 +6,11 @@ use App\Models\Payment;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Mail\Attachment;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 
-class InvoiceMail extends Mailable
+class PaymentMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -24,22 +23,30 @@ class InvoiceMail extends Mailable
 
     public function build()
     {   
-        $competitions = DB::table('competitions')
+        $invoiceID = str_pad($this->payment->id, 3, '0', STR_PAD_LEFT);
+
+        if ($this->payment->is_verified == true) {
+            $competitions = DB::table('competitions')
                             ->join('registration_details', 'competitions.id', 'registration_details.competition_id')
                             ->select('competitions.name', 'competitions.category', 'registration_details.price', 'registration_details.type', DB::raw('count(*) as registrations_count'))
                             ->where('registration_details.registration_id', $this->payment->registration->id)
                             ->groupBy('competitions.name', 'competitions.category', 'registration_details.price', 'registration_details.type')
                             ->get();
 
-        $invoiceFile = Pdf::loadView('payments.invoice', [
-                            'payment' => $this->payment,
-                            'competitions' => $competitions,
-                        ]);
-        
-        $invoiceID = str_pad($this->payment->id, 3, '0', STR_PAD_LEFT);
-        
-        return $this->markdown('emails.invoices.mail')
+            $invoiceFile = Pdf::loadView('payments.invoice', [
+                                'payment' => $this->payment,
+                                'competitions' => $competitions,
+                            ]);
+            
+            return $this->markdown('emails.payments.accept-mail')
                     ->subject('NEO 2022 - Invoice ' . $invoiceID)
                     ->attachData($invoiceFile->output(), 'Invoice ' . $invoiceID .'.pdf');
+
+        } elseif ($this->payment->is_verified == false) {
+
+            return $this->markdown('emails.payments.reject-mail')
+                    ->subject('NEO 2022 - Payment ' .$invoiceID . ' Rejected');
+        }
+
     }
 }

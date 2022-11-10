@@ -38,12 +38,14 @@
         <label class="form-label">Phone Number</label>
         <input type="text" class="form-control"
             name="phone_number[{{ $id }}][{{ $j }}][{{ $k }}]" required>
+        <div class="form-text">E.g. 081367889900</div>
     </div>
 
     <div class="col-md-6">
         <label class="form-label">LINE ID</label>
         <input type="text" class="form-control"
             name="line_id[{{ $id }}][{{ $j }}][{{ $k }}]" required>
+        <div class="form-text">If you don't use the LINE app, fill it with '-'</div>
     </div>
 </div>
 
@@ -78,14 +80,14 @@
             name="grade[{{ $id }}][{{ $j }}][{{ $k }}]" required>
             <option selected disabled value="">Select education level</option>
             @if ($category == 'Junior High')
-                <optgroup label="Junior High School">
+                <optgroup label="Junior High">
                     <option value="Grade 7">Grade 7</option>
                     <option value="Grade 8">Grade 8</option>
                     <option value="Grade 9">Grade 9</option>
                 </optgroup>
             @endif
             @if ($category == 'Senior High' || $category == 'Open Category')
-                <optgroup label="Senior High School">
+                <optgroup label="Senior High">
                     <option value="Grade 10">Grade 10</option>
                     <option value="Grade 11">Grade 11</option>
                     <option value="Grade 12">Grade 12</option>
@@ -133,7 +135,7 @@
 
     <div id="binusianDetails{{ $id }}{{ $j }}{{ $k }}" class="col d-none">
         <hr class="mt-0" style="border-style: dashed">
-        <div class="row">
+        <div class="row g-4">
             <div class="col-md-6">
                 <label class="form-label">NIM</label>
                 <input type="text" class="form-control" disabled required

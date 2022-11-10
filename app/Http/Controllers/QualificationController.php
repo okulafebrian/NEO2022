@@ -7,7 +7,9 @@ use App\Models\Participant;
 use App\Models\Qualification;
 use App\Models\RegistrationDetail;
 use App\Models\Round;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class QualificationController extends Controller
 {
@@ -16,90 +18,79 @@ class QualificationController extends Controller
     {
         $rounds = Round::all();
         $competitions = Competition::all();
-        $registrationDetails = [];
+        $qualifications = [];
 
         foreach ($rounds as $round) {
             foreach ($competitions as $competition) {
-                $temp = RegistrationDetail::where('competition_id', $competition->id)
-                        ->whereRelation('rounds', 'rounds.id', $round->id)->get();
+                $temp = Qualification::where('round_id', $round->id)
+                        ->whereRelation('registrationDetail', 'competition_id', $competition->id)->get();
 
-                $registrationDetails[$round->id][$competition->id] =  $temp;
+                $qualifications[$round->id][$competition->id] =  $temp;
             }
         }
         
         return view('qualifications.index', [
             'rounds' => $rounds,
             'competitions' => $competitions,
-            'registrationDetails' => $registrationDetails,
+            'qualifications' => $qualifications,
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create(Round $round, Competition $competition)
     {   
+        $registrationDetails = RegistrationDetail::whereHas('verifiedPayment')
+            ->whereDoesntHave('rounds', function (Builder $query) use($round) {
+                $query->where('rounds.id', $round->id);
+            })->where('competition_id', $competition->id)
+            ->get();
+
         return view('qualifications.create', [
             'round' => $round,
-            'competition' => $competition
+            'competition' => $competition,
+            'registrationDetails' => $registrationDetails
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'round_id' => 'required|integer',
+            'registration_detail_id.*' => 'required|integer'
+        ]);
+        
+        $data = [];
+
+        for ($i=0; $i < count($request->registration_detail_id); $i++) { 
+            $data[] = [
+                'round_id' => $request->round_id,
+                'registration_detail_id' => $request->registration_detail_id[$i]
+            ]; 
+        }
+        
+        Qualification::insert($data);
+
+        return redirect()->route('qualifications.index')->with('success', 'Data sucessfully added');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Qualification  $qualification
-     * @return \Illuminate\Http\Response
-     */
     public function show(Qualification $qualification)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Qualification  $qualification
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Qualification $qualification)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Qualification  $qualification
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Qualification $qualification)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Qualification  $qualification
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Qualification $qualification)
     {
-        //
+        $qualification->delete();
+
+        return redirect()->back();
     }
 }

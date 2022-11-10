@@ -4,12 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Registration extends Model
 {
     use HasFactory;
-    use SoftDeletes;
     protected $table = 'registrations';
     protected $primaryKey = 'id';
     protected $timestamp = true;
@@ -38,7 +36,7 @@ class Registration extends Model
   
     public function participants()
     {
-        return $this->hasManyThrough(Participant::class, RegistrationDetail::class, 'competition_id', 'registration_detail_id');
+        return $this->hasManyThrough(Participant::class, RegistrationDetail::class);
     }
     
     public function user()

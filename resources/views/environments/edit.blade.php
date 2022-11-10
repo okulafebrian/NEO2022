@@ -13,7 +13,7 @@
                     <div class="row g-0 mb-3">
                         <label class="col-3 col-form-label">Name</label>
                         <input type="text" class="col form-control" name="name" value="{{ $environment->name }}"
-                            disabled required>
+                            required>
                     </div>
                     <div class="row g-0 mb-3">
                         <label class="col-3 col-form-label">Start Time</label>

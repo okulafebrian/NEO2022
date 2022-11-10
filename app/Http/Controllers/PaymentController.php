@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AccountMail;
 use App\Mail\InvoiceMail;
+use App\Mail\PaymentMail;
 use App\Models\Competition;
 use App\Models\DebateTeam;
 use App\Models\Invoice;
@@ -135,27 +137,33 @@ class PaymentController extends Controller
             ]);
             
             foreach ($payment->registration->participants as $participant) {
-                $password = 'P' . $participant->registrationDetail->competition->id . str_pad($participant->id, 3, '0', STR_PAD_LEFT);
+                $id = str_pad($participant->id, 3, '0', STR_PAD_LEFT);
+                $username = strtolower(explode(' ', trim($participant->name ))[0]) . $id;
+                $password = 'P' . $id;
 
                 $participant->update([
+                    'username' => $username,
                     'password' => Hash::make($password),
                 ]);
+
+                // SEND PARTICIPANT ACCOUNT INFORMATION
+                Mail::to($participant->email)->send(new AccountMail($participant));
             }
 
             // SEND INVOICE MAIL
-            Mail::to($payment->registration->user->email)->send(new InvoiceMail($payment));
+            Mail::to($payment->registration->user->email)->send(new PaymentMail($payment));
         });
 
-        return redirect()->route('registrations.manage')->with('success', 'Invoice sent successfully.');
+        return redirect()->route('registrations.manage')->with('success', 'Payment accepted.');
     }
 
     public function reject(Payment $payment)
     {   
-        $payment->update([
-            'is_verified' => 0,
-        ]);
+        $payment->delete();
 
-        return redirect()->route('registrations.manage')->with('success', 'Payment rejected');
+        Mail::to($payment->registration->user->email)->send(new PaymentMail($payment));
+
+        return redirect()->route('registrations.manage')->with('success', 'Payment rejected.');
     }
 
     public function downloadInvoice(Payment $payment)

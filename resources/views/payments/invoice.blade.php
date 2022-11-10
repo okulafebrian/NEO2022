@@ -55,8 +55,7 @@
         <table>
             <tr>
                 <td colspan="2">
-                    <img src="C:\xampp\htdocs\NEO2022\public\storage\images\assets\logo_bnec.jpg" alt=""
-                        width="25%">
+                    <img src="C:\xampp\htdocs\NEO2022\public\storage\images\assets\BNEC.png" alt="BNEC" width="25%">
                 </td>
             </tr>
             <tr>
@@ -112,7 +111,7 @@
             <tr>
                 <td colspan="4" style="background-color: #F4B083">TOTAL</td>
                 <td style="background-color: #FFF2CC">
-                    Rp {{ number_format($payment->payment_amount, 0, '.', '.') }}
+                    Rp {{ number_format($payment->amount, 0, '.', '.') }}
                 </td>
             </tr>
         </table>
@@ -126,15 +125,11 @@
             </tr>
             <tr>
                 <td style="width: 22%">Bank Account Number</td>
-                <td>: 6580658928</td>
+                <td>: 6891065016</td>
             </tr>
             <tr>
                 <td style="width: 22%">Bank Account Name</td>
-                <td>: BCA</td>
-            </tr>
-            <tr>
-                <td style="width: 22%">Bank Name</td>
-                <td>: Diva Salma Kamilya Winoto</td>
+                <td>: Monica Audrey</td>
             </tr>
             <tr>
                 <td style="width: 22%">Bank Address</td>
@@ -144,7 +139,7 @@
 
         <div style="font-size: 13px; text-align: center;">
             <p>Approved By,</p>
-            <img src="" alt="">
+            <img src="" alt="" >
             <p>Wisnu</p>
             <p>President of BINUS English Club</p>
         </div>

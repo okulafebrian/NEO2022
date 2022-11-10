@@ -12,9 +12,11 @@ use App\Http\Controllers\ParticipantAuthController;
 use App\Http\Controllers\ParticipantController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\QualificationController;
+use App\Http\Controllers\RefundController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ReRegistrationController;
 use App\Http\Controllers\RoundController;
+use App\Http\Controllers\SubmissionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -29,7 +31,6 @@ Route::resource('environments', EnvironmentController::class);
 Route::resource('access-controls', AccessControlController::class);
 Route::resource('rounds', RoundController::class);
 Route::resource('attendances', AttendanceController::class);
-Route::resource('submissions', SubmissionController::class);
 
 
 // Participant Login
@@ -37,6 +38,11 @@ Route::prefix('participant')->name('participant.')->group(function () {
     Route::get('login', [LoginController::class, 'showParticipantLoginForm'])->name('login');
     Route::post('login/auth', [LoginController::class, 'participantLogin'])->name('login-auth');
     Route::get('dashboard', ParticipantController::class)->name('dashboard');
+});
+
+// Participant
+Route::prefix('participants')->name('participants.')->group(function () {
+    Route::get('export', [ParticipantController::class, 'export'])->name('export');
 });
 Route::resource('participants', ParticipantController::class);
 
@@ -59,6 +65,15 @@ Route::prefix('payments')->name('payments.')->group(function () {
 });
 Route::resource('payments', PaymentController::class)->except('create');
 
+
+// Refund
+Route::prefix('refunds')->name('refunds.')->group(function () {
+    Route::get('{registration}/create', [RefundController::class, 'create'])->name('create');
+    Route::put('{refund}/accept', [RefundController::class, 'accept'])->name('accept');
+    Route::put('{refund}/reject', [RefundController::class, 'reject'])->name('reject');
+});
+Route::resource('refunds', RefundController::class)->except('create');
+
 // Debate Team Name
 Route::prefix('debate-teams')->name('debate-teams.')->group(function () {
     Route::put('{debateTeam}/accept', [DebateTeamController::class, 'accept'])->name('accept');
@@ -73,6 +88,12 @@ Route::prefix('qualifications')->name('qualifications.')->group(function () {
     Route::get('{round}/create/{competition}', [QualificationController::class, 'create'])->name('create');
 });
 Route::resource('qualifications', QualificationController::class)->except('create');
+
+// Submission
+Route::prefix('submissions')->name('submissions.')->group(function () {
+    Route::get('{submission}/download', [SubmissionController::class, 'download'])->name('download');
+});
+Route::resource('submissions', SubmissionController::class);
 
 
 

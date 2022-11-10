@@ -3,7 +3,7 @@
         <div class="card border-0 bg-transparent mt-5">
             <div class="text-center">
                 <a href="{{ route('home') }}">
-                    <img src="/storage/images/assets/logo_neo_complete.png" alt="NEO" width="50%">
+                    <img src="/storage/images/assets/NEO_2.webp" alt="NEO" width="55%">
                 </a>
                 <h2 class="mt-3 text-primary">{{ __('Welcome Back, Contenders') }}</h3>
             </div>
@@ -13,11 +13,12 @@
                     @csrf
 
                     <div class="mb-3">
-                        <label for="email" class="form-label">{{ __('Email Address') }}</label>
-                        <input id="email" type="text" class="form-control @error('email') is-invalid @enderror"
-                            name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                        <label for="username" class="form-label">{{ __('Username') }}</label>
+                        <input id="username" type="text"
+                            class="form-control @error('username') is-invalid @enderror" name="username"
+                            value="{{ old('username') }}" required autocomplete="username" autofocus>
 
-                        @error('email')
+                        @error('username')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
@@ -37,7 +38,7 @@
                         @enderror
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100">
+                    <button type="submit" class="btn btn-primary py-2 w-100">
                         {{ __('Login') }}
                     </button>
                 </form>

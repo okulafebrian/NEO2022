@@ -3,7 +3,7 @@
     <x-slot name="navbarAdmin"></x-slot>
 
     <div class="container" style="padding: 6rem 0; max-width: 60rem">
-        <h3 class="mb-4 text-primary">Edit Competition</h3>
+        <h4 class="mb-4 fw-semibold text-primary">Edit Competition</h4>
 
         <form method="POST" action="{{ route('competitions.update', $competition) }}" enctype="multipart/form-data">
             @csrf
@@ -62,11 +62,11 @@
                         <div class="col">
                             <select class="form-select" name="category" required>
                                 <option selected disabled value="">Select Category</option>
-                                <option {{ $competition->category == 'Junior High School' ? 'selected' : '' }}>
-                                    Junior High School
+                                <option {{ $competition->category == 'Junior High' ? 'selected' : '' }}>
+                                    Junior High
                                 </option>
-                                <option {{ $competition->category == 'Senior High School' ? 'selected' : '' }}>
-                                    Senior High School</option>
+                                <option {{ $competition->category == 'Senior High' ? 'selected' : '' }}>
+                                    Senior High</option>
                                 <option {{ $competition->category == 'University' ? 'selected' : '' }}>
                                     University
                                 </option>

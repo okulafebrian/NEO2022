@@ -1,12 +1,9 @@
-<x-app title="NEO 2022">
+<x-app title="Login | NEO 2022">
     <div class="container" style="max-width: 28rem">
         <div class="card border-0 bg-transparent mt-5">
-            <div class="text-center">
-                <a href="{{ route('home') }}">
-                    <img src="/storage/images/assets/logo_neo_complete.png" alt="NEO" width="50%">
-                </a>
-                <h2 class="mt-3 text-primary">{{ __('Sign in') }}</h3>
-            </div>
+            <a href="{{ route('home') }}" class="text-center">
+                <img src="/storage/images/assets/NEO_2.webp" alt="NEO" width="55%">
+            </a>
 
             <div class="card-body">
                 <form method="POST" action="{{ route('login') }}">
@@ -44,13 +41,13 @@
                         @enderror
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100">
+                    <button type="submit" class="btn btn-primary py-2 w-100">
                         {{ __('Login') }}
                     </button>
                 </form>
 
                 <div class="mt-4">
-                    <a class="btn btn-outline-primary w-100" href="{{ route('participant.login') }}">
+                    <a class="btn btn-outline-primary py-2 w-100" href="{{ route('participant.login') }}">
                         {{ __('Login as participant') }}
                     </a>
                 </div>

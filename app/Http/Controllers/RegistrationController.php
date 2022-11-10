@@ -7,6 +7,7 @@ use App\Models\Competition;
 use App\Models\DebateTeam;
 use App\Models\Environment;
 use App\Models\Participant;
+use App\Models\Refund;
 use App\Models\Registration;
 use App\Models\RegistrationDetail;
 use App\Models\Representative;
@@ -21,7 +22,7 @@ class RegistrationController extends Controller
     {
         $this->middleware(['auth']);
         $this->middleware(['user'])->except('manage');
-        $this->middleware(['admin'])->only('manage', 'destroy');
+        $this->middleware(['admin'])->only('manage');
         // $this->middleware('access.control:10')->except('index');
     }
     
@@ -93,10 +94,18 @@ class RegistrationController extends Controller
         ]);
         
         $registration = DB::transaction(function () use($request) {
+            $registration_time  = Environment::where('name', 'REGISTRATION')->first();
 
+            $payment_due = Carbon::now()->addHours(5);
+            
+            if (strtotime(Carbon::now()->addHours(5)) > strtotime($registration_time->end_time)) {
+                $diff = round((strtotime($registration_time->end_time) - strtotime(Carbon::now())) / 60);
+                $payment_due = Carbon::now()->addMinutes($diff);
+            }
+            
             $registration = Registration::create([
                 'user_id' => auth()->user()->id,
-                'payment_due' => Carbon::now()->addHours(5),
+                'payment_due' => $payment_due,
             ]);
 
             if ($request->has('noRepresentative') == false) {
@@ -161,15 +170,9 @@ class RegistrationController extends Controller
             return $registration;
         });
        
-        return redirect()->route('payments.create', $registration)->with('success', 'Registration successful!');
+        return redirect()->route('payments.create', $registration);
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Registration  $registration
-     * @return \Illuminate\Http\Response
-     */
+    
     public function show(Registration $registration)
     {   
         //
@@ -213,6 +216,8 @@ class RegistrationController extends Controller
             'pendingPayments' => Registration::doesntHave('payment')->where('payment_due', '>=', Carbon::now())->orderBy('created_at', 'DESC')->get(),
             'verifiedRegistrations' => Registration::whereRelation('payment', 'is_verified', 1)->orderBy('created_at', 'DESC')->get(),
             'expiredRegistrations' => Registration::doesntHave('payment')->where('payment_due', '<', Carbon::now())->orderBy('created_at', 'DESC')->get(),
+            'refundRegistrations' => Registration::whereHas('refund')->orderBy('created_at', 'DESC')->get(),
+            'newRefund' => Refund::where('is_verified', null)->count(),
             'competitionSummaries' => $competitionSummaries,
         ]);
     }

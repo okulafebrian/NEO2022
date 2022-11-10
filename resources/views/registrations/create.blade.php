@@ -28,11 +28,11 @@
                                     <div class="col-md">
                                         <label class="form-label">Phone Number</label>
                                         <input type="text" class="form-control" name="representative_phone" required>
+                                        <div class="form-text">E.g. 081367889900</div>
                                     </div>
                                 </div>
                                 <div>
                                     <input class="form-check-input" type="checkbox" name="noRepresentative">
-                                    {{-- <input type="hidden" name="noRepresentative" value="0"> --}}
                                     <label class="form-check-label">
                                         We have no representative
                                     </label>
@@ -78,14 +78,15 @@
 
                                         @if ($competition->name == 'Debate')
                                             <div class="row mb-4">
-                                                <div class="col-6">
+                                                <div class="col-12">
                                                     <label class="form-label">Team Name</label>
                                                     <input type="text" class="form-control" name="debate_team_name[]"
                                                         required>
+                                                    <div class="form-text">E.g. BINUS A, Pluto, The Minions</div>
                                                 </div>
                                             </div>
 
-                                            <ul class="nav nav-tabs mb-4" id="tabs-tab" role="tablist">
+                                            <ul class="nav nav-tabs mb-4" id="formTab" role="tablist">
                                                 <li class="nav-item" role="presentation">
                                                     <button class="nav-link active" id="speakerA-tab"
                                                         data-bs-toggle="pill"
@@ -99,7 +100,7 @@
                                                 </li>
                                             </ul>
 
-                                            <div class="tab-content" id="tabs-tabContent">
+                                            <div class="tab-content">
                                                 <div class="tab-pane fade show active"
                                                     id="speakerA{{ $competition->id }}{{ $j }}"
                                                     role="tabpanel">

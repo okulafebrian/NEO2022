@@ -16,7 +16,7 @@
                     <div class="card-body">
                         <div class="table-custom mb-3">
                             <div>
-                                <small class="text-muted">Destination Bank</small>
+                                <p class="mb-1 text-muted">Destination Bank</p>
                                 <h5 class="mb-0">BCA</h5>
                             </div>
                             <img src="/storage/images/assets/BCA.webp" alt="BCA" width="60" class="mt-auto">
@@ -24,25 +24,32 @@
 
                         <div class="table-custom mb-3">
                             <div>
-                                <small class="fs-sm text-muted">Monica Audrey</small>
+                                <p class="mb-1 text-muted">Monica Audrey</p>
                                 <h5 id="destAccountNumber" class="mb-0">689 106 5016</h5>
                             </div>
                             <button class="btn btn-outline-primary rounded-3 mt-auto" type="button" id="copy">
-                                <small>Copy</small>
+                                Copy
                             </button>
                         </div>
 
-                        <div class="table-custom">
+                        <div class="table-custom mb-3">
                             <div>
-                                <small class="fs-sm text-muted">Transfer Amount</small>
-                                <h5 class="mb-0">
-                                    Rp {{ number_format($payment_amount, 0, '.', '.') }}
+                                <p class="mb-1 text-muted">Transfer Amount</p>
+                                <h5 class="mb-0 transfer-amount">
+                                    Rp {{ number_format($payment_amount + 5, 0, '.', '.') }}
                                 </h5>
                             </div>
                             <button type="button" class="btn btn-outline-primary rounded-3 mt-auto"
                                 data-bs-toggle="collapse" data-bs-target="#paymentDetails">
-                                <small>Show Details</small>
+                                Show Details
                             </button>
+                        </div>
+                        
+                        <div class="alert alert-warning border-0 py-2">
+                            <small>
+                                <i class="bi bi-exclamation-circle text-danger me-1"></i>
+                                Please transfer the exact amount (including the last 3 digits)
+                            </small>
                         </div>
 
                         <div class="collapse mt-3" id="paymentDetails">
@@ -87,8 +94,10 @@
                                     <h4 class="mb-0" style="font-size: 20px">Confirm Your Payment</h4>
                                 </div>
                                 <div class="col text-md-end">
-                                    <span id="timer" class="badge bg-red-100 text-danger"
-                                        style="width: 6rem"></span>
+                                    <div class="badge bg-red-100 text-danger" style="width: 6rem">
+                                        <i class="bi bi-clock me-1"></i>
+                                        <span id="timer"></span>
+                                    </div>
                                 </div>
                             </div>
 
@@ -103,7 +112,7 @@
                                         <button type="button" class="btn btn-outline-light w-100 rounded-2"
                                             data-bs-toggle="modal" data-bs-target="#paymentMethod">
                                             <div class="d-flex justify-content-between align-items-center">
-                                                <span id="paymentMethodName" style="font-size:16px; font-weight:400">
+                                                <span id="paymentMethodName" style="font-weight:400">
                                                     Select payment method
                                                 </span>
                                                 <i class="fa-solid fa-chevron-right"></i>
@@ -145,7 +154,7 @@
                                         class="form-control @error('payment_proof') is-invalid @enderror"
                                         name="payment_proof" value="{{ old('payment_proof') }}" required>
                                     <div class="form-text">
-                                        Format: JPG,JPEG,PNG, Max: 1MB
+                                        Format: JPG, JPEG, PNG | Max: 1MB
                                     </div>
 
                                     @error('payment_proof')

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Payment extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     protected $table = 'payments';
     protected $primaryKey = 'id';
     protected $timestamp = true;

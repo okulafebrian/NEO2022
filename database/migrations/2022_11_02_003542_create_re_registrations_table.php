@@ -17,6 +17,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('qualification_id');
             $table->foreign('qualification_id')->references('id')->on('qualifications')->onDelete('cascade');
+            $table->string('payment_proof');
+            $table->boolean('is_verified')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

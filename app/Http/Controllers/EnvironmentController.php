@@ -15,9 +15,13 @@ class EnvironmentController extends Controller
     }
 
     public function index()
-    {
+    {   
+        $periodEnvironments = Environment::where('is_shown', null)->get();
+        $toggleEnvironments = Environment::where('start_time', null)->get();
+
         return view('environments.index', [
-            'environments' => Environment::all()
+            'periodEnvironments' => $periodEnvironments,
+            'toggleEnvironments' => $toggleEnvironments,
         ]);
     }
 
@@ -29,16 +33,21 @@ class EnvironmentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
-            'start_time' => 'required|date',
-            'end_time' => 'required|date',
+            'name' => 'required|string'
         ]);
 
-        Environment::create([
-            'name' => strtoupper($request->name),
-            'start_time' => $request->start_time,
-            'end_time' => $request->end_time,
-        ]);
+        if ($request->has('is_shown')) {
+            Environment::create([
+                'name' => strtoupper($request->name),
+                'is_shown' => $request->is_shown
+            ]);
+        } else {
+            Environment::create([
+                'name' => strtoupper($request->name),
+                'start_time' => $request->start_time,
+                'end_time' => $request->end_time,
+            ]);
+        }
 
         return redirect()->route('environments.index')->with('success', $request->name . ' sucessfully added');
     }
@@ -56,7 +65,7 @@ class EnvironmentController extends Controller
     }
 
     public function update(Request $request, Environment $environment)
-    {
+    {   
         $request->validate([
             'name' => 'required|string',
             'start_time' => 'required|date',

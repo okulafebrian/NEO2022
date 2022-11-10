@@ -32,7 +32,7 @@
                                             data-bs-toggle="pill"
                                             data-bs-target="#competitionTab{{ $competition->id }}{{ $round->id }}"
                                             type="button" role="tab">
-                                            {{ $competition->name != 'Speech' ? $competition->name : $competition->name . ' - ' . $competition->category_init }}
+                                            {{ $competition->name != 'Speech' ? $competition->name : $competition->name . ' ' . $competition->category }}
                                         </button>
                                     </li>
                                 @endforeach
@@ -43,37 +43,50 @@
                                     <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}"
                                         id="competitionTab{{ $competition->id }}{{ $round->id }}" role="tabpanel"
                                         tabindex="0">
-                                        @if (count($registrationDetails[$round->id][$competition->id]) > 0)
-                                            <table class="table table-participant">
+                                        @if (count($qualifications[$round->id][$competition->id]) > 0)
+                                            <table class="table">
                                                 <thead class="table-light">
                                                     <tr class="text-secondary">
-                                                        <th>NAME</th>
-                                                        <th>STATUS</th>
+                                                        <th class="align-middle">NAME</th>
+                                                        <th class="align-middle text-end">
+                                                            <a href="{{ route('qualifications.create', [$round, $competition]) }}"
+                                                                class="btn btn-outline-light btn-sm">
+                                                                <i class="fa-solid fa-plus"></i>
+                                                            </a>
+                                                        </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach ($registrationDetails[$round->id][$competition->id] as $registrationDetail)
+                                                    @foreach ($qualifications[$round->id][$competition->id] as $qualification)
                                                         <tr>
                                                             <td class="align-middle">
-                                                                {{ $registrationDetail->participant->name }}
+                                                                {{ $competition->name == 'Debate' ? $qualification->registrationDetail->debateTeam->name : $qualification->registrationDetail->participants[0]->name }}
                                                             </td>
-                                                            <td class="align-middle"></td>
+                                                            <td class="align-middle text-end">
+                                                                <button class="btn btn-outline-light btn-sm"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#remove{{ $qualification->id }}">
+                                                                    <i class="bi bi-trash3"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                        <x-modal-confirmation action="remove"
+                                                            title="Remove Qualification" name="qualifications"
+                                                            :model='$qualification'>
+                                                            Are you sure want to remove
+                                                            {{ $competition->name == 'Debate' ? $qualification->registrationDetail->debateTeam->name : $qualification->registrationDetail->participants[0]->name }}
+                                                            from {{ $round->name }}?
+                                                        </x-modal-confirmation>
                                                     @endforeach
                                                 </tbody>
                                             </table>
                                         @else
-                                            <div class="card border-0">
-                                                <div class="text-center mb-4">
-                                                    <img src="/storage/images/assets/empty_box.webp" alt="No Data"
-                                                        width="20%">
-                                                    <h4 class="mb-3 fw-semibold" style="font-size: 20px">
-                                                        No Data Found
-                                                    </h4>
-                                                    <a href="{{ route('qualifications.create', [$round, $competition]) }}"
-                                                        class="btn btn-primary py-2 px-5" type="button">
-                                                        Add Data
-                                                    </a>
-                                                </div>
+                                            <div class="text-center">
+                                                <img src="/storage/images/assets/empty.webp" alt="No Data Found"
+                                                    width="20%">
+                                                <h5 class="mb-3 fw-semibold">No Data Found</h5>
+                                                <a href="{{ route('qualifications.create', [$round, $competition]) }}"
+                                                    class="btn btn-primary py-2 px-4 mb-2 rounded-3">Add Data</a>
                                             </div>
                                         @endif
                                     </div>

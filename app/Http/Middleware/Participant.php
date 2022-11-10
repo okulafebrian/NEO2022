@@ -11,7 +11,7 @@ class Participant
     public function handle(Request $request, Closure $next)
     {
         if (!Auth::guard('participant')->check()) {
-            return redirect()->back()->with('error', 'Not authorized!');
+            return redirect()->route('participant.login');
         }
         
         return $next($request);

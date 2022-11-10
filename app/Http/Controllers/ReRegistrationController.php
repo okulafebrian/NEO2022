@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Competition;
-use App\Models\CompetitionTeam;
-use App\Models\DebateTeamName;
 use App\Models\Participant;
+use App\Models\Qualification;
+use App\Models\RegistrationDetail;
 use App\Models\ReRegistration;
 use App\Models\Round;
 use Illuminate\Http\Request;
@@ -17,9 +17,9 @@ class ReRegistrationController extends Controller
     
     public function __construct()
     {
-        $this->middleware(['auth']);
-        $this->middleware(['user'])->except('manage');
-        $this->middleware(['admin'])->only('manage', 'destroy');
+        $this->middleware(['auth'])->only('index');
+        $this->middleware(['participant'])->except('index');
+        $this->middleware(['admin'])->only('index');
         // $this->middleware('access.control:10')->except('index');
     }
     
@@ -27,57 +27,61 @@ class ReRegistrationController extends Controller
     {   
         $rounds = Round::all();
         $competitions = Competition::all();
-        $participants = [];
+        $qualifications = [];
 
         foreach ($rounds as $round) {
             foreach ($competitions as $competition) {
-                $temp = Participant::whereRelation('competitionTeam', 'competition_id', $competition->id)
-                        ->whereRelation('rounds', 'rounds.id', $round->id)->get();
+                $temp = Qualification::where('round_id', $round->id)
+                        ->whereRelation('registrationDetail', 'competition_id', $competition->id)->get();
 
-                $participants[$round->id][$competition->id] =  $temp;
+                $qualifications[$round->id][$competition->id] =  $temp;
             }
         }
         
         return view('re-registrations.index', [
             'rounds' => $rounds,
             'competitions' => $competitions,
-            'participants' => $participants,
+            'qualifications' => $qualifications,
         ]);
     }
 
-    public function create(Round $round, Competition $competition)
+    public function create()
     { 
-        // return view('re-registrations.create', [
-        //     'round' => $round,
-        //     'competition' => $competition
-        // ]);
+        //
     }
 
     public function store(Request $request)
     {   
-        $data = [];
+        $request->validate([
+            'qualification_id' => 'required|integer',
+            'participant_id' => 'required|integer',
+            'vaccination' => 'required|file|mimes:jpg,jpeg,png,pdf'
+        ]);
 
-        if ($request->competition_name == 'Debate') {
-            $participants = Participant::whereIn('registration_detail_id', $request->registration_detail_id)->get();
+        DB::transaction(function () use($request) {
+            $participant = Participant::find($request->participant_id);
             
-            foreach ($participants as $participant) {
-                $data[] = [
-                    'round_id' => $request->round_id,
-                    'participant_id' => $participant->id
-                ]; 
+            if ($request->hasFile('vaccination')) {
+                $extension = $request->file('vaccination')->getClientOriginalExtension();
+                $proofNameToStore = $participant->name . '_Vaccination' . '.' . $extension;
+                $request->file('vaccination')->storeAs('public/vaccinations', $proofNameToStore);
             }
-        } else {
-            for ($i=0; $i < count($request->participant_id); $i++) { 
-                $data[] = [
-                    'round_id' => $request->round_id,
-                    'participant_id' => $request->participant_id[$i]
-                ]; 
+
+            $participant->update([
+                'allergy' => $request->allergy == null ? 'None' : $request->allergy,
+                'vaccination' => $proofNameToStore
+            ]);
+
+            $reRegistration = ReRegistration::where('qualification_id', $request->qualification_id)->first();
+            
+            if (!$reRegistration) {
+                ReRegistration::create([
+                    'qualification_id' => $request->qualification_id
+                ]);
             }
-        }
+        });
 
-        ReRegistration::insert($data);
-
-        return redirect()->route('re-registrations.index')->with('success', 'Data sucessfully added');
+        return redirect()->back();
     }
 
     public function show(ReRegistration $reRegistration)

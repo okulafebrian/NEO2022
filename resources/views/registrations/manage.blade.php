@@ -4,7 +4,7 @@
     <x-slot name="sidebarAdmin"></x-slot>
 
     <div class="container p-5">
-        <h3 class="mb-4 text-primary">Registration List</h3>
+        <h4 class="mb-4 fw-semibold text-primary">Registration List</h4>
 
         <div class="card card-custom p-0 px-4 mb-3">
             <ul class="nav nav-tabs border-0" id="registrationTab" role="tablist">
@@ -32,7 +32,10 @@
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" data-bs-toggle="tab" data-bs-target="#refund" type="button"
-                        role="tab">Refund</button>
+                        role="tab">
+                        Refund
+                        {{ $newRefund > 0 ? '(' . $newRefund . ')' : '' }}
+                    </button>
                 </li>
             </ul>
         </div>
@@ -41,12 +44,12 @@
             <div class="tab-pane fade show active" id="to-pay" role="tabpanel" tabindex="0">
                 @forelse ($pendingPayments as $registration)
                     <x-card-registration :registration='$registration' status='to-pay' />
-                    <x-modal-registration-details :registration='$registration' :competitionSummaries='$competitionSummaries' />
+                    <x-modal-registration-details status='to-pay' :registration='$registration' :competitionSummaries='$competitionSummaries' />
                 @empty
                     <div class="card card-custom">
                         <div class="text-center mb-4">
-                            <img src="/storage/images/assets/empty-cart.png" alt="" width="20%">
-                            <h4>No Registration Yet</h4>
+                            <img src="/storage/images/assets/empty.webp" alt="No Registration Yet" width="20%">
+                            <h5 class="fw-semibold">No Registration Yet</h5>
                         </div>
                     </div>
                 @endforelse
@@ -55,15 +58,15 @@
             <div class="tab-pane fade" id="to-verify" role="tabpanel" tabindex="0">
                 @forelse ($unverifiedRegistrations as $registration)
                     <x-card-registration :registration='$registration' status='to-verify' />
-                    <x-modal-registration-details :registration='$registration' :competitionSummaries='$competitionSummaries' />
+                    <x-modal-registration-details status='to-verify' :registration='$registration' :competitionSummaries='$competitionSummaries' />
 
                     {{-- VERIFY MODAL --}}
-                    <div class="modal fade" id="verify{{ $registration->id }}" tabindex="-1">
+                    <div class="modal fade" id="verifyPayment{{ $registration->id }}" tabindex="-1">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content border-0">
-                                <div class="d-flex justify-content-between p-4 border-bottom ">
-                                    <h4 class="m-auto ">Registration Details</h4>
-                                    <i class="bi bi-x fa-2xl" role="button" data-bs-dismiss="modal"></i>
+                                <div class="d-flex justify-content-between align-items-center p-4 border-bottom">
+                                    <h5 class="m-auto">Registration Details</h5>
+                                    <i class="fa-solid fa-xmark fa-xl" role="button" data-bs-dismiss="modal"></i>
                                 </div>
                                 <div class="modal-body">
                                     <div class="row">
@@ -119,8 +122,8 @@
                 @empty
                     <div class="card card-custom">
                         <div class="text-center mb-4">
-                            <img src="/storage/images/assets/empty-cart.png" alt="" width="20%">
-                            <h4>No Registration Yet</h4>
+                            <img src="/storage/images/assets/empty.webp" alt="No Registration Yet" width="20%">
+                            <h5 class="fw-semibold">No Registration Yet</h5>
                         </div>
                     </div>
                 @endforelse
@@ -129,12 +132,12 @@
             <div class="tab-pane fade" id="verified" role="tabpanel" tabindex="0">
                 @forelse ($verifiedRegistrations as $registration)
                     <x-card-registration :registration='$registration' status='verified' />
-                    <x-modal-registration-details :registration='$registration' :competitionSummaries='$competitionSummaries' />
+                    <x-modal-registration-details status='verified' :registration='$registration' :competitionSummaries='$competitionSummaries' />
                 @empty
                     <div class="card card-custom">
                         <div class="text-center mb-4">
-                            <img src="/storage/images/assets/empty-cart.png" alt="" width="20%">
-                            <h4>No Registration Yet</h4>
+                            <img src="/storage/images/assets/empty.webp" alt="No Registration Yet" width="20%">
+                            <h5 class="fw-semibold">No Registration Yet</h5>
                         </div>
                     </div>
                 @endforelse
@@ -143,24 +146,134 @@
             <div class="tab-pane fade" id="expired" role="tabpanel" tabindex="0">
                 @forelse ($expiredRegistrations as $registration)
                     <x-card-registration :registration='$registration' status='expired' />
-                    <x-modal-registration-details :registration='$registration' :competitionSummaries='$competitionSummaries' />
+                    <x-modal-registration-details status='expired' :registration='$registration' :competitionSummaries='$competitionSummaries' />
                 @empty
                     <div class="card card-custom">
                         <div class="text-center mb-4">
-                            <img src="/storage/images/assets/empty-cart.png" alt="" width="20%">
-                            <h4>No Registration Yet</h4>
+                            <img src="/storage/images/assets/empty.webp" alt="No Registration Yet" width="20%">
+                            <h5 class="fw-semibold">No Registration Yet</h5>
                         </div>
                     </div>
                 @endforelse
             </div>
 
             <div class="tab-pane fade" id="refund" role="tabpanel" tabindex="0">
-                <div class="card card-custom">
-                    <div class="text-center mb-4">
-                        <img src="/storage/images/assets/empty-cart.png" alt="" width="20%">
-                        <h4>No Registration Yet</h4>
+                @forelse ($refundRegistrations as $registration)
+                    <x-card-registration :registration='$registration' status='refund' />
+                    <x-modal-registration-details status='refund' :registration='$registration' :competitionSummaries='$competitionSummaries' />
+
+                    {{-- VERIFY MODAL --}}
+                    <div class="modal fade" id="verifyRefund{{ $registration->refund->id }}" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content border-0">
+                                <div class="d-flex justify-content-between align-items-center p-4 border-bottom">
+                                    <h5 class="m-auto">Refund Request Details</h5>
+                                    <i class="fa-solid fa-xmark fa-xl" role="button" data-bs-dismiss="modal"></i>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <img src="/storage/images/refund_proofs/{{ $registration->refund->payment_proof }}"
+                                                alt="{{ $registration->refund->payment_proof }}" width="100%">
+                                        </div>
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <small class="text-muted">Payment Method</small>
+                                                <h6>{{ $registration->refund->payment_method }}</h6>
+                                            </div>
+                                            <div class="mb-3">
+                                                <small class="text-muted">Account Number</small>
+                                                <h6>{{ $registration->refund->account_number }}</h6>
+                                            </div>
+                                            <div class="mb-3">
+                                                <small class="text-muted">Account Holder Name</small>
+                                                <h6>{{ $registration->refund->account_name }}</h6>
+                                            </div>
+                                            <div class="mb-4">
+                                                <small class="text-muted">Payment Amount</small>
+                                                <h6>
+                                                    Rp
+                                                    {{ number_format($registration->refund->payment_amount, 0, '.', '.') }}
+                                                </h6>
+                                            </div>
+
+                                            <hr style="border-style: dashed">
+
+                                            <div class="d-flex gap-2">
+                                                <div class="col">
+                                                    <form
+                                                        action="{{ route('refunds.reject', $registration->refund) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <button type="submit"
+                                                            class="btn btn-outline-primary w-100 py-2"
+                                                            type="submit">Reject</button>
+                                                    </form>
+                                                </div>
+                                                <div class="col">
+                                                    <button type="submit" class="btn btn-primary w-100 py-2"
+                                                        type="submit"
+                                                        data-bs-target="#confirmRefund{{ $registration->refund->id }}"
+                                                        data-bs-toggle="modal">Accept</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
+
+                    <div class="modal fade" id="confirmRefund{{ $registration->refund->id }}" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content border-0">
+                                <div class="modal-header d-flex justify-content-start">
+                                    <a type="button" class="text-dark px-2"
+                                        data-bs-target="#verifyRefund{{ $registration->refund->id }}"
+                                        data-bs-toggle="modal">
+                                        <i class="fa-solid fa-chevron-left"></i>
+                                    </a>
+                                    <h5 class="modal-title ms-2">
+                                        Refund Confirmation
+                                    </h5>
+                                </div>
+                                <div class="modal-body">
+                                    <h6>Transfer <span class="fw-semibold text-primary">Rp {{ number_format($registration->refund->payment_amount, 0, '.', '.') }}</span> to the account below:</h6>
+                                    <div class="alert alert-purple-200 border-0 py-2">
+                                        <p class="mb-1 text-muted">{{ $registration->refund->dest_account_name }}</p>
+                                        <p class="m-0">{{ $registration->refund->bank_name }} {{ $registration->refund->dest_account_number }}</p>
+                                    </div>
+                                    
+                                    <form action="{{ route('refunds.accept', $registration->refund) }}"
+                                        method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="mb-4">
+                                            <label class="form-label">Upload Refund Transfer Proof</label>
+                                            <input class="form-control" type="file" name="proof" required>
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="button" class="btn btn-outline-light py-2 px-5"
+                                                data-bs-target="#verifyRefund{{ $registration->refund->id }}"
+                                        data-bs-toggle="modal">
+                                                Cancel
+                                            </button>
+                                            @method('PUT')
+                                            <button type="submit" class="btn btn-primary py-2 px-5">Confirm</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="card card-custom">
+                        <div class="text-center mb-4">
+                            <img src="/storage/images/assets/empty.webp" alt="No Registration Yet" width="20%">
+                            <h5 class="fw-semibold">No Registration Yet</h5>
+                        </div>
+                    </div>
+                @endforelse
             </div>
         </div>
 

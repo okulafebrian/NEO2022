@@ -2,7 +2,7 @@
 <td class="header">
 <a href="{{ $url }}" style="display: inline-block;">
 @if (trim($slot) === 'Laravel')
-<img src="https://laravel.com/img/notification-logo.png" class="logo" alt="Laravel Logo">
+<img src="/storage/images/assets/NEO_2" class="logo" alt="NEO 2022">
 @else
 {{ $slot }}
 @endif

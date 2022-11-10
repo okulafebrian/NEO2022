@@ -1,8 +1,8 @@
-<div class="modal fade" id="show{{ $registration->id }}" tabindex="-1">
+<div class="modal fade" id="show{{ $status }}{{ $registration->id }}" tabindex="-1">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content border-0">
-            <div class="modal-header d-flex justify-content-between text-primary p-4">
-                <h5 class="m-auto ">Registration Details</h5>
+            <div class="modal-header d-flex justify-content-between align-items-center p-4">
+                <h5 class="m-auto fw-semibold">Registration Details</h5>
                 <i class="fa-solid fa-xmark fa-xl" role="button" data-bs-dismiss="modal"></i>
             </div>
             <div class="modal-body p-0">
@@ -164,20 +164,26 @@
                             @endforeach
                         </section>
                     </div>
-                    <div class="col-lg-4 box">
-                        <section class="p-4 sticky-top">
-                            <div class="fst-italic mb-3" style="font-size: 12px; line-height: 19px">
-                                If there is an incorrect data, please inform the committee.
-                            </div>
 
-                            <button type="button" class="btn btn-outline-light py-2 mb-2 w-100">
-                                Contact Committee
-                            </button>
-                            <button type="button" class="btn btn-outline-light py-2 mb-2 w-100">
-                                Payment Proof
-                            </button>
-                        </section>
-                    </div>
+                    @if (auth()->user()->role != 'ADMIN')
+                        <div class="col-lg-4 border-custom">
+                            <section class="p-4 sticky-top">
+                                <div class="fst-italic mb-3" style="font-size: 12px; line-height: 19px">
+                                    If there is an incorrect data, please contact the committee.
+                                </div>
+
+                                <button type="button" class="btn btn-outline-light py-2 mb-2 w-100">
+                                    Contact Committee
+                                </button>
+                                @if ($registration->payment)
+                                    <a href="/storage/images/payment_proofs/{{ $registration->payment->proof }}"
+                                        type="button" target="_blank" class="btn btn-outline-light py-2 mb-2 w-100">
+                                        Payment Proof
+                                    </a>
+                                @endif
+                            </section>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

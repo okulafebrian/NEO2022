@@ -3,7 +3,7 @@
     <x-slot name="navbarAdmin"></x-slot>
 
     <div class="container" style="padding: 6rem 0; max-width: 40rem">
-        <h3 class="mb-4 text-primary">Create Promotion</h3>
+        <h4 class="mb-4 fw-semibold text-primary">Create Environment</h4>
 
         <form method="POST" action="{{ route('environments.store') }}" enctype="multipart/form-data">
             @csrf
@@ -11,16 +11,26 @@
             <div class="card card-custom mb-3">
                 <div class="card-body">
                     <div class="row g-0 mb-3">
-                        <label class="col-3 col-form-label">Name <span class="text-danger">*</span></label>
+                        <label class="col-3 col-form-label">Name</label>
                         <input type="text" class="col form-control" name="name" required>
                     </div>
                     <div class="row g-0 mb-3">
-                        <label class="col-3 col-form-label">Start Time <span class="text-danger">*</span></label>
-                        <input type="datetime-local" class="col form-control" name="start_time" required>
+                        <label class="col-3 col-form-label">Start Time</label>
+                        <input type="datetime-local" class="col form-control" name="start_time">
                     </div>
-                    <div class="row g-0">
-                        <label class="col-3 col-form-label">End Time <span class="text-danger">*</span></label>
-                        <input type="datetime-local" class="col form-control" name="end_time" required>
+                    <div class="row g-0 mb-3">
+                        <label class="col-3 col-form-label">End Time</label>
+                        <input type="datetime-local" class="col form-control" name="end_time">
+                    </div>
+                    <div class="row g-0 mb-3">
+                        <label class="col-3 col-form-label">Enable</label>
+                        <fieldset class="col">
+                            <input type="radio" name="is_shown" class="btn-check" id="yes" value="1">
+                            <label for="yes" class="btn btn-selection rounded-pill">Yes</label>
+
+                            <input type="radio" name="is_shown" class="btn-check" id="no" value="0">
+                            <label for="no" class="btn btn-selection rounded-pill">No</label>
+                        </fieldset>
                     </div>
                 </div>
             </div>

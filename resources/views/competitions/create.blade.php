@@ -3,7 +3,7 @@
     <x-slot name="navbarAdmin"></x-slot>
 
     <div class="container" style="padding: 6rem 0; max-width: 60rem">
-        <h3 class="mb-4 text-primary">Add New Competition</h3>
+        <h4 class="mb-4 fw-semibold text-primary">Add New Competition</h4>
 
         <form method="POST" action="{{ route('competitions.store') }}" enctype="multipart/form-data">
             @csrf
@@ -24,7 +24,7 @@
                             <label for="logo">
                                 <div class="input-img text-center text-secondary">
                                     <div class="input-img-label p-4">
-                                        <img class="icon mb-2" src="/storage/images/assets/add-img.svg" width="70%">
+                                        <img class="icon mb-2" src="/storage/images/assets/add_img.svg" width="70%">
                                         <small>Add Image</small>
                                     </div>
                                     <img class="img-preview" src="#" width="100%" hidden>
@@ -66,11 +66,11 @@
                         <div class="col">
                             <select class="form-select" name="category" required>
                                 <option selected disabled value="">Select Category</option>
-                                <option {{ old('category') == 'Junior High School' ? 'selected' : '' }}>
-                                    Junior High School
+                                <option {{ old('category') == 'Junior High' ? 'selected' : '' }}>
+                                    Junior High
                                 </option>
-                                <option {{ old('category') == 'Senior High School' ? 'selected' : '' }}>
-                                    Senior High School
+                                <option {{ old('category') == 'Senior High' ? 'selected' : '' }}>
+                                    Senior High
                                 </option>
                                 <option {{ old('category') == 'University' ? 'selected' : '' }}>
                                     University

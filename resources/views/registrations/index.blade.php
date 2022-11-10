@@ -8,7 +8,17 @@
 
         @forelse ($registrations as $registration)
 
-            <x-modal-registration-details :registration='$registration' :competitionSummaries='$competitionSummaries' />
+            <x-modal-registration-details status='none' :registration='$registration' :competitionSummaries='$competitionSummaries' />
+            <x-modal-confirmation action="destroy" title="Cancel Registration" name="registrations" :model='$registration'>
+                Are you sure want to cancel your registration?
+            </x-modal-confirmation>
+            <x-modal-confirmation action="create" title="Request Refund" name="refunds" :model='$registration'>
+                Are you sure want to request a refund?
+                <div class="alert alert-primary text-start" role="alert" style="font-size: smaller">
+                    We suggest you to register again according to the previous registration and upload the payment proof
+                    made earlier.
+                </div>
+            </x-modal-confirmation>
 
             <div class="card card-custom mb-3 m-auto" style="max-width: 45rem">
                 <div class="card-body">
@@ -18,14 +28,16 @@
                                 <small class="me-1">
                                     {{ date('j M, H:i', strtotime($registration->created_at)) }}
                                 </small>
-                                @if (time() > strtotime($registration->payment_due) && !$registration->payment)
+                                @if ($registration->refund)
+                                    <span class="badge bg-purple-100 text-primary">Refund</span>
+                                @elseif (time() > strtotime($registration->payment_due) && !$registration->payment)
                                     <span class="badge text-bg-secondary">Registration expired</span>
                                 @elseif (time() <= strtotime($registration->payment_due) && !$registration->payment)
                                     <span class="badge bg-red-100 text-danger">Waiting for payment</span>
                                 @elseif ($registration->payment->is_verified == null)
                                     <span class="badge bg-orange-100 text-orange">Proccesed</span>
                                 @else
-                                    <span class="badge text-bg-success">Success</span>
+                                    <span class="badge bg-green-100 text-success">Registration successful</span>
                                 @endif
                             </div>
 
@@ -54,14 +66,22 @@
                                     @if (strtotime($registration->payment_due) >= time() && !$registration->payment)
                                         <li>
                                             <button type="button" class="dropdown-item p-2 rounded-3"
-                                                data-bs-toggle="modal" data-bs-target="#cancel">
+                                                data-bs-toggle="modal" data-bs-target="#destroy{{ $registration->id }}">
                                                 Cancel Registration
+                                            </button>
+                                        </li>
+                                    @endif
+                                    @if (time() > strtotime($registration->payment_due) && !$registration->payment && !$registration->refund)
+                                        <li>
+                                            <button type="button" class="dropdown-item p-2 rounded-3"
+                                                data-bs-toggle="modal" data-bs-target="#create{{ $registration->id }}">
+                                                Request Refund
                                             </button>
                                         </li>
                                     @endif
                                     <li>
                                         <button type="button" class="dropdown-item p-2 rounded-3"
-                                            data-bs-toggle="modal" data-bs-target="#show{{ $registration->id }}">
+                                            data-bs-toggle="modal" data-bs-target="#shownone{{ $registration->id }}">
                                             Show Details
                                         </button>
                                     </li>
@@ -75,25 +95,19 @@
                         </div>
                     </div>
 
-                    <x-modal-confirmation action="cancel" title="Cancel Registration">
-                        Are you sure want to cancel your registration?
-                    </x-modal-confirmation>
-
                     @if (strtotime($registration->payment_due) >= time() && !$registration->payment)
                         <hr style="border-style: dashed">
 
                         <div class="d-flex justify-content-between">
                             <div>
-                                <span class="text-purple-muted" style="font-size: 12px">
-                                    Payment Due
-                                </span>
+                                <small class="text-purple-muted">Payment Due</small>
                                 <h6 class="mb-0 text-primary fw-semibold">
                                     {{ date('j M, H:i', strtotime($registration->payment_due)) }}
                                 </h6>
                             </div>
                             <a type="button" href="{{ route('payments.create', $registration) }}"
                                 class="btn btn-primary px-4 py-2 rounded-3">
-                                <small>Pay Now</small>
+                                Pay Now
                             </a>
                         </div>
                     @endif
