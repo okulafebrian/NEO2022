@@ -85,10 +85,10 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label class="col-3 col-form-label">Normal Quota <span class="text-danger">*</span></label>
+                        <label class="col-3 col-form-label">Total Quota <span class="text-danger">*</span></label>
                         <div class="col">
-                            <input class="form-control" type="number" name="normal_quota"
-                                value="{{ $competition->normal_quota }}" required>
+                            <input class="form-control" type="number" name="total_quota"
+                                value="{{ $competition->total_quota }}" required>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -126,18 +126,30 @@
             <div class="card card-custom mb-3">
                 <div class="card-body">
                     <h5 class="mb-4">Content</h5>
-                    <textarea class="form-control check-form" id="content" name="content" rows="10">
-                        {{ $competition->content }}
-                    </textarea>
+
+                    <div class="row mb-3">
+                        <label class="col-3 col-form-label">Description</label>
+                        <div class="col">
+                            <textarea class="form-control" name="description" value={{ $competition->description }} rows="3">{{ $competition->description }}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label class="col-3 col-form-label">Rules</label>
+                        <div class="col">
+                            <textarea class="form-control" name="rules" value={{ $competition->rules }} rows="3">{{ $competition->rules }}</textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="d-grid gap-2 d-flex justify-content-end">
-                <a href="{{ route('competitions.index') }}" type="button" class="btn btn-outline-primary px-5">
+                <a href="{{ route('competitions.index') }}" type="button"
+                    class="btn btn-outline-primary py-2 px-5">
                     Cancel
                 </a>
                 @method('PUT')
-                <button type="submit" class="btn btn-primary px-5">Save Changes</button>
+                <button type="submit" class="btn btn-primary py-2 px-5">Save Changes</button>
             </div>
         </form>
     </div>

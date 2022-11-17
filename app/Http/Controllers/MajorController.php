@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Vaccination;
+use App\Models\Major;
 use Illuminate\Http\Request;
 
-class VaccinationController extends Controller
+class MajorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class VaccinationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Vaccination  $vaccination
+     * @param  \App\Models\Major  $major
      * @return \Illuminate\Http\Response
      */
-    public function show(Vaccination $vaccination)
+    public function show(Major $major)
     {
         //
     }
@@ -52,10 +52,10 @@ class VaccinationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Vaccination  $vaccination
+     * @param  \App\Models\Major  $major
      * @return \Illuminate\Http\Response
      */
-    public function edit(Vaccination $vaccination)
+    public function edit(Major $major)
     {
         //
     }
@@ -64,10 +64,10 @@ class VaccinationController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Vaccination  $vaccination
+     * @param  \App\Models\Major  $major
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Vaccination $vaccination)
+    public function update(Request $request, Major $major)
     {
         //
     }
@@ -75,10 +75,10 @@ class VaccinationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Vaccination  $vaccination
+     * @param  \App\Models\Major  $major
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Vaccination $vaccination)
+    public function destroy(Major $major)
     {
         //
     }

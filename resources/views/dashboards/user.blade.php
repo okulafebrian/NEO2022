@@ -41,7 +41,7 @@
                                                     {{ $competition->category }}
                                                 </p>
                                                 <h5 class="m-0" style="font-size: 16px">
-                                                    @if ($competition->normal_quota - $competition->registrations_count < 1)
+                                                    @if ($competition->total_quota - $competition->registrations_count < 1)
                                                         <span class="text-danger">Tickets sold out</span>
                                                     @elseif ($isEarlyBirdOngoing && $competition->early_quota - $competition->early_registrations_count > 0)
                                                         Rp {{ number_format($competition->early_price, 0, '.', '.') }}
@@ -62,15 +62,15 @@
                                         </div>
                                         <div class="text-end">
                                             <button
-                                                {{ $competition->is_active == false || $competition->normal_quota - $competition->registrations_count < 1 ? 'disabled' : '' }}
-                                                class="btn {{ $competition->is_active == false || $competition->normal_quota - $competition->registrations_count < 1 ? 'btn-outline-secondary' : 'btn-outline-primary' }} rounded-pill"
+                                                {{ $competition->is_active == false || $competition->total_quota - $competition->registrations_count < 1 ? 'disabled' : '' }}
+                                                class="btn {{ $competition->is_active == false || $competition->total_quota - $competition->registrations_count < 1 ? 'btn-outline-secondary' : 'btn-outline-primary' }} rounded-pill"
                                                 type="button" style="font-size:14px; min-width:25%">
                                                 Select
                                             </button>
                                             <div class="form-input d-none float-end">
                                                 <input type="text" class="input-spinner" step="1"
                                                     name="ticket[{{ $competition->id }}]" value="0" min="0"
-                                                    max="{{ $isEarlyBirdOngoing && $competition->early_quota - $competition->early_registrations_count > 0 ? $competition->early_quota - $competition->early_registrations_count : $competition->normal_quota }}">
+                                                    max="{{ $isEarlyBirdOngoing && $competition->early_quota - $competition->early_registrations_count > 0 ? $competition->early_quota - $competition->early_registrations_count : $competition->total_quota }}">
                                             </div>
                                         </div>
                                     </div>

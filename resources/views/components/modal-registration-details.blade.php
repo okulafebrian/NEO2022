@@ -60,19 +60,19 @@
                             </div>
                         </section>
 
-                        @if ($registration->representative)
+                        @if ($registration->companion)
                             <section class="p-lg-4 p-3" style="border-bottom: 8px solid #F3F4F5">
-                                <h6 class="mb-4">Representative Details</h6>
+                                <h6 class="mb-4">Companion Details</h6>
 
                                 <table class="table table-borderless m-0 td-custom">
                                     <tbody class="fs-sm">
                                         <tr>
                                             <td class="col-4 text-muted">Name</td>
-                                            <td>{{ $registration->representative->name }}</td>
+                                            <td>{{ $registration->companion->name }}</td>
                                         </tr>
                                         <tr>
                                             <td class="text-muted">Phone No</td>
-                                            <td>{{ $registration->representative->phone_number }}</td>
+                                            <td>{{ $registration->companion->phone_number }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -121,8 +121,8 @@
                                                         <td class="text-muted">Address</td>
                                                         <td>
                                                             {{ $participant->address }}<br>
-                                                            {{ $participant->district }}<br>
-                                                            {{ $participant->province }}
+                                                            {{ $participant->district->name }}<br>
+                                                            {{ $participant->province->name }}
 
                                                         </td>
                                                     </tr>
@@ -151,7 +151,24 @@
                                                             <td class="text-muted">Region</td>
                                                             <td>{{ $participant->binusian->region }}</td>
                                                         </tr>
+                                                        <tr>
+                                                            <td class="text-muted">Major</td>
+                                                            <td>{{ $participant->binusian->major->name }}</td>
+                                                        </tr>
                                                     @endif
+                                                    <tr>
+                                                        <td class="text-muted">Vaccination</td>
+                                                        <td>
+                                                            <a href="/storage/images/vaccinations/{{ $participant->vaccination }}"
+                                                                target="_blank">
+                                                                View here
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-muted">Allergy</td>
+                                                        <td>{{ $participant->allergy }}</td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
 

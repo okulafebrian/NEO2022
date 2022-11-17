@@ -16,6 +16,7 @@
                         </button>
                     </li>
                 @endforeach
+            </ul>
         </div>
 
         <div class="tab-content">
@@ -65,12 +66,12 @@
                                                             <td class="align-middle text-end">
                                                                 <button class="btn btn-outline-light btn-sm"
                                                                     data-bs-toggle="modal"
-                                                                    data-bs-target="#remove{{ $qualification->id }}">
+                                                                    data-bs-target="#destroy{{ $qualification->id }}">
                                                                     <i class="bi bi-trash3"></i>
                                                                 </button>
                                                             </td>
                                                         </tr>
-                                                        <x-modal-confirmation action="remove"
+                                                        <x-modal-confirmation action="destroy"
                                                             title="Remove Qualification" name="qualifications"
                                                             :model='$qualification'>
                                                             Are you sure want to remove

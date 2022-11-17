@@ -21,8 +21,8 @@ class SubmissionController extends Controller
 
     public function index()
     {
-        $rounds = Round::all();
-        $competitions = Competition::all();
+        $rounds = Round::where('id', 3)->orWhere('id', 5)->get();
+        $competitions = Competition::where('name', 'Short Story Writing')->get();
         $qualifications = [];
 
         foreach ($rounds as $round) {

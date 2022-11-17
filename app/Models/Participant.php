@@ -24,8 +24,13 @@ class Participant extends Authenticatable
         return $this->hasOne(Binusian::class);
     }
 
-    public function vaccination()
+    public function province()
     {
-        return $this->hasOne(Vaccination::class);
+        return $this->belongsTo(Province::class);
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class);
     }
 }

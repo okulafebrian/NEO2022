@@ -31,7 +31,7 @@ $(document).ready(function () {
     })
 
     // DataTables
-    $('#tableDebateTeamName').DataTable({
+    $('.table-debate').DataTable({
         "autoWidth": false,
         columns: [
             null,
@@ -40,11 +40,7 @@ $(document).ready(function () {
         ]
     })
 
-    $('.table-qualification').DataTable({
-        "autoWidth": false
-    })
-
-    $('.table-debate').DataTable({
+    $('.table-general').DataTable({
         "autoWidth": false
     })
 

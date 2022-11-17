@@ -16,7 +16,7 @@ class QualificationController extends Controller
     
     public function index()
     {
-        $rounds = Round::all();
+        $rounds = Round::where([['id', '!=', 1], ['id', '!=', 2]])->get();
         $competitions = Competition::all();
         $qualifications = [];
 

@@ -6,11 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+
     public function up()
     {
         Schema::create('participants', function (Blueprint $table) {
@@ -20,15 +16,17 @@ return new class extends Migration
             $table->string('name');
             $table->string('gender');
             $table->string('grade');
-            $table->string('province');
-            $table->string('district');
+            $table->unsignedBigInteger('province_id')->nullable();
+            $table->foreign('province_id')->references('id')->on('provinces')->onUpdate('cascade')->onDelete('set null');
+            $table->unsignedBigInteger('district_id')->nullable();
+            $table->foreign('district_id')->references('id')->on('districts')->onUpdate('cascade')->onDelete('set null');
             $table->string('address');
             $table->string('email');
             $table->string('phone_number');
             $table->string('line_id');
             $table->string('institution');
-            $table->string('allergy')->nullable();
-            $table->string('vaccination')->nullable();
+            $table->string('allergy');
+            $table->string('vaccination');
             $table->string('username')->nullable();
             $table->string('password')->nullable();
             $table->rememberToken();

@@ -17,37 +17,37 @@
             <div class="row">
                 <div class="col-lg-8">
                     <section class="mb-5">
-                        <h4 class="mb-3" style="font-size: 20px">Representative Data</h4>
+                        <h4 class="mb-3" style="font-size: 20px">Companion Data</h4>
                         <div class="card card-custom">
                             <div class="card-body">
-                                <div id="representative" class="row g-4 mb-3">
+                                <div id="companion" class="row g-4 mb-3">
                                     <div class="col-md">
                                         <label class="form-label">Full Name</label>
-                                        <input type="text" class="form-control" name="representative_name" required>
+                                        <input type="text" class="form-control" name="companion_name" required>
                                     </div>
                                     <div class="col-md">
                                         <label class="form-label">Phone Number</label>
-                                        <input type="text" class="form-control" name="representative_phone" required>
+                                        <input type="text" class="form-control" name="companion_phone" required>
                                         <div class="form-text">E.g. 081367889900</div>
                                     </div>
                                 </div>
                                 <div>
-                                    <input class="form-check-input" type="checkbox" name="noRepresentative">
+                                    <input class="form-check-input" type="checkbox" name="nocompanion">
                                     <label class="form-check-label">
-                                        We have no representative
+                                        We have no companion
                                     </label>
                                 </div>
                             </div>
                         </div>
 
                         <script>
-                            $('input[name="noRepresentative"]').on('click', function() {
+                            $('input[name="nocompanion"]').on('click', function() {
                                 if ($(this).is(':checked')) {
-                                    $('#representative .form-control').prop('disabled', true)
-                                    $("input[name='noRepresentative']").val(1)
+                                    $('#companion .form-control').prop('disabled', true)
+                                    $("input[name='nocompanion']").val(1)
                                 } else {
-                                    $('#representative .form-control').prop('disabled', false)
-                                    $("input[name='noRepresentative']").val(0)
+                                    $('#companion .form-control').prop('disabled', false)
+                                    $("input[name='nocompanion']").val(0)
                                 }
                             })
                         </script>
@@ -105,19 +105,19 @@
                                                     id="speakerA{{ $competition->id }}{{ $j }}"
                                                     role="tabpanel">
                                                     <x-form id="{{ $competition->id }}" :j=$j :k=0
-                                                        category="{{ $competition->category }}" />
+                                                        category="{{ $competition->category }}" :provinces='$provinces' />
                                                 </div>
 
                                                 <div class="tab-pane fade"
                                                     id="speakerB{{ $competition->id }}{{ $j }}"
                                                     role="tabpanel">
                                                     <x-form id="{{ $competition->id }}" :j=$j :k=1
-                                                        category="{{ $competition->category }}" />
+                                                        category="{{ $competition->category }}" :provinces='$provinces' />
                                                 </div>
                                             </div>
                                         @else
                                             <x-form id="{{ $competition->id }}" :j=$j :k=0
-                                                category="{{ $competition->category }}" />
+                                                category="{{ $competition->category }}" :provinces='$provinces' />
                                         @endif
                                     </div>
                                 </div>
@@ -157,10 +157,37 @@
                                 <h6>Rp {{ number_format($totalPrice, 0, '.', '.') }}</h6>
                             </div>
 
-                            <button type="submit" class="btn btn-primary py-2 fw-medium w-100">
-                                Continue to Payment
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#confirmRegistration"
+                                class="btn btn-primary py-2 fw-medium w-100">
+                                Confirm
                             </button>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="confirmRegistration" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered" style="max-width: 28rem">
+                <div class="modal-content border-0 shadow py-3">
+                    <div class="modal-header border-0">
+                        <h5 class="fw-semibold m-auto ">
+                            Is Your Registration Correct?
+                        </h5>
+                    </div>
+                    <div class="modal-body py-0 text-center">
+                        <p>
+                            You will not be able to change the registration data after proceeding to
+                            the payment page. Keep going?
+                        </p>
+                    </div>
+                    <div class="p-3 d-grid gap-2">
+                        <button type="submit" class="btn btn-primary py-2 w-100">
+                            Continue to Payment
+                        </button>
+                        <button type="button" class="btn btn-outline-light py-2 w-100" data-bs-dismiss="modal">
+                            Check Again
+                        </button>
                     </div>
                 </div>
             </div>

@@ -6,19 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+   
     public function up()
     {
         Schema::create('binusians', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('participant_id');
-            $table->foreign('participant_id')->references('id')->on('participants')->onDelete('cascade');
+            $table->foreign('participant_id')->references('id')->on('participants')->onUpdate('cascade')->onDelete('cascade');
             $table->string('nim');
             $table->string('region');
+            $table->unsignedBigInteger('major_id')->nullable();
+            $table->foreign('major_id')->references('id')->on('majors')->onUpdate('cascade')->onDelete('set null');
             $table->timestamps();
         });
     }

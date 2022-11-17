@@ -5,16 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Representative extends Model
+class FAQ extends Model
 {
     use HasFactory;
-    protected $table = 'representatives';
+    protected $table = 'faqs';
     protected $primaryKey = 'id';
     protected $timestamp = true;
     protected $guarded = [];
-
-    public function registration()
-    {
-        return $this->belongsTo(Registration::class);
-    }
 }

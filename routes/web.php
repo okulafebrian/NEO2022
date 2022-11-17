@@ -7,6 +7,7 @@ use App\Http\Controllers\CompetitionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DebateTeamController;
 use App\Http\Controllers\EnvironmentController;
+use App\Http\Controllers\FAQController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ParticipantAuthController;
 use App\Http\Controllers\ParticipantController;
@@ -14,23 +15,41 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\QualificationController;
 use App\Http\Controllers\RefundController;
 use App\Http\Controllers\RegistrationController;
-use App\Http\Controllers\ReRegistrationController;
+use App\Http\Controllers\CompanionController;
+use App\Http\Controllers\FacultyController;
+use App\Http\Controllers\RequestInvitationController;
 use App\Http\Controllers\RoundController;
 use App\Http\Controllers\SubmissionController;
+use App\Http\Controllers\TestimonyController;
+use App\Http\Controllers\WebinarController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('', [HomeController::class, 'index'])->name('home');
 
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+Route::get('webinars', [WebinarController::class, 'index'])->name('webinars');
 
 Route::resource('competitions', CompetitionController::class);
 Route::resource('environments', EnvironmentController::class);
 Route::resource('access-controls', AccessControlController::class);
 Route::resource('rounds', RoundController::class);
 Route::resource('attendances', AttendanceController::class);
+Route::resource('companions', CompanionController::class);
+Route::resource('request-invitations', RequestInvitationController::class);
+Route::resource('testimonies', TestimonyController::class);
+
+
+
+// FAQ
+Route::prefix('faqs')->name('faqs.')->group(function () {
+    Route::get('manage', [FAQController::class, 'manage'])->name('manage');
+    Route::post('import', [FAQController::class, 'import'])->name('import');
+});
+Route::resource('faqs', FAQController::class);
 
 
 // Participant Login
@@ -43,6 +62,7 @@ Route::prefix('participant')->name('participant.')->group(function () {
 // Participant
 Route::prefix('participants')->name('participants.')->group(function () {
     Route::get('export', [ParticipantController::class, 'export'])->name('export');
+    Route::get('{participant}/sendAccountInfo', [ParticipantController::class, 'sendAccountInfo'])->name('sendAccountInfo');
 });
 Route::resource('participants', ParticipantController::class);
 
@@ -51,6 +71,9 @@ Route::resource('participants', ParticipantController::class);
 Route::prefix('registrations')->name('registrations.')->group(function () {
     Route::post('create', [RegistrationController::class, 'create'])->name('create');
     Route::get('manage', [RegistrationController::class, 'manage'])->name('manage');
+    Route::get('getDistricts', [RegistrationController::class, 'getDistricts'])->name('getDistricts');
+    Route::get('getFaculties', [RegistrationController::class, 'getFaculties'])->name('getFaculties');
+    Route::get('getMajors', [RegistrationController::class, 'getMajors'])->name('getMajors');
 });
 Route::resource('registrations', RegistrationController::class)->except('create');
 
@@ -94,10 +117,6 @@ Route::prefix('submissions')->name('submissions.')->group(function () {
     Route::get('{submission}/download', [SubmissionController::class, 'download'])->name('download');
 });
 Route::resource('submissions', SubmissionController::class);
-
-
-
-Route::resource('re-registrations', ReRegistrationController::class);
 
 
 

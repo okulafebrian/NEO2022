@@ -6,7 +6,7 @@
     <div class="container p-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h4 class="m-0 fw-semibold text-primary">Competition List</h4>
-            <a type="button" href="{{ route('competitions.create') }}" class="btn btn-primary">
+            <a type="button" href="{{ route('competitions.create') }}" class="btn btn-outline-light">
                 <i class="fa-solid fa-plus me-2"></i>Add Competition
             </a>
         </div>
@@ -15,7 +15,7 @@
             <div class="card-body">
                 <table class="table">
                     <thead>
-                        <tr class="text-purple-muted">
+                        <tr class="text-secondary">
                             <th class="col-4">COMPETITION</th>
                             <th>NORMAL</th>
                             <th>EARLY BIRD</th>
@@ -27,7 +27,8 @@
                         @foreach ($competitions as $competition)
                             <x-modal-confirmation action="destroy" title="Delete Competition" name="competitions"
                                 :model=$competition>
-                                Are you sure want to delete <span class="fw-semibold">{{ $competition->name }}</span>?
+                                Are you sure want to delete <span
+                                    class="fw-semibold">{{ $competition->name != 'Speech' ? $competition->name : $competition->name . ' ' . $competition->category }}</span>?
                             </x-modal-confirmation>
 
                             <tr class="m-5 p-5">
@@ -38,8 +39,8 @@
                                                 width="100%" class="rounded-3">
                                         </div>
                                         <div class="col m-auto">
-                                            <h6 class="mb-1">{{ $competition->name }}</h6>
-                                            <span>{{ $competition->category }}</span>
+                                            <h6 class="fw-semibold mb-1">{{ $competition->name }}</h6>
+                                            <small>{{ $competition->category }}</small>
                                         </div>
                                     </div>
                                 </td>
@@ -49,7 +50,7 @@
                                     </p>
                                     <span role="button" data-bs-toggle="tooltip" data-bs-title="Remaining quota">
                                         <i class="bi bi-file-bar-graph-fill text-primary"></i>
-                                        {{ $competition->normal_quota - $competition->registrations_count }}
+                                        {{ $competition->total_quota - $competition->early_quota - $competition->normal_registrations_count }}
                                     </span>
                                 </td>
                                 <td class="align-middle">
@@ -82,8 +83,9 @@
                                             </li>
                                             <li>
                                                 <button type="button" class="dropdown-item p-2 rounded-3"
-                                                    data-bs-toggle="modal" data-bs-target="#delete">
-                                                    <i class="bi bi-trash3 me-1"></i>Delete
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#destroy{{ $competition->id }}">
+                                                    <i class="bi bi-trash3 me-2"></i>Delete
                                                 </button>
                                             </li>
                                             @if ($competition->ebooklet)

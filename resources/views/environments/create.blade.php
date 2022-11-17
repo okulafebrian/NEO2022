@@ -2,7 +2,7 @@
 
     <x-slot name="navbarAdmin"></x-slot>
 
-    <div class="container" style="padding: 6rem 0; max-width: 40rem">
+    <div class="container" style="padding: 6rem 0; max-width: 60rem">
         <h4 class="mb-4 fw-semibold text-primary">Create Environment</h4>
 
         <form method="POST" action="{{ route('environments.store') }}" enctype="multipart/form-data">
@@ -37,7 +37,7 @@
 
             <div class="d-grid gap-2 d-flex justify-content-end">
                 <a href="{{ route('environments.index') }}" class="btn btn-outline-primary px-5">Cancel</a>
-                <button type="submit" class="btn btn-primary px-5">Create</button>
+                <button type="submit" class="btn btn-primary px-5">Add</button>
             </div>
         </form>
     </div>

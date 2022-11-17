@@ -14,12 +14,12 @@ class CompetitionController extends Controller
     {
         $this->middleware(['auth']);
         $this->middleware(['admin']);
-        // $this->middleware('access.control:10')->except('index');
+        $this->middleware('access.control:5');
     }
 
     public function index()
     {   
-        $competitions = Competition::withCount(['registrations', 'earlyRegistrations' => function (Builder $query) {
+        $competitions = Competition::withCount(['normalRegistrations', 'earlyRegistrations' => function (Builder $query) {
                             $query->where('payment_due', '>=', Carbon::now())
                                   ->orWhereHas('payment');
                         }])->get();   
@@ -49,17 +49,18 @@ class CompetitionController extends Controller
             'category' => $request->category,
             'category_init' => $this->getCategoryInitial($request->category),
             'normal_price' => str_replace(".", "", $request->normal_price),
-            'normal_quota' => $request->normal_quota,
+            'total_quota' => $request->total_quota,
             'early_price' => str_replace(".", "", $request->early_price),
             'early_quota' => $request->early_quota,
             'logo' => $proofNameToStore,
             'link_group' => $request->link_group,
             'ebooklet' => $request->ebooklet,
-            'content' => $request->content,
+            'description' => $request->description,
+            'rules' => $request->rules,
             'is_active' => 1,
         ]);
 
-        return redirect()->route('competitions.index')->with('success', $request->name . ' sucessfully added');
+        return redirect()->route('competitions.index')->with('success', 'Data sucessfully added');
     }
 
     public function show(Competition $competition)
@@ -85,10 +86,10 @@ class CompetitionController extends Controller
                 Storage::delete('public/images/logos/' . $competition->logo);
             
             $extension = $request->file('logo')->getClientOriginalExtension();
-            $logoName = $request->input('name') . '_' . $request->input('category') . '.' . $extension;
-            $request->file('logo')->storeAs('public/images/logos', $logoName);
+            $proofNameToStore = $request->input('name') . '_' . $request->input('category') . '.' . $extension;
+            $request->file('logo')->storeAs('public/images/logos', $proofNameToStore);
         } else {
-            $logoName = $competition->logo;
+            $proofNameToStore = $competition->logo;
         }
 
         $competition->update([
@@ -96,13 +97,14 @@ class CompetitionController extends Controller
             'category' => $request->category,
             'category_init' => $this->getCategoryInitial($request->category),
             'normal_price' => str_replace(".", "", $request->normal_price),
-            'normal_quota' => $request->normal_quota,
+            'total_quota' => $request->total_quota,
             'early_price' => str_replace(".", "", $request->early_price),
             'early_quota' => $request->early_quota,
-            'logo' => $logoName ,
+            'logo' => $proofNameToStore ,
             'link_group' => $request->link_group,
             'ebooklet' => $request->ebooklet,
-            'content' => $request->content,
+            'description' => $request->description,
+            'rules' => $request->rules,
         ]);
 
         return redirect()->route('competitions.index')->with('success', 'Data successfully updated!');
@@ -122,7 +124,7 @@ class CompetitionController extends Controller
             'name'=> 'required|string',
             'category'=> 'required|string',
             'normal_price'=> 'required|string',
-            'normal_quota'=> 'required|integer',
+            'total_quota'=> 'required|integer',
             'early_price'=> 'string|nullable',
             'early_quota'=> 'integer|nullable',
             'ebooklet'=> 'string|nullable',

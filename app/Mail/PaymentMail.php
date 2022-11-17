@@ -42,7 +42,7 @@ class PaymentMail extends Mailable
                     ->subject('NEO 2022 - Invoice ' . $invoiceID)
                     ->attachData($invoiceFile->output(), 'Invoice ' . $invoiceID .'.pdf');
 
-        } elseif ($this->payment->is_verified == false) {
+        } else {
 
             return $this->markdown('emails.payments.reject-mail')
                     ->subject('NEO 2022 - Payment ' .$invoiceID . ' Rejected');

@@ -8,14 +8,12 @@ use Illuminate\Support\Facades\DB;
 
 class RoundSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
+
     public function run()
     {
         DB::table('rounds')->insert([
+            [ 'name' => 'Technical Meeting' ],
+            [ 'name' => 'Coaching Clinic' ],
             [ 'name' => 'Preliminary' ],
             [ 'name' => 'Semifinal' ],
             [ 'name' => 'Final' ]

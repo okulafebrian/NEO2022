@@ -126,15 +126,10 @@ class RefundController extends Controller
 
     public function reject(Refund $refund)
     {   
-        DB::transaction(function () use($refund) {
-            // UPDATE VERIFIY
-            $refund->update([
-                'is_verified' => -1,
-            ]);
+       $refund->delete();
             
-            // SEND INVOICE MAIL
-            Mail::to($refund->registration->user->email)->send(new RefundMail($refund));
-        });
+        // SEND INVOICE MAIL
+        Mail::to($refund->registration->user->email)->send(new RefundMail($refund));
 
         return redirect()->route('registrations.manage')->with('success', 'Refund rejected');
     }

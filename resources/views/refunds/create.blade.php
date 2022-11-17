@@ -4,9 +4,9 @@
 
     <div class="container my-5">
         <div class="text-center mb-4">
-            <h4 class="text-primary text-primary fw-semibold">Refund</h4>
+            <h4 class="text-primary fw-semibold">Refund</h4>
             <p class="text-purple-muted">
-                Upload the proof of payment that has been transferred.
+                Upload the proof of payment that has been transferred and fill in the details.
             </p>
         </div>
 
@@ -52,7 +52,7 @@
                             <input type="hidden" name="registration_id" value="{{ $registration->id }}">
                             <input type="hidden" name="payment_amount" value="{{ $payment_amount }}">
                             
-                            <h4 class="mb-4 text-primary" style="font-size: 20px">Confirm Your Transferred Payment</h4>
+                            <h4 class="mb-4" style="font-size: 20px">Confirm Your Transferred Payment</h4>
                             
                             <div class="row g-3">
                                 <div class="col-12">
@@ -120,8 +120,8 @@
                             <hr style="border-style:dashed">
 
                             <div class="mb-4">
-                                <h4 class="mb-1 text-primary" style="font-size: 20px">Bank Account for Refund</h4>
-                                <small class="text-purple-muted">Fill in the details of the bank account that will be used to receive the refund</small>
+                                <h4 class="mb-1" style="font-size: 20px">Bank Account for Refund</h4>
+                                <small class="text-muted">Fill in the details of the bank account that will be used to receive the refund</small>
                             </div>
 
                             <div class="row g-3">

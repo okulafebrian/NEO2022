@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Representative;
+use App\Models\Faculty;
 use Illuminate\Http\Request;
 
-class RepresentativeController extends Controller
+class FacultyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+        $faculties = Faculty::where('region', 'like', request()->input('region'))->pluck('name','id');
+        
+        return response()->json($faculties);
     }
 
     /**
@@ -41,10 +39,10 @@ class RepresentativeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Representative  $representative
+     * @param  \App\Models\Faculty  $faculty
      * @return \Illuminate\Http\Response
      */
-    public function show(Representative $representative)
+    public function show(Faculty $faculty)
     {
         //
     }
@@ -52,10 +50,10 @@ class RepresentativeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Representative  $representative
+     * @param  \App\Models\Faculty  $faculty
      * @return \Illuminate\Http\Response
      */
-    public function edit(Representative $representative)
+    public function edit(Faculty $faculty)
     {
         //
     }
@@ -64,10 +62,10 @@ class RepresentativeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Representative  $representative
+     * @param  \App\Models\Faculty  $faculty
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Representative $representative)
+    public function update(Request $request, Faculty $faculty)
     {
         //
     }
@@ -75,10 +73,10 @@ class RepresentativeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Representative  $representative
+     * @param  \App\Models\Faculty  $faculty
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Representative $representative)
+    public function destroy(Faculty $faculty)
     {
         //
     }

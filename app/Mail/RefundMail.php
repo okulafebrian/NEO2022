@@ -29,8 +29,8 @@ class RefundMail extends Mailable
                         'as' => $this->refund->proof
                     ]);
 
-        } elseif ($this->refund->is_verified == false) {
-            
+        } else {
+        
             return $this->markdown('emails.refunds.reject-mail')
                     ->subject('NEO 2022 - Refund Request Rejected');
         }

@@ -10,7 +10,6 @@
                 <a href="{{ route('participants.export') }}" class="btn btn-outline-light">
                     <i class="bi bi-file-earmark-arrow-down me-1"></i> Export to Excel
                 </a>
-
             </div>
         </div>
 
@@ -21,7 +20,8 @@
                     <li class="nav-item" role="presentation">
                         <button class="nav-link {{ $loop->first ? 'active' : '' }}" data-bs-toggle="tab"
                             data-bs-target="#tab{{ $competition->id }}" type="button" role="tab">
-                            {{ $competition->name != 'Speech' ? $competition->name : $competition->name . ' ' . $competition->category }}
+                            {{ $competition->name != 'Speech' ? $competition->name : $competition->name . ' ' . $competition->category_init }}
+                            ({{ $competition->registrationDetails->count() }})
                         </button>
                     </li>
                 @endforeach
@@ -257,6 +257,14 @@
                                                                 <i class="bi bi-pencil me-2"></i>Edit Participant
                                                             </a>
                                                         </li>
+                                                        <li>
+                                                            <button type="button" data-bs-toggle="modal"
+                                                                data-bs-target="#sendAccountInfo{{ $participant->id }}"
+                                                                class="dropdown-item p-2 rounded-3">
+                                                                <i class="bi bi-envelope-paper me-2"></i>Send Account
+                                                                Info
+                                                            </button>
+                                                        </li>
                                                     </ul>
                                                 </td>
 
@@ -277,6 +285,12 @@
                                                     P{{ str_pad($participant->id, 3, '0', STR_PAD_LEFT) }}
                                                 </td>
                                             </tr>
+
+                                            <x-modal-confirmation action="sendAccountInfo" title="Send Account Info"
+                                                name="participants" :model='$participant'>
+                                                The participant account information will be sent to
+                                                {{ $participant->email }}
+                                            </x-modal-confirmation>
                                         @endforeach
                                     </tbody>
                                 </table>

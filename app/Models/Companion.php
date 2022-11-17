@@ -4,19 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ReRegistration extends Model
+class Companion extends Model
 {
     use HasFactory;
-    use SoftDeletes;
-    protected $table = 're_registrations';
+    protected $table = 'companions';
     protected $primaryKey = 'id';
     protected $timestamp = true;
     protected $guarded = [];
 
-    public function qualification()
+    public function registration()
     {
-        return $this->belongsTo(Qualification::class);
+        return $this->belongsTo(Registration::class);
     }
 }

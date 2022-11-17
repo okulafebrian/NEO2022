@@ -44,7 +44,7 @@
                                 Show Details
                             </button>
                         </div>
-                        
+
                         <div class="alert alert-warning border-0 py-2">
                             <small>
                                 <i class="bi bi-exclamation-circle text-danger me-1"></i>

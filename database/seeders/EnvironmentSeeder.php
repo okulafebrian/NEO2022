@@ -12,49 +12,49 @@ class EnvironmentSeeder extends Seeder
     {
         DB::table('environments')->insert([
             [
-                'name' => 'REGISTRATION',
+                'name' => 'Registration',
                 'start_time' => '2022-10-24 00:00:00',
                 'end_time' => '2022-11-24 00:00:00',
                 'is_shown' => null
             ],
             [
-                'name' => 'EARLY BIRD',
+                'name' => 'Early Bird',
                 'start_time' => '2022-10-24 00:00:00',
                 'end_time' => '2022-10-30 00:00:00',
                 'is_shown' => null
             ],
             [
-                'name' => 'RE-REGIS SEMIFINAL',
+                'name' => 'Re-regis Semifinal',
                 'start_time' => null,
                 'end_time' => null,
                 'is_shown' => 0
             ],
             [
-                'name' => 'SUBMISSION SSW PRELIMINARY',
+                'name' => 'Submission SSW Preliminary',
                 'start_time' => null,
                 'end_time' => null,
                 'is_shown' => 0
             ],
             [
-                'name' => 'SUBMISSION SSW FINAL',
+                'name' => 'Submission SSW Final',
                 'start_time' => null,
                 'end_time' => null,
                 'is_shown' => 0
             ],
             [
-                'name' => 'ATTENDANCE PRELIMINARY',
+                'name' => 'Attendance Preliminary',
                 'start_time' => null,
                 'end_time' => null,
                 'is_shown' => 0
             ],
             [
-                'name' => 'ATTENDANCE SEMIFINAL',
+                'name' => 'Attendance Semifinal',
                 'start_time' => null,
                 'end_time' => null,
                 'is_shown' => 0
             ],
             [
-                'name' => 'ATTENDANCE FINAL',
+                'name' => 'Attendance Final',
                 'start_time' => null,
                 'end_time' => null,
                 'is_shown' => 0

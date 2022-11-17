@@ -18,9 +18,14 @@ class Competition extends Model
         return $this->belongsToMany(Registration::class, 'registration_details')->withPivot(['price']);
     }
 
+    public function normalRegistrations()
+    {
+        return $this->belongsToMany(Registration::class, 'registration_details')->wherePivot('type', 'NORMAL');
+    }
+
     public function earlyRegistrations()
     {
-        return $this->belongsToMany(Registration::class, 'registration_details')->wherePivot('type', '!=', 'NORMAL');
+        return $this->belongsToMany(Registration::class, 'registration_details')->wherePivot('type', 'EARLY');
     }
 
     public function registrationDetails()

@@ -12,17 +12,20 @@ use App\Exports\ParticipantExport;
 use App\Exports\ParticipantsExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Controller;
+use App\Mail\AccountMail;
+use App\Models\Binusian;
 use App\Models\Environment;
 use App\Models\Qualification;
+use Illuminate\Support\Facades\Mail;
 
 class ParticipantController extends Controller
 {   
     public function __construct()
     {
-        $this->middleware(['auth'])->only('index', 'edit', 'update', 'export');
-        $this->middleware(['participant'])->except('index', 'edit', 'update', 'export');
-        $this->middleware(['admin'])->only('index', 'edit', 'update', 'export');
-        // $this->middleware('access.control:10')->except('index');
+        $this->middleware(['auth'])->only('index', 'edit', 'update', 'export', 'sendAccountInfo');
+        $this->middleware(['participant'])->except('index', 'edit', 'update', 'export', 'sendAccountInfo');
+        $this->middleware(['admin'])->only('index', 'edit', 'update', 'export', 'sendAccountInfo');
+        // $this->middleware('access.control:4')->only('index', 'edit', 'update', 'export', 'sendAccountInfo');
     }
     
     public function __invoke()
@@ -111,19 +114,40 @@ class ParticipantController extends Controller
             'grade' => 'required|string',
             'institution' => 'required|string',
         ]);
+        
+        DB::transaction(function () use($request, $participant) {
+            $participant->update([
+                'name' => $request->name,
+                'gender' => $request->gender,
+                'grade' => $request->grade,
+                'province' => $request->province,
+                'district' => $request->district,
+                'address' => $request->address,
+                'email' => $request->email,
+                'phone_number' => $request->phone_number,
+                'line_id' => $request->line_id,
+                'institution' => $request->institution,
+            ]);
+ 
+            if ((!str_contains($participant->grade, 'Year ') && $participant->binusian) || (str_contains($participant->grade, 'Year ') && !$request->binusian && $participant->binusian)) {
+                $binusian = Binusian::where('participant_id', $participant->id);
 
-        $participant->update([
-            'name' => $request->name,
-            'gender' => $request->gender,
-            'grade' => $request->grade,
-            'province' => $request->province,
-            'district' => $request->district,
-            'address' => $request->address,
-            'email' => $request->email,
-            'phone_number' => $request->phone_number,
-            'line_id' => $request->line_id,
-            'institution' => $request->institution,
-        ]);
+                $binusian->delete();
+            } elseif (str_contains($participant->grade, 'Year ') && $request->binusian && $participant->binusian) {
+                $binusian = Binusian::where('participant_id', $participant->id);
+
+                $binusian->update([
+                    'nim' => $request->nim,
+                    'region' => $request->region,
+                ]);
+            } elseif (str_contains($participant->grade, 'Year ') && $request->binusian) {
+                Binusian::create([
+                    'participant_id' => $participant->id,
+                    'nim' => $request->nim,
+                    'region' => $request->region,
+                ]);
+            }
+        });
 
         return redirect()->route('participants.index')->with('success', 'Data successfully updated!');
     }
@@ -136,6 +160,13 @@ class ParticipantController extends Controller
     public function export()
     {
         return Excel::download(new ParticipantsExport, 'participant.xlsx');
+    }
+
+    public function sendAccountInfo(Participant $participant)
+    {   
+        Mail::to($participant->email)->send(new AccountMail($participant));
+
+        return redirect()->route('participants.index')->with('success', 'Email sent.');
     }
 
     public function showLoginForm()

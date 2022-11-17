@@ -44,8 +44,8 @@ class Registration extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function representative()
+    public function companion()
     {
-        return $this->hasOne(Representative::class);
+        return $this->hasOne(Companion::class);
     }
 }

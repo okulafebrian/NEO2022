@@ -11,7 +11,7 @@ class EnvironmentController extends Controller
     {
         $this->middleware(['auth']);
         $this->middleware(['admin']);
-        // $this->middleware('access.control:10')->except('index');
+        $this->middleware('access.control:1');
     }
 
     public function index()
