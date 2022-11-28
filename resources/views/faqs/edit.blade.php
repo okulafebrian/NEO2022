@@ -17,17 +17,35 @@
                                     {{ $faq->category == 'general' ? 'checked' : '' }} required>
                                 <label for="general" class="btn btn-selection rounded-pill">General</label>
 
-                                <input type="radio" class="btn-check" id="accomodation" name="category"
-                                    {{ $faq->category == 'accomodation' ? 'checked' : '' }} value="accomodation">
-                                <label for="accomodation" class="btn btn-selection rounded-pill">Accomodation</label>
-
                                 <input type="radio" class="btn-check" id="competition" name="category"
                                     {{ $faq->category == 'competition' ? 'checked' : '' }} value="competition">
                                 <label for="competition" class="btn btn-selection rounded-pill">Competition</label>
+                            </fieldset>
+                        </div>
+                    </div>
 
-                                <input type="radio" class="btn-check" id="technical" name="category"
-                                    {{ $faq->category == 'technical' ? 'checked' : '' }} value="technical">
-                                <label for="technical" class="btn btn-selection rounded-pill">Technical Problem</label>
+                    <div id="subCategory" class="row mb-3 d-none">
+                        <label class="col-3 col-form-label">Sub Category</label>
+                        <div class="col">
+                            <fieldset>
+                                <input type="radio" class="btn-check" id="debate" name="sub_category"
+                                    value="debate" {{ $faq->sub_category == 'debate' ? 'checked' : '' }} disabled
+                                    required>
+                                <label for="debate" class="btn btn-selection rounded-pill">Debate</label>
+
+                                <input type="radio" class="btn-check" id="newscasting" name="sub_category"
+                                    value="newscasting" {{ $faq->sub_category == 'newscasting' ? 'checked' : '' }}
+                                    disabled>
+                                <label for="newscasting" class="btn btn-selection rounded-pill">Newscasting</label>
+
+                                <input type="radio" class="btn-check" id="ssw" name="sub_category"
+                                    value="short story writing"
+                                    {{ $faq->sub_category == 'short story writing' ? 'checked' : '' }} disabled>
+                                <label for="ssw" class="btn btn-selection rounded-pill">Short Story Writing</label>
+
+                                <input type="radio" class="btn-check" id="speech" name="sub_category"
+                                    value="speech" {{ $faq->sub_category == 'speech' ? 'checked' : '' }} disabled>
+                                <label for="speech" class="btn btn-selection rounded-pill">Speech</label>
                             </fieldset>
                         </div>
                     </div>
@@ -40,7 +58,7 @@
                         </div>
                     </div>
 
-                    <div class="row mb-3">
+                    <div class="row">
                         <label class="col-3 col-form-label">Description</label>
                         <div class="col">
                             <textarea class="form-control" name="description" value="{{ $faq->description }}" rows="3" required>{{ $faq->description }}</textarea>
@@ -58,4 +76,21 @@
             </div>
         </form>
     </div>
+
+    <script>
+        if ($('input[name="category"]:checked').val() == 'competition') {
+            $('#subCategory').removeClass('d-none')
+            $('#subCategory').find('input').prop('disabled', false)
+        }
+
+        $('input[name="category"]').on('change', function() {
+            if ($(this).val() == 'competition') {
+                $('#subCategory').removeClass('d-none')
+                $('#subCategory').find('input').prop('disabled', false)
+            } else {
+                $('#subCategory').addClass('d-none')
+                $('#subCategory').find('input').prop('disabled', true).prop('checked', false)
+            }
+        })
+    </script>
 </x-app>

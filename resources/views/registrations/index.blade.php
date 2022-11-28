@@ -1,7 +1,7 @@
 <x-app title="My Registrations | NEO 2022">
     <x-slot name="navbarUser"></x-slot>
 
-    <div class="container my-5">
+    <div class="container" style="padding-top: 6rem; padding-bottom: 4rem;">
         @if (count($registrations) > 0)
             <h4 class="text-center text-primary fw-semibold mb-4">My Registration</h4>
         @endif

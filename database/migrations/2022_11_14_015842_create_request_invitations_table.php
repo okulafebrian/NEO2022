@@ -14,6 +14,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('institution');
+            $table->boolean('is_sent')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

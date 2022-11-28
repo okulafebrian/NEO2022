@@ -15,7 +15,7 @@ class AccessControl
         if ($accessData) {
             return $next($request);
         } else {
-            return back()->with('error', 'You have no access to this page');
+            return back()->with('error', 'Not authorized!');
         }
     }
 }

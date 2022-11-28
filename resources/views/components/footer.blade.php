@@ -1,28 +1,29 @@
-<footer>
-    <div class="d-flex justify-content-center align-items-center" style="padding-top: 8rem; padding-bottom: 4rem;">
+<footer id="footer">
+    <div class="d-flex justify-content-center align-items-center" style="padding-top: 6rem; padding-bottom: 4rem;">
         <div class="container">
-            <div class="d-flex mb-5">
-                <div class="me-4" style="width: 13%">
-                    <img src="/storage/images/assets/NEO_2.png" width="100%" alt="NEO">
+            <div class="row" style="margin-bottom: 4rem;">
+                <div class="col-md-2 col-5 offset-md-0 offset-1">
+                    <img class="img-neo" src="/storage/images/assets/NEO_2.png" alt="NEO">
                 </div>
-                <div style="width: 10%">
-                    <p class="text-light text-center">Organized by:</p>
-                    <img src="/storage/images/assets/BNEC.png" width="100%" alt="BNEC">
+                <div class="col-md-2 col-5 offset-md-0 text-center">
+                    <small class="text-light ">Organized by:</small>
+                    <img class="img-bnec" src="/storage/images/assets/BNEC_white.png" class="mt-2" width="85%"
+                        alt="BNEC">
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-5">
+            <div class="row gy-5 text-md-start text-center">
+                <div class="col-md-5">
                     <h5 class="text-light mb-3">Request Invitation Letter</h5>
                     <button class="btn btn-primary-neon py-2 px-4" data-bs-toggle="modal"
                         data-bs-target="#showRequestLetter">Click Here</button>
                 </div>
-                <div class="col-5 text-light">
+                <div class="col-md-5 text-light">
                     <h5 class="mb-3">Registration Contact</h5>
                     <p class="mb-2"><i class="bi bi-line me-2 fa-lg"></i>@044wlisy</p>
-                    <p class="mb-2"><i class="bi bi-envelope-fill fa-lg me-2"></i>bnecneo2022@gmail.com
+                    <p class="mb-2"><i class="bi bi-envelope-fill fa-lg me-2"></i>neo.bnec@gmail.com
                 </div>
-                <div class="col text-light">
+                <div class="col-md text-light">
                     <h5 class="mb-3">Our Social Media</h5>
                     <a href="https://instagram.com/bnec.neo?igshid=YmMyMTA2M2Y=" target="_blank"
                         class="text-decoration-none text-light me-3">

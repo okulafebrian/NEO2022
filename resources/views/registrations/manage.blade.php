@@ -1,4 +1,4 @@
-<x-app title="Registrations | NEO 2022">
+<x-app title="Manage Registrations | NEO 2022">
 
     <x-slot name="navbarAdmin"></x-slot>
     <x-slot name="sidebarAdmin"></x-slot>
@@ -43,6 +43,9 @@
         <div class="tab-content">
             <div class="tab-pane fade show active" id="to-pay" role="tabpanel" tabindex="0">
                 @forelse ($pendingPayments as $registration)
+                    <x-modal-confirmation action="destroy" title="Remove Registration" name="registrations" :model='$registration'>
+                        Are you sure want to remove REG ID – {{ str_pad($registration->id, 3, '0', STR_PAD_LEFT) }}?
+                    </x-modal-confirmation>
                     <x-card-registration :registration='$registration' status='to-pay' />
                     <x-modal-registration-details status='to-pay' :registration='$registration' :competitionSummaries='$competitionSummaries' />
                 @empty
@@ -57,6 +60,9 @@
 
             <div class="tab-pane fade" id="to-verify" role="tabpanel" tabindex="0">
                 @forelse ($unverifiedRegistrations as $registration)
+                    <x-modal-confirmation action="destroy" title="Remove Registration" name="registrations" :model='$registration'>
+                        Are you sure want to remove REG ID – {{ str_pad($registration->id, 3, '0', STR_PAD_LEFT) }}?
+                    </x-modal-confirmation>
                     <x-card-registration :registration='$registration' status='to-verify' />
                     <x-modal-registration-details status='to-verify' :registration='$registration' :competitionSummaries='$competitionSummaries' />
 
@@ -65,7 +71,7 @@
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content border-0">
                                 <div class="d-flex justify-content-between align-items-center p-4 border-bottom">
-                                    <h5 class="m-auto">Registration Details</h5>
+                                    <h5 class="m-auto">Payment Verification</h5>
                                     <i class="fa-solid fa-xmark fa-xl" role="button" data-bs-dismiss="modal"></i>
                                 </div>
                                 <div class="modal-body">
@@ -131,6 +137,12 @@
 
             <div class="tab-pane fade" id="verified" role="tabpanel" tabindex="0">
                 @forelse ($verifiedRegistrations as $registration)
+                    <x-modal-confirmation action="destroy" title="Remove Registration" name="registrations" :model='$registration'>
+                        Are you sure want to remove REG ID – {{ str_pad($registration->id, 3, '0', STR_PAD_LEFT) }}?
+                    </x-modal-confirmation>
+                    <x-modal-confirmation action="resend-invoice" title="Resend Invoice" name="payments" :model='$registration->payment'>
+                        The invoice will be sent to {{ $registration->user->email }}
+                    </x-modal-confirmation>
                     <x-card-registration :registration='$registration' status='verified' />
                     <x-modal-registration-details status='verified' :registration='$registration' :competitionSummaries='$competitionSummaries' />
                 @empty
@@ -145,6 +157,9 @@
 
             <div class="tab-pane fade" id="expired" role="tabpanel" tabindex="0">
                 @forelse ($expiredRegistrations as $registration)
+                    <x-modal-confirmation action="destroy" title="Remove Registration" name="registrations" :model='$registration'>
+                        Are you sure want to remove REG ID – {{ str_pad($registration->id, 3, '0', STR_PAD_LEFT) }}?
+                    </x-modal-confirmation>
                     <x-card-registration :registration='$registration' status='expired' />
                     <x-modal-registration-details status='expired' :registration='$registration' :competitionSummaries='$competitionSummaries' />
                 @empty
@@ -161,7 +176,7 @@
                 @forelse ($refunds as $refund)
                     <x-card-registration :refund='$refund' status='refund' />
                     <x-modal-registration-details status='refund' :registration='$refund->registration' :competitionSummaries='$competitionSummaries' />
-                    
+
                     @if (!$refund->deleted_at)
                         {{-- VERIFY MODAL --}}
                         <div class="modal fade" id="verifyRefund{{ $refund->id }}" tabindex="-1">
@@ -169,7 +184,8 @@
                                 <div class="modal-content border-0">
                                     <div class="d-flex justify-content-between align-items-center p-4 border-bottom">
                                         <h5 class="m-auto">Refund Request Details</h5>
-                                        <i class="fa-solid fa-xmark fa-xl" role="button" data-bs-dismiss="modal"></i>
+                                        <i class="fa-solid fa-xmark fa-xl" role="button"
+                                            data-bs-dismiss="modal"></i>
                                     </div>
                                     <div class="modal-body">
                                         <div class="row">
@@ -240,12 +256,16 @@
                                         </h5>
                                     </div>
                                     <div class="modal-body">
-                                        <h6>Transfer <span class="fw-semibold text-primary">Rp {{ number_format($registration->refund->payment_amount, 0, '.', '.') }}</span> to the account below:</h6>
+                                        <h6>Transfer <span class="fw-semibold text-primary">Rp
+                                                {{ number_format($registration->refund->payment_amount, 0, '.', '.') }}</span>
+                                            to the account below:</h6>
                                         <div class="alert alert-purple-200 border-0 py-2">
-                                            <p class="mb-1 text-muted">{{ $registration->refund->dest_account_name }}</p>
-                                            <p class="m-0">{{ $registration->refund->bank_name }} {{ $registration->refund->dest_account_number }}</p>
+                                            <p class="mb-1 text-muted">{{ $registration->refund->dest_account_name }}
+                                            </p>
+                                            <p class="m-0">{{ $registration->refund->bank_name }}
+                                                {{ $registration->refund->dest_account_number }}</p>
                                         </div>
-                                        
+
                                         <form action="{{ route('refunds.accept', $registration->refund) }}"
                                             method="POST" enctype="multipart/form-data">
                                             @csrf
@@ -256,18 +276,19 @@
                                             <div class="text-end">
                                                 <button type="button" class="btn btn-outline-light py-2 px-5"
                                                     data-bs-target="#verifyRefund{{ $registration->refund->id }}"
-                                            data-bs-toggle="modal">
+                                                    data-bs-toggle="modal">
                                                     Cancel
                                                 </button>
                                                 @method('PUT')
-                                                <button type="submit" class="btn btn-primary py-2 px-5">Confirm</button>
+                                                <button type="submit"
+                                                    class="btn btn-primary py-2 px-5">Confirm</button>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                     @endif
+                    @endif
                 @empty
                     <div class="card card-custom">
                         <div class="text-center mb-4">

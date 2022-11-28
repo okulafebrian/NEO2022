@@ -3,20 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Mail\AccountMail;
-use App\Mail\InvoiceMail;
 use App\Mail\PaymentMail;
-use App\Models\Competition;
-use App\Models\DebateTeam;
-use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\PaymentProvider;
+use App\Models\Qualification;
 use App\Models\Registration;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use PDF; 
 
 class PaymentController extends Controller
 {   
@@ -95,9 +92,7 @@ class PaymentController extends Controller
 
     public function edit(Payment $payment)
     {
-        return view('payments.edit', [
-            'payment' => $payment,
-        ]);
+        //
     }
 
     public function update(Request $request, Payment $payment)
@@ -135,23 +130,37 @@ class PaymentController extends Controller
             $payment->update([
                 'is_verified' => 1,
             ]);
+
+            return redirect()->route('registrations.manage')->with('success', 'Payment accepted.');
             
-            foreach ($payment->registration->participants as $participant) {
-                $id = str_pad($participant->id, 3, '0', STR_PAD_LEFT);
-                $username = strtolower(explode(' ', trim($participant->name ))[0]) . $id;
-                $password = 'P' . $id;
-
-                $participant->update([
-                    'username' => $username,
-                    'password' => Hash::make($password),
-                ]);
-
-                // SEND PARTICIPANT ACCOUNT INFORMATION
-                Mail::to($participant->email)->send(new AccountMail($participant));
-            }
-
-            // SEND INVOICE MAIL
+             // SEND INVOICE MAIL
             Mail::to($payment->registration->user->email)->send(new PaymentMail($payment));
+
+            foreach ($payment->registration->registrationDetails as $registrationDetail) {
+                // ADD TO QUALIFICATION (TM && CC)
+                $data = [];
+                for ($k=1; $k <= 2; $k++) { 
+                    $data[] = [
+                        'round_id' => $k,
+                        'registration_detail_id' => $registrationDetail->id,
+                    ]; 
+                }
+                Qualification::insert($data);
+
+                foreach ($registrationDetail->participants as $participant) {
+                    $id = str_pad($participant->id, 3, '0', STR_PAD_LEFT);
+                    $username = strtolower(explode(' ', trim($participant->name ))[0]) . $id;
+                    $password = 'P' . $id;
+
+                    $participant->update([
+                        'username' => $username,
+                        'password' => Hash::make($password),
+                    ]);
+
+                    // SEND PARTICIPANT ACCOUNT INFORMATION
+                    Mail::to($participant->email)->send(new AccountMail($participant));
+                }
+            }
         });
 
         return redirect()->route('registrations.manage')->with('success', 'Payment accepted.');
@@ -166,6 +175,13 @@ class PaymentController extends Controller
         return redirect()->route('registrations.manage')->with('success', 'Payment rejected.');
     }
 
+    public function resendInvoice(Payment $payment)
+    {   
+        Mail::to($payment->registration->user->email)->send(new PaymentMail($payment));
+
+        return redirect()->route('registrations.manage')->with('success', 'Invoice sent successfully.');
+    }
+
     public function downloadInvoice(Payment $payment)
     {   
         $competitions = DB::table('competitions')
@@ -175,13 +191,14 @@ class PaymentController extends Controller
                             ->groupBy('competitions.name', 'competitions.category', 'registration_details.price', 'registration_details.type')
                             ->get();
 
-        $invoiceFile = Pdf::loadView('payments.invoice', [
-                            'payment' => $payment,
-                            'competitions' => $competitions,
-                        ]);
+        $invoice = PDF::loadView('payments.invoice', [
+            'payment' => $payment,
+            'competitions' => $competitions
+        ]);
 
-        $invoiceID = str_pad($payment->id, 3, '0', STR_PAD_LEFT);
+        $invoice->setPaper('a4')->setOption('enable-local-file-access', true);
+        $id = str_pad($payment->id, 3, '0', STR_PAD_LEFT);
 
-        return $invoiceFile->download('Invoice ' . $invoiceID .'.pdf');
+        return $invoice->download('Invoice ' . $id .'.pdf');
     }
 }

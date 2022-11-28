@@ -15,6 +15,8 @@ return new class extends Migration
             $table->foreign('participant_id')->references('id')->on('participants')->onUpdate('cascade')->onDelete('cascade');
             $table->string('nim');
             $table->string('region');
+            $table->unsignedBigInteger('faculty_id')->nullable();
+            $table->foreign('faculty_id')->references('id')->on('faculties')->onUpdate('cascade')->onDelete('set null');
             $table->unsignedBigInteger('major_id')->nullable();
             $table->foreign('major_id')->references('id')->on('majors')->onUpdate('cascade')->onDelete('set null');
             $table->timestamps();

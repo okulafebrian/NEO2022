@@ -1,8 +1,9 @@
 $(document).ready(function () {
-    // 
+    
+    // Alert Timer
     setTimeout(function() {
             $('#alert').modal('hide');
-    }, 1000);
+    }, 4000);
     
     // Copy Button
     $(document).on('click', '#copy', function() {
@@ -31,17 +32,32 @@ $(document).ready(function () {
     })
 
     // DataTables
-    $('.table-debate').DataTable({
+    $('.table-general').DataTable({
         "autoWidth": false,
-        columns: [
-            null,
-            null,
-            { orderable: false }
+        columnDefs: [
+            { orderable: false, targets: -1 }
         ]
     })
 
-    $('.table-general').DataTable({
-        "autoWidth": false
+    $('.table-debate').DataTable({
+        "autoWidth": false,
+        "order": [[1, 'asc']],
+        columns: [
+            {
+                className: 'dt-control',
+                orderable: false,
+                defaultContent: '',
+            },
+            { data: 'team_name' },
+            { data: 'speakers' },
+            { data: 'grade' },
+            { data: 'line_id' },
+            {
+                className: 'action',
+                orderable: false,
+                defaultContent: ''
+            }
+        ]
     })
 
     var table = $('.table-participant').DataTable({
@@ -54,8 +70,8 @@ $(document).ready(function () {
                 defaultContent: '',
             },
             { data: 'name' },
-            { data: 'level' },
-            { data: 'line' },
+            { data: 'grade' },
+            { data: 'line_id' },
             { data: 'institution' },
             {
                 className: 'action',
@@ -67,11 +83,12 @@ $(document).ready(function () {
             { data: 'email' },
             { data: 'province' },
             { data: 'district' },
+            { data: 'address' },
+            { data: 'vaccination' },
+            { data: 'allergy' },
             { data: 'nim' },
             { data: 'region' },
-            { data: 'address' },
-            { data: 'username' },
-            { data: 'password' },
+            { data: 'major' },
         ]
     })
 
@@ -122,105 +139,73 @@ function readURL(input) {
 }
 
 function format(d) {
-    if (d.nim == '') {
-        return (
-            '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px; font-size:small">' +
-            '<tr>' +
-            '<td class="text-muted">Gender</td>' +
-            '<td class="text-muted">:</td>' +
-            '<td>' + d.gender + '</td>' +
-            '</tr>' +
-            '<tr>' +
-            '<td class="text-muted">Phone</td>' +
-            '<td class="text-muted">:</td>' +
-            '<td>' + d.phone + '</td>' +
-            '</tr>' +
-            '<tr>' +
-            '<td class="text-muted">Email</td>' +
-            '<td class="text-muted">:</td>' +
-            '<td>' + d.email + '</td>' +
-            '</tr>' +
-            '<tr>' +
-            '<td class="text-muted">Province</td>' +
-            '<td class="text-muted">:</td>' +
-            '<td>' + d.province + '</td>' +
-            '</tr>' +
-            '<tr>' +
-            '<td class="text-muted">District/City</td>' +
-            '<td class="text-muted">:</td>' +
-            '<td>' + d.district + '</td>' +
-            '</tr>' +
-            '<tr>' +
-            '<td class="text-muted">Address</td>' +
-            '<td class="text-muted">:</td>' +
-            '<td>' + d.address + '</td>' +
-            '</tr>' +
-            '<tr>' +
-            '<td class="text-muted">Username</td>' +
-            '<td class="text-muted">:</td>' +
-            '<td>' + d.username + '</td>' +
-            '</tr>' +
-            '<tr>' +
-            '<td class="text-muted">Password</td>' +
-            '<td class="text-muted">:</td>' +
-            '<td>' + d.password + '</td>' +
-            '</tr>' +
-            '</table>'
-        );
-    } else {
-        return (
-            '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px; font-size:small">' +
-            '<tr>' +
-            '<td class="text-muted">Gender</td>' +
-            '<td class="text-muted">:</td>' +
-            '<td>' + d.gender + '</td>' +
-            '</tr>' +
-            '<tr>' +
-            '<td class="text-muted">Phone</td>' +
-            '<td class="text-muted">:</td>' +
-            '<td>' + d.phone + '</td>' +
-            '</tr>' +
-            '<tr>' +
-            '<td class="text-muted">Email</td>' +
-            '<td class="text-muted">:</td>' +
-            '<td>' + d.email + '</td>' +
-            '</tr>' +
-            '<tr>' +
-            '<td class="text-muted">Province</td>' +
-            '<td class="text-muted">:</td>' +
-            '<td>' + d.province + '</td>' +
-            '</tr>' +
-            '<tr>' +
-            '<td class="text-muted">District/City</td>' +
-            '<td class="text-muted">:</td>' +
-            '<td>' + d.district + '</td>' +
-            '</tr>' +
-            '<tr>' +
-            '<td class="text-muted">Address</td>' +
-            '<td class="text-muted">:</td>' +
-            '<td>' + d.address + '</td>' +
-            '</tr>' +
-            '<tr>' +
-            '<td class="text-muted">NIM</td>' +
-            '<td class="text-muted">:</td>' +
-            '<td>' + d.nim + '</td>' +
-            '</tr>' +
-            '<tr>' +
-            '<td class="text-muted">Region</td>' +
-            '<td class="text-muted">:</td>' +
-            '<td>' + d.region + '</td>' +
-            '</tr>' +
-            '<tr>' +
-            '<td class="text-muted">Username</td>' +
-            '<td class="text-muted">:</td>' +
-            '<td>' + d.username + '</td>' +
-            '</tr>' +
-            '<tr>' +
-            '<td class="text-muted">Password</td>' +
-            '<td class="text-muted">:</td>' +
-            '<td>' + d.password + '</td>' +
-            '</tr>' +
-            '</table>'
-        );
+    var table =
+    '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px; font-size:small">' +
+    '<tr>' +
+    '<td class="text-muted">Gender</td>' +
+    '<td class="text-muted">:</td>' +
+    '<td>' + d.gender + '</td>' +
+    '</tr>' +
+    '<tr>' +
+    '<td class="text-muted">Phone</td>' +
+    '<td class="text-muted">:</td>' +
+    '<td>' + d.phone + '</td>' +
+    '</tr>' +
+    '<tr>' +
+    '<td class="text-muted">Email</td>' +
+    '<td class="text-muted">:</td>' +
+    '<td>' + d.email + '</td>' +
+    '</tr>' +
+    '<tr>' +
+    '<td class="text-muted">Province</td>' +
+    '<td class="text-muted">:</td>' +
+    '<td>' + d.province + '</td>' +
+    '</tr>' +
+    '<tr>' +
+    '<td class="text-muted">District/City</td>' +
+    '<td class="text-muted">:</td>' +
+    '<td>' + d.district + '</td>' +
+    '</tr>' +
+    '<tr>' +
+    '<td class="text-muted">Address</td>' +
+    '<td class="text-muted">:</td>' +
+    '<td>' + d.address + '</td>' +
+    '</tr>' +
+    '<tr>' +
+    '<td class="text-muted">Vaccination</td>' +
+    '<td class="text-muted">:</td>' +
+    '<td>' +
+    '<a href="/storage/images/vaccinations/' + d.vaccination + '" target="_blank">' +
+    'View Here' +
+    '</a>' +
+    '</td>' +
+    '</tr>' +
+    '<tr>' +
+    '<td class="text-muted">Allergy</td>' +
+    '<td class="text-muted">:</td>' +
+    '<td>' + d.allergy + '</td>' +
+    '</tr>'
+    
+    if (d.nim != '') {
+        table +=
+        '<tr>' +
+        '<td class="text-muted">NIM</td>' +
+        '<td class="text-muted">:</td>' +
+        '<td>' + d.nim + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td class="text-muted">Region</td>' +
+        '<td class="text-muted">:</td>' +
+        '<td>' + d.region + '</td>' +
+        '</tr>' +
+        '<tr>' +
+        '<td class="text-muted">Major</td>' +
+        '<td class="text-muted">:</td>' +
+        '<td>' + d.major + '</td>' +
+        '</tr>'
     }
+
+    table += '</table>'
+
+    return table
 }

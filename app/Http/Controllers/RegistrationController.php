@@ -15,6 +15,7 @@ use App\Models\District;
 use App\Models\Faculty;
 use App\Models\Major;
 use App\Models\Province;
+use App\Models\Qualification;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -25,7 +26,7 @@ class RegistrationController extends Controller
     public function __construct()
     {
         $this->middleware(['auth']);
-        $this->middleware(['user'])->except('manage');
+        $this->middleware(['user'])->except('manage', 'destroy');
         $this->middleware(['admin'])->only('manage', 'destroy');
         $this->middleware('access.control:3')->only('manage', 'destroy');
     }
@@ -54,6 +55,10 @@ class RegistrationController extends Controller
 
     public function create(Request $request)
     {   
+        if (!$this->validateEnvironment('ENV001')) {
+            return redirect()->back()->with('error', 'Registration Closed');
+        }
+
         $competitions = Competition::withCount(['registrations', 'earlyRegistrations' => function (Builder $query) {
                             $query->where('payment_due', '>=', Carbon::now())
                                   ->orWhereHas('payment');
@@ -83,6 +88,10 @@ class RegistrationController extends Controller
 
     public function store(Request $request)
     {   
+        if (!$this->validateEnvironment('ENV001')) {
+            return redirect()->back()->with('error', 'Registration Closed');
+        }
+
         $this->validate($request, [
             'price.*' => 'required|integer',
             'type.*' => 'required|string',
@@ -101,7 +110,7 @@ class RegistrationController extends Controller
         ]);
         
         $registration = DB::transaction(function () use($request) {
-            $registration_time  = Environment::where('name', 'REGISTRATION')->first();
+            $registration_time  = Environment::where('code', 'ENV001')->first();
             
             // SET PAYMENT DUE
             if (strtotime(Carbon::now()->addHours(5)) > strtotime($registration_time->end_time)) {
@@ -116,7 +125,7 @@ class RegistrationController extends Controller
                 'payment_due' => $payment_due,
             ]);
 
-            if (!$request->has('noCompanion')) {
+            if ($request->has('companion_name')) {
                 Companion::create([
                     'registration_id' => $registration->id,
                     'name' => $request->companion_name,
@@ -159,7 +168,7 @@ class RegistrationController extends Controller
                             }
 
                             $participant = Participant::create([
-                                'name' => $request->name[$competition->id][$i][$j],
+                                'name' => ucwords($request->name[$competition->id][$i][$j]),
                                 'registration_detail_id' => $registrationDetail->id,
                                 'gender' => $request->gender[$competition->id][$i][$j],
                                 'grade' => $request->grade[$competition->id][$i][$j],
@@ -179,6 +188,7 @@ class RegistrationController extends Controller
                                     'participant_id' => $participant->id,
                                     'nim' => $request->nim[$competition->id][$i][$j],
                                     'region' => $request->region[$competition->id][$i][$j],
+                                    'faculty_id' => $request->faculty[$competition->id][$i][$j],
                                     'major_id' => $request->major[$competition->id][$i][$j],
                                 ]);
                             }
@@ -208,10 +218,10 @@ class RegistrationController extends Controller
     }
 
     public function destroy(Registration $registration)
-    {
+    {   
         $registration->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Data successfully deleted!');
     }
 
     public function manage()
@@ -244,7 +254,7 @@ class RegistrationController extends Controller
     function validateTicket($competition, $type, $totalTicket)
     {   
         if ($type != 'NORMAL') {
-            $isEarlyBirdOngoing = $this->validateEnvironment('EARLY BIRD');
+            $isEarlyBirdOngoing = $this->validateEnvironment('ENV002');
             
             // CHECK IF EARLY BIRD IS ONGOING OR NOT
             if (!$isEarlyBirdOngoing) return false;
@@ -262,31 +272,10 @@ class RegistrationController extends Controller
         return true;
     }
 
-    protected function validateEnvironment($name)
+    protected function validateEnvironment($code)
     {
-        $environment = Environment::where('name', $name)->first();
+        $environment = Environment::where('code', $code)->first();
 
         return (Carbon::now() >= $environment->start_time  && Carbon::now() <= $environment->end_time) ? true : false;
-    }
-
-    public function getDistricts()
-    {
-        $districts = District::where('province_id', request()->input('province_id'))->pluck('name','id');
-        
-        return response()->json($districts);
-    }
-
-    public function getFaculties()
-    {
-        $faculties = Faculty::where('region', 'like', request()->input('region'))->pluck('name','id');
-        
-        return response()->json($faculties);
-    }
-
-    public function getMajors()
-    {
-        $majors = Major::where('faculty_id', request()->input('faculty_id'))->pluck('name','id');
-        
-        return response()->json($majors);
     }
 }

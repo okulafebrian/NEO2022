@@ -7,7 +7,7 @@
         <section class="mb-4">
             <div class="mb-3">
                 <h4 class="fw-semibold text-primary">Important Today</h4>
-                <p class="m-0 text-purple-muted">Activities you need to complete in today</p>
+                <p class="m-0 text-purple-muted">Activities you need to complete ASAP and keep track of</p>
             </div>
 
             <div class="row row-cols-5 g-3">
@@ -49,7 +49,11 @@
         <section class="mb-4">
             <div class="card card-custom">
                 <div class="card-body">
-                    <h4 class="fw-semibold text-primary mb-3">Participant Summary</h4>
+                    <div class="d-flex justify-content-between align-items-end mb-3">
+                        <h4 class="fw-semibold text-primary m-0">Participant Summary</h4>
+                        <h6 class="m-0 text-primary fw-semibold">Total : {{ $totalParticipant }}</h6>
+                    </div>
+
                     <div class="row row-cols-5 g-2">
                         @foreach ($competitions as $competition)
                             <div class="col">
@@ -78,54 +82,35 @@
                 <div class="col-7">
                     <div class="card card-custom h-100">
                         <div class="card-body">
-                            <h4 class="fw-semibold text-primary mb-3">Environments</h4>
-                            <table class="table table-borderless m-0 td-custom">
-                                <tbody>
-                                    <tr>
-                                        <td class="fw-semibold col-3">Registration</td>
-                                        <td>:</td>
-                                        <td>
-                                            {{ date('j M', strtotime($environments[0]->start_time)) }} -
-                                            {{ date('j M', strtotime($environments[0]->end_time)) }}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="fw-semibold">Early Bird</td>
-                                        <td>:</td>
-                                        <td>
-                                            {{ date('j M', strtotime($environments[1]->start_time)) }} -
-                                            {{ date('j M', strtotime($environments[1]->end_time)) }}
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <hr>
-
-                            <div class="row">
-                                <div class="col">
-                                    @foreach ($environments as $i => $environment)
-                                        @if ($i > 1 && $i < 5)
-                                            <p class="mb-1">
-                                                <i
-                                                    class="bi bi-circle-fill me-1 fa-xs {{ $environment->is_shown ? 'text-success' : 'text-danger' }}"></i>
-                                                {{ $environment->name }}
-                                            </p>
-                                        @endif
-                                    @endforeach
-                                </div>
-                                <div class="col">
-                                    @foreach ($environments as $i => $environment)
-                                        @if ($i >= 5)
-                                            <p class="mb-1">
-                                                <i
-                                                    class="bi bi-circle-fill me-1 fa-xs {{ $environment->is_shown ? 'text-success' : 'text-danger' }}"></i>
-                                                {{ $environment->name }}
-                                            </p>
-                                        @endif
-                                    @endforeach
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4 class="fw-semibold text-primary m-0">Environments</h4>
+                                <div class="d-flex gap-3">
+                                    <small><i class="bi bi-square-fill fa-xs text-dark"></i> Closed</small>
+                                    <small><i class="bi bi-square-fill fa-xs text-warning"></i> Upcoming</small>
+                                    <small><i class="bi bi-square-fill fa-xs text-success"></i> Ongoing</small>
                                 </div>
                             </div>
+
+                            <ul class="list-group">
+                                @foreach ($environments as $environment)
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col">
+                                                {{ $environment->name }}
+                                            </div>
+                                            <div class="col-1">
+                                                @if (strtotime($environment->start_time) <= time() && strtotime($environment->end_time) >= time())
+                                                    <i class="bi bi-square-fill fa-xs text-success"></i>
+                                                @elseif (strtotime($environment->start_time) > time())
+                                                    <i class="bi bi-square-fill fa-xs text-warning"></i>
+                                                @else
+                                                    <i class="bi bi-square-fill fa-xs text-dark"></i>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -134,8 +119,8 @@
                         <div class="card-body">
                             <div class="table-custom mb-3">
                                 <h4 class="fw-semibold text-primary m-0">Quota Details</h4>
-                                <div>
-                                    <small><i class="bi bi-square-fill fa-xs text-primary"></i> Whole</small>
+                                <div class="d-flex gap-3">
+                                    <small><i class="bi bi-square-fill fa-xs text-primary"></i> Normal</small>
                                     <small><i class="bi bi-square-fill fa-xs text-blue"></i> Early</small>
                                 </div>
                             </div>
@@ -147,7 +132,7 @@
                                             <div class="col">
                                                 {{ $competition->name == 'Speech' ? $competition->name . ' ' . $competition->category_init : $competition->name }}
                                             </div>
-                                            <div class="col">:
+                                            <div class="col text-end">
                                                 <span class="badge bg-purple-100 text-primary">
                                                     {{ $competition->total_quota - $competition->early_quota - $competition->normal_registrations_count }}
                                                     / {{ $competition->total_quota - $competition->early_quota }}

@@ -6,10 +6,10 @@
                 <div class="width-custom">
                     <div class="text-center mb-4">
                         <h3 class="text-primary text-center fw-semibold">{{ __('Reset Password') }}</h3>
-                        <small class="text-purple-muted">
+                        <p class="text-purple-muted">
                             Enter the email associated with your account and we'll send you a link to reset your
                             password.
-                        </small>
+                        </p>
                     </div>
 
                     @if (session('status'))
@@ -36,10 +36,16 @@
                             @enderror
                         </div>
 
-                        <button type="submit" class="btn btn-primary py-2 w-100 float-end">
+                        <button type="submit" class="btn btn-primary py-2 w-100">
                             {{ __('Send Password Reset Link') }}
                         </button>
                     </form>
+
+                    <div class="mt-4 text-center">
+                        <a class="text-decoration-none fw-semibold" href="{{ route('login') }}">
+                            {{ __('Back to login') }}
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

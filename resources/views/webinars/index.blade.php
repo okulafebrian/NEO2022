@@ -12,4 +12,8 @@
         </div>
     </section>
 
+    <div class="container px-lg-5 px-4" style="padding-top: 3rem; padding-bottom: 8rem;">
+        <h1 class="mt-5 text-purple-muted text-center fw-semibold">Coming Soon</h1>
+    </div>
+
 </x-app>

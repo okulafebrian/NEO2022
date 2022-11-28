@@ -13,7 +13,8 @@ class FAQController extends Controller
     public function index()
     {
         return view('faqs.index', [
-            'faqs' => FAQ::all()
+            'generalFaqs' => FAQ::where('category', 'general')->get(),
+            'competitionFaqs' => FAQ::where('category', 'competition')->get()
         ]);
     }
 
@@ -21,9 +22,7 @@ class FAQController extends Controller
     {
         return view('faqs.manage', [
             'generalFaqs' => FAQ::where('category', 'general')->get(),
-            'accomodationFaqs' => FAQ::where('category', 'accomodation')->get(),
             'competitionFaqs' => FAQ::where('category', 'competition')->get(),
-            'technicalFaqs' => FAQ::where('category', 'technical')->get(),
         ]);
     }
 
@@ -42,6 +41,7 @@ class FAQController extends Controller
 
         FAQ::create([
             'category' => $request->category,
+            'sub_category' => $request->has('sub_category') ? $request->sub_category : null,
             'title' => $request->title,
             'description' => $request->description
         ]);
@@ -62,7 +62,7 @@ class FAQController extends Controller
     }
 
     public function update(Request $request, FAQ $faq)
-    {
+    {   
         $request->validate([
             'category' => 'required|string',
             'title' => 'required|string',
@@ -71,6 +71,7 @@ class FAQController extends Controller
 
         $faq->update([
             'category' => $request->category,
+            'sub_category' => $request->has('sub_category') ? $request->sub_category : null,
             'title' => $request->title,
             'description' => $request->description
         ]);
@@ -83,22 +84,5 @@ class FAQController extends Controller
         $faq->delete();
 
         return redirect()->route('faqs.manage')->with('success', 'Data successfully deleted!');
-    }
-
-    public function import(Request $request)
-    {   
-        $this->validate($request, [
-			'file' => 'required|mimes:csv,xls,xlsx'
-		]);
-
-        if ($request->hasFile('file')) {
-            $extension = $request->file('file')->getClientOriginalExtension();
-            $proofNameToStore = 'FAQ.' . $extension;
-            $request->file('file')->storeAs('public/faqs', $proofNameToStore);
-        }
-		
-		Excel::import(new FAQsImport, public_path('/storage/faqs/' . $proofNameToStore));
-
-        return redirect()->route('faqs.manage')->with('success', 'Data successfully added!');
     }
 }

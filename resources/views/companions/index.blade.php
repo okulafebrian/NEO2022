@@ -1,20 +1,15 @@
-<x-app title="Companion | NEO 2022">
+<x-app title="Companions | NEO 2022">
 
     <x-slot name="navbarAdmin"></x-slot>
     <x-slot name="sidebarAdmin"></x-slot>
 
     <div class="container p-5">
-        <div class="mb-4 d-flex justify-content-between align-items-center">
-            <h4 class="m-0 fw-semibold text-primary">Companion List</h4>
-            <a href="{{ route('companions.create') }}" class="btn btn-outline-light">
-                <i class="fa-solid fa-plus me-2"></i>Add Companion
-            </a>
-        </div>
+        <h4 class="fw-semibold text-primary mb-4">Companion List</h4>
 
         <div class="card card-custom">
             <div class="card-body">
                 @if ($companions->count() > 0)
-                    <table class="table table-participant">
+                    <table class="table table-general">
                         <thead class="table-light">
                             <tr class="text-secondary">
                                 <th>NAME</th>
@@ -30,7 +25,7 @@
                                     <td class="align-middle text-end">
                                         <a href="{{ route('companions.edit', $companion) }}"
                                             class="btn btn-outline-light btn-sm" type="button">
-                                            <i class="bi bi-pencil me-2">
+                                            <i class="bi bi-pencil"></i>
                                         </a>
                                     </td>
                                 </tr>

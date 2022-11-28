@@ -1,4 +1,4 @@
-<x-app title="NEO 2022">
+<x-app title="The 2022 National English Olympics">
 
     <x-slot name="navbar"></x-slot>
 
@@ -11,8 +11,8 @@
                     FUTURE PARADE
                 </x-slot>
                 <x-slot name="subtitle">
-                    Online Hybrid | BINUS University @Alam Sutera Campus <br>
-                    Dec 4 and 16 - 17, 2022
+                    BINUS University @Alam Sutera Campus <br>
+                    Jan 4 - 6, 2023
                 </x-slot>
             </x-section-title>
 
@@ -20,9 +20,10 @@
                 <a href="{{ route('dashboard') }}" class="btn btn-primary-neon rounded-pill py-3 px-4 me-2">
                     Register Now
                 </a>
-                <button class="btn btn-outline-purple-100 rounded-pill py-3 px-4">
-                    <i class="bi bi-download me-1"></i>E-booklet
-                </button>
+                <a role="button" href="https://drive.google.com/file/d/1YVz439KlF_wEmy4RzozvgO4jmu-_Czxz/view"
+                    target="_blank" class="btn btn-outline-purple-100 rounded-pill py-3 px-4">
+                    E-Booklet
+                </a>
 
             </div>
         </div>
@@ -43,7 +44,7 @@
             <p class="text-purple-100 mb-5 px-lg-5" style="line-height: 200%">
                 National English Olympics, commonly known as <b> NEO</b>, is an English competition where
                 the potential of young generations from all over Indonesia is improved and developed through various
-                competition fields. We are inviting talented individuals from <b>December 1 to 5</b> to compete in
+                competition fields. We are inviting talented individuals from <b>January 4 to 6</b> to compete in
                 <b>4 fields of competition</b>, including <b>debate, newscasting, short story writing, and speech</b>.
                 This year’s speech competition will also have <b>2 categories</b>: junior high and open (senior high and
                 university).
@@ -60,6 +61,58 @@
     </section>
 
     <section id="competitions">
+        @foreach ($competitions as $competition)
+            {{-- MODAL --}}
+            <div class="modal fade" id="show{{ $competition->id }}" tabindex="-1">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content border-0 shadow p-3">
+                        <div class="modal-header pb-0 border-0">
+                            <h6 class="m-0">COMPETITION FIELDS</h6>
+                            <i class="bi bi-x fa-2xl" role="button" data-bs-dismiss="modal"></i>
+                        </div>
+                        <div class="modal-body">
+                            <h3 class="text-primary fw-semibold">
+                                {{ $competition->name != 'Speech' ? $competition->name : $competition->name . ' ' . $competition->category }}
+                            </h3>
+                            {!! $competition->description !!}
+
+                            <hr class="my-4">
+
+                            <h5 class="mb-3 text-primary">PRICES</h5>
+                            <div class="row g-3">
+                                <div class="col-lg">
+                                    <div class="card bg-purple-100 border-0">
+                                        <div class="card-body">
+                                            <h6 class="mb-1">Early Bird</h6>
+                                            <p class="m-0">
+                                                Rp {{ number_format($competition->early_price, 0, '.', '.') }} /
+                                                {{ $competition->name == 'Debate' ? 'team' : 'person' }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg">
+                                    <div class="card bg-purple-100 border-0">
+                                        <div class="card-body">
+                                            <h6 class="mb-1">Normal Registration</h6>
+                                            <p class="m-0">
+                                                Rp {{ number_format($competition->normal_price, 0, '.', '.') }}
+                                                / {{ $competition->name == 'Debate' ? 'team' : 'person' }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+
+                            {!! $competition->rules !!}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+
         <div class="container px-lg-5 px-4">
             <x-section-title>
                 <x-slot name="title">COMPETITIONS</x-slot>
@@ -67,9 +120,9 @@
                 <x-slot name="subtitle">Click the icon to view competition details</x-slot>
             </x-section-title>
 
-            <div class="row row-cols-5 px-lg-5">
-                @foreach ($competitions as $competition)
-                    <div class="col">
+            <div class="row row-cols-lg-5 row-cols-md-3 g-4 px-5 d-none d-md-flex">
+                @foreach ($competitions as $index => $competition)
+                    <div class="col {{ $index == 3 ? 'offset-lg-0 offset-2' : '' }}">
                         <div class="card card-competition bg-transparent border-0" data-bs-toggle="modal"
                             data-bs-target="#show{{ $competition->id }}" type="button">
                             <img src="/storage/images/logos/{{ $competition->logo }}" class="rounded-4"
@@ -79,55 +132,35 @@
                             </h5>
                         </div>
                     </div>
+                @endforeach
+            </div>
 
-                    {{-- MODAL --}}
-                    <div class="modal fade" id="show{{ $competition->id }}" tabindex="-1">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content border-0 shadow p-2">
-                                <div class="modal-header pb-0 border-0">
-                                    <h6 class="m-0">COMPETITION FIELDS</h6>
-                                    <i class="bi bi-x fa-2xl" role="button" data-bs-dismiss="modal"></i>
-                                </div>
-                                <div class="modal-body">
-                                    <h3 class="text-primary fw-semibold">
-                                        {{ $competition->name != 'Speech' ? $competition->name : $competition->name . ' ' . $competition->category }}
-                                    </h3>
-                                    {!! $competition->description !!}
-
-                                    <hr class="my-4">
-
-                                    <h5 class="mb-3 text-primary">PRICES</h5>
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="card bg-purple-100 border-0">
-                                                <div class="card-body">
-                                                    <h6 class="mb-1">Early Bird</h6>
-                                                    <p class="m-0">
-                                                        Rp {{ number_format($competition->early_price, 0, '.', '.') }} /
-                                                        {{ $competition->name == 'Debate' ? 'team' : 'person' }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="card bg-purple-100 border-0">
-                                                <div class="card-body">
-                                                    <h6 class="mb-1">Normal Registration</h6>
-                                                    <p class="m-0">
-                                                        Rp {{ number_format($competition->normal_price, 0, '.', '.') }}
-                                                        / {{ $competition->name == 'Debate' ? 'team' : 'person' }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
+            <div class="row d-md-none">
+                <div class="col-10 offset-1">
+                    <div id="competitionCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            @foreach ($competitions as $competition)
+                                <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                                    <div class="card card-competition bg-transparent border-0" data-bs-toggle="modal"
+                                        data-bs-target="#show{{ $competition->id }}" type="button">
+                                        <img src="/storage/images/logos/{{ $competition->logo }}"
+                                            class="rounded-4 m-auto" width="60%">
+                                        <h5 class="text-purple-100 text-center mt-3">
+                                            {{ $competition->name == 'Speech' ? $competition->name . ' ' . $competition->category : $competition->name }}
+                                        </h5>
                                     </div>
-
-                                    {!! $competition->rules !!}
                                 </div>
-                            </div>
+                            @endforeach
+                        </div>
+                        <div class="carousel-indicators mt-5">
+                            @foreach ($competitions as $index => $competition)
+                                <button data-bs-target="#competitionCarousel" data-bs-slide-to="{{ $index }}"
+                                    class="{{ $loop->first ? 'active' : '' }}">
+                                </button>
+                            @endforeach
                         </div>
                     </div>
-                @endforeach
+                </div>
             </div>
         </div>
     </section>
@@ -142,54 +175,51 @@
                 </x-section-title>
             </div>
 
-            <img src="/storage/images/assets/timeline.svg" width="100%" alt="Timeline">
+            <img src="/storage/images/assets/timeline.png" width="100%" class="img-timeline">
         </div>
     </section>
 
     <section id="details">
-        <div class="container px-lg-5 px-4">
+        <div class="container px-md-5 px-4">
             <x-section-title>
                 <x-slot name="title">DETAILS</x-slot>
                 <x-slot name="headline">NEO STARTER PACK</x-slot>
                 <x-slot name="subtitle">Things you need to know about The NEO 2022!</x-slot>
             </x-section-title>
 
-            <div class="row row-cols-4 pt-5">
+            <div class="row row-cols-lg-4 row-cols-1 px-lg-0 px-md-5 px-0 gy-5 gy-custom mt-lg-5">
                 <div class="col">
                     <div class="card card-pack rounded-5 h-100">
-                        <img src="/storage/images/assets/how_to_register.png" width="35%" class="img-pack rounded-4"
-                            alt="How to Register">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="fw-bold mb-3 mt-5">How to Register</h5>
+                        <img src="/storage/images/assets/how_to_register.png" class="img-pack rounded-4">
+                        <div class="card-body d-flex flex-column pt-lg-5 pt-md-3 pt-5 ps-lg-3 ps-md-5">
+                            <h5 class="fw-bold">How to Register</h5>
                             <p>
                                 Ready to register? Follow the steps provided by clicking the button below!
                             </p>
-                            <button class="btn btn-dark btn-linear rounded-pill me-auto mt-auto" data-bs-toggle="modal"
-                                data-bs-target="#showRegisterStep">See More</button>
+                            <button class="btn btn-dark btn-linear rounded-pill me-auto mt-auto"
+                                data-bs-toggle="modal" data-bs-target="#showRegisterStep">See More</button>
                         </div>
                     </div>
                 </div>
                 <div class="col">
                     <div class="card card-pack rounded-5 h-100">
-                        <img src="/storage/images/assets/terms_and_condition.png" width="35%"
-                            class="img-pack rounded-4" alt="Terms & Condition">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="fw-bold mb-3 mt-5">Terms & Condition</h5>
+                        <img src="/storage/images/assets/terms_and_condition.png" class="img-pack rounded-4">
+                        <div class="card-body d-flex flex-column pt-lg-5 pt-md-3 pt-5 ps-lg-3 ps-md-5">
+                            <h5 class="fw-bold">Terms & Condition</h5>
                             <p>
                                 Find out whether you are eligible and the things you might need to prepare in this
                                 section!
                             </p>
-                            <button class="btn btn-dark btn-linear rounded-pill me-auto mt-auto" data-bs-toggle="modal"
-                                data-bs-target="#showTermsCondition">See More</button>
+                            <button class="btn btn-dark btn-linear rounded-pill me-auto mt-auto"
+                                data-bs-toggle="modal" data-bs-target="#showTermsCondition">See More</button>
                         </div>
                     </div>
                 </div>
                 <div class="col">
                     <div class="card card-pack rounded-5 h-100">
-                        <img src="/storage/images/assets/tips_and_tricks.png" width="35%" class="img-pack rounded-4"
-                            alt="Tips and Tricks">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="fw-bold mb-3 mt-5">Tips and Tricks</h5>
+                        <img src="/storage/images/assets/tips_and_tricks.png" class="img-pack rounded-4">
+                        <div class="card-body d-flex flex-column pt-lg-5 pt-md-3 pt-5 ps-lg-3 ps-md-5">
+                            <h5 class="fw-bold">Tips and Tricks</h5>
                             <p>Your first time in a competition? Worry nothing for we are here to give you off a
                                 headstart with some awesome tips!</p>
                             <button class="btn btn-dark btn-linear rounded-pill me-auto mt-auto"
@@ -199,10 +229,9 @@
                 </div>
                 <div class="col">
                     <div class="card card-pack rounded-5 h-100">
-                        <img src="/storage/images/assets/benefits.png" width="35%" class="img-pack rounded-4"
-                            alt="Benefits">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="fw-bold mb-3 mt-5">Benefits</h5>
+                        <img src="/storage/images/assets/benefits.png" class="img-pack rounded-4">
+                        <div class="card-body d-flex flex-column pt-lg-5 pt-md-3 pt-5 ps-lg-3 ps-md-5">
+                            <h5 class="fw-bold">Benefits</h5>
                             <p>not only will you get a national competing experience, you will also gain even more
                                 awesome benefits from joining NEO 2022!</p>
                             <button class="btn btn-dark btn-linear rounded-pill me-auto mt-auto"
@@ -278,11 +307,8 @@
                                                 any form of profanity.
                                             </li>
                                             <li>
-                                                For preliminary rounds, every participant <b>shoukd</b>
-                                                stand by 30 minutes before their performance. The participant’s
-                                                performance will be recorded to avoid any misjudgment, such as bad
-                                                connection. All participants <b>must</b> consent that
-                                                their activity is recorded during the event.
+                                                For preliminary rounds, every participant <b>should</b>
+                                                stand by 30 minutes before their performance.
                                             </li>
                                             <li>
                                                 Junior High School and High School participants
@@ -291,14 +317,12 @@
                                                 shoes (or flat shoes) for the competition on onsite days.
                                             </li>
                                             <li>
-                                                The participant’s performance will be recorded to avoid any
-                                                misjudgment such as bad connection. All participants
-                                                <b>must</b> consent that their activity is recorded during
-                                                the event.
+                                                All participants <b>must</b> consent that their activity is recorded
+                                                during the event.
                                             </li>
                                             <li>
                                                 Every participant or representative <b>must</b> attend the
-                                                Technical Meeting and Coaching Clinic on <b>December 3rd, 2022</b>.
+                                                Technical Meeting and Coaching Clinic on <b>January 3rd, 2022</b>.
                                             </li>
                                             <li>
                                                 Participants who don’t attend the Technical Meeting and Coaching
@@ -340,17 +364,28 @@
                                                 been paid <b>cannot</b> be returned.
                                             </li>
                                             <li>
-                                                All participants who pass to the semifinal round should re-register
-                                                themselves <b>maximum D-7</b> before the competition
-                                                starts on day 2. After the announcement of the semi-finalists,
-                                                participants <b>will receive</b> an email with steps to
-                                                re-register themselves on the website.
+                                                Participant data <b>will be held</b> securely and will only be
+                                                distributed to third parties by the committees for exclusive purposes.
                                             </li>
                                             <li>
-                                                Participants outside Jabodetabek who passed into the semi-final
-                                                round are <b>obliged</b> to use the accommodation provided
-                                                by the committees. For detailed rules and regulation for
-                                                accommodation provided, please check the accommodation guideline.
+                                                Participants are encouraged to bring personal medicines if needed.
+                                            </li>
+                                            <li>
+                                                Participants are prohibited from carrying and/or using cigarettes, vape,
+                                                sharp weapons, illegal drugs, alcohol, and/or all types of illegal acts
+                                                during the NEO 2022.
+                                            </li>
+                                            <li>
+                                                Participants are <b>prohibited</b> from destroying all the facilities
+                                                provided by the committees.
+                                            </li>
+                                            <li>
+                                                Participants who violate Guides #18 and #19 will be dealt with in
+                                                accordance with applicable regulations.
+                                            </li>
+                                            <li>
+                                                Participants <b>must</b> obey all the rules that have been made by the
+                                                committee.
                                             </li>
                                         </ol>
                                     </div>
@@ -369,27 +404,28 @@
                                     <div class="accordion-body">
                                         <ol class="li-custom ps-3">
                                             <li>
-                                                Participants must be a <b>Junior High School</b> or <b>Senior
-                                                    High School</b> or <b>University</b> student located in Indonesia.
+                                                Participants <b>must</b> be <b>Junior High School</b> or <b>Senior
+                                                    High School</b> or <b>University</b> students located in Indonesia.
                                             </li>
                                             <li>
-                                                Participants must be at least 12 years old and at
-                                                most 22 years old by 2022.
+                                                Participants <b>must</b> be at least <b>12 years old</b> and, at
+                                                most, <b>22 years old by 2022</b>.
                                             </li>
                                             <li>
-                                                Participants must have completed the COVID-19 vaccination course (first
-                                                and second doses).
+                                                Participants <b>must</b> have at least the COVID-19 <b>second
+                                                    vaccine</b> (Booster is preferable).
                                             </li>
                                             <li>
-                                                Participants who are still a junior high school student are only
-                                                allowed to join the Speech Junior High competition.
+                                                Participants who are still <b>Junior High School students</b> are only
+                                                <b>allowed</b> to join the <b>Speech Junior High</b> competition.
                                             </li>
                                             <li>
-                                                Participants are allowed to join more than one competition field.
+                                                Participants are <b>not allowed</b> to join more than 1 competition
+                                                field.
                                             </li>
                                             <li>
-                                                Participants who are previous winners of NEO are allowed to join the
-                                                same competition field.
+                                                Participants who are <b>previous winners</b> of NEO are <b>allowed</b>
+                                                to join the same competition field.
                                             </li>
                                         </ol>
                                     </div>
@@ -408,13 +444,13 @@
                                     <div class="accordion-body">
                                         <ol class="li-custom ps-3">
                                             <li>
-                                                Payment can be done through <b>Bank Transfers</b> or
-                                                <b>E-Wallets</b>.
+                                                Payment can be done through <b>Bank Payments</b> or
+                                                <b>E-Wallet</b>.
                                             </li>
                                             <li>Payment <b>cannot</b> be refunded.</li>
                                             <li>
                                                 Payment <b>must</b> be done in full, which means installment payments
-                                                are not accepted.
+                                                are <b>not accepted</b>.
                                             </li>
                                             <li>Payment <b>must</b> be done within the given time at the
                                                 website when doing the registration process.
@@ -422,71 +458,6 @@
                                             <li>
                                                 After payment is done, participants <b>will</b> receive
                                                 the payment confirmation in the period of <b>1x24 hours</b>.
-                                            </li>
-                                        </ol>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button"
-                                        data-bs-toggle="collapse" data-bs-target="#accomodation">
-                                        <b>Accomodation</b>
-                                    </button>
-                                </h2>
-                                <div id="accomodation" class="accordion-collapse collapse"
-                                    data-bs-parent="#accordionTerms">
-                                    <div class="accordion-body">
-                                        <ol class="li-custom ps-3">
-                                            <li>
-                                                Accommodations will be provided only for participants
-                                                <b>outside</b> Jabodetabek that pass the preliminary round.
-                                            </li>
-                                            <li>
-                                                Participants outside Jabodetabek <b>must</b> arrive in
-                                                Tangerang a maximum of one day before Day 2 of the Competition
-                                                (December 15, 2022), or it will be considered a walkout.
-                                            </li>
-                                            <li>
-                                                On the day before Day 2 of the competition, participants
-                                                <b>should</b> go straight to the hotel the committees have
-                                                prepared for them. Committees will wait at the hotel to help assist
-                                                with the check-in process.
-                                            </li>
-                                            <li>The committee <b>will provide</b> a hotel for 4D3N (four
-                                                days and three nights), starting from the day before Day 2 of the
-                                                competition, as well as transportation (bus) which route will be
-                                                from BINUS Alam Sutera Campus to Hotel and Hotel to BINUS Alam
-                                                Sutera Campus.
-                                            </li>
-                                            <li>
-                                                Regarding Guide #4, since the committee only provides accommodation
-                                                for 4D3N, had any of the participants arrived before the time
-                                                assigned/earlier than expected (e.g. December 12, December 14), it
-                                                is <b>not</b> the committee’s responsibility to provide any
-                                                accommodation or services.
-                                            </li>
-                                            <li>
-                                                The participants who arrive earlier than assigned can stay at the
-                                                recommended place. However, the accommodation, consumption, and
-                                                hotel price will be the <b>participant’s responsibility</b> until the
-                                                appointed time. For the reason that the accommodation price which
-                                                participants pay only applies at the appointed time.
-                                            </li>
-                                            <li>
-                                                There <b>won’t</b> be any accommodation provided for the participant’s
-                                                companion/guide.
-                                            </li>
-                                            <li>
-                                                The roommate will be a participant of the <b>same</b> gender, but the
-                                                committee <b>can’t</b> make sure who the participant is. This can be a
-                                                chance for you to bond and make new friends.
-                                            </li>
-                                            <li>
-                                                Participants are <b>prohibited</b> from going home before
-                                                the closing ceremony since the bus operation to send the participant
-                                                to the hotel is started again only after the closing ceremony.
                                             </li>
                                         </ol>
                                     </div>
@@ -530,7 +501,7 @@
                                                 Technical Meeting.
                                             </li>
                                             <li>
-                                                Participants are <b>expected</b> to use the virtual background: [LINK]
+                                                Participants are <b>expected</b> to use the virtual background.
                                             </li>
                                             <li>
                                                 Participants are <b>expected</b> to turn on their cameras during the
@@ -606,7 +577,7 @@
                                                 Coaching Clinic.
                                             </li>
                                             <li>
-                                                Participants are <b>expected</b> to use the virtual background: [LINK]
+                                                Participants are <b>expected</b> to use the virtual background.
                                             </li>
                                             <li>
                                                 Participants are <b>expected</b> to turn on their cameras during the
@@ -661,12 +632,12 @@
 
                         <ul class="list-group list-custom list-group-flush">
                             <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-2">
+                                <div class="row g-4">
+                                    <div class="col-lg-2 col-md-3 col-5">
                                         <img src="/storage/images/assets/know_material.png" width="100%"
                                             class="rounded-4">
                                     </div>
-                                    <div class="col">
+                                    <div class="col-lg col-12">
                                         <h5>Know Your Material</h5>
                                         <p>Whether it is debate, newscasting, speech, or short story writing, make sure
                                             to know your material thoroughly to master your performance and have
@@ -676,11 +647,11 @@
                                 </div>
                             </li>
                             <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-2">
+                                <div class="row g-4">
+                                    <div class="col-lg-2 col-md-3 col-5">
                                         <img src="/storage/images/assets/rest.png" width="100%" class="rounded-4">
                                     </div>
-                                    <div class="col">
+                                    <div class="col-lg col-12">
                                         <h5>Rest Well</h5>
                                         <p>The night before the competition surely is thrilling, but that is when you
                                             need to have enough time to rest, both your body and mind—tiring yourself by
@@ -691,12 +662,12 @@
                                 </div>
                             </li>
                             <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-2">
+                                <div class="row g-4">
+                                    <div class="col-lg-2 col-md-3 col-5">
                                         <img src="/storage/images/assets/practice.png" width="100%"
                                             class="rounded-4">
                                     </div>
-                                    <div class="col">
+                                    <div class="col-lg col-12">
                                         <h5>Practice Makes Perfect</h5>
                                         <p>As we all know, practice makes perfect. Make time and effort for your
                                             practice weeks until days before the competitions, even minutes before, to
@@ -706,11 +677,11 @@
                                 </div>
                             </li>
                             <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-2">
+                                <div class="row g-4">
+                                    <div class="col-lg-2 col-md-3 col-5">
                                         <img src="/storage/images/assets/full.png" width="100%" class="rounded-4">
                                     </div>
-                                    <div class="col">
+                                    <div class="col-lg col-12">
                                         <h5>Arrive Early and Full</h5>
                                         <p>It would be best if you had enough time to prepare yourself, especially the
                                             mind, before your competition starts. That way, you will also have time to
@@ -722,12 +693,12 @@
                                 </div>
                             </li>
                             <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-2">
+                                <div class="row g-4">
+                                    <div class="col-lg-2 col-md-3 col-5">
                                         <img src="/storage/images/assets/optimistic.png" width="100%"
                                             class="rounded-4">
                                     </div>
-                                    <div class="col">
+                                    <div class="col-lg col-12">
                                         <h5>Be Optimistic</h5>
                                         <p>Negativity will be in the way between you and the winner’s podium if you keep
                                             thinking about it. Positively picture yourself and go through the stages of
@@ -738,12 +709,12 @@
                                 </div>
                             </li>
                             <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-2">
+                                <div class="row g-4">
+                                    <div class="col-lg-2 col-md-3 col-5">
                                         <img src="/storage/images/assets/listen_to_feedback.png" width="100%"
                                             class="rounded-4">
                                     </div>
-                                    <div class="col">
+                                    <div class="col-lg col-12">
                                         <h5>Listen to the Feedback</h5>
                                         <p>One way of improving yourself is by listening to others, especially to the
                                             judges who are experienced in the same field of competition you are
@@ -754,12 +725,12 @@
                                 </div>
                             </li>
                             <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-2">
+                                <div class="row g-4">
+                                    <div class="col-lg-2 col-md-3 col-5">
                                         <img src="/storage/images/assets/have_fun.png" width="100%"
                                             class="rounded-4">
                                     </div>
-                                    <div class="col">
+                                    <div class="col-lg col-12">
                                         <h5>Have Fun!</h5>
                                         <p>Last but not least, don’t forget to have fun! Competing is an experience you
                                             won’t be able to repeat, whether it is your first time or not. To compete in
@@ -791,12 +762,12 @@
 
                         <ul class="list-group list-custom list-group-flush">
                             <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-2">
+                                <div class="row g-4">
+                                    <div class="col-lg-2 col-md-3 col-5">
                                         <img src="/storage/images/assets/aeo_ticket.png" width="100%"
                                             class="rounded-4">
                                     </div>
-                                    <div class="col">
+                                    <div class="col-lg col-12">
                                         <h5>Free Tickets to Asian English Olympics (AEO)
                                             <span class="text-danger">*</span>
                                         </h5>
@@ -808,24 +779,24 @@
                                 </div>
                             </li>
                             <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-2">
+                                <div class="row g-4">
+                                    <div class="col-lg-2 col-md-3 col-5">
                                         <img src="/storage/images/assets/money.png" width="100%" class="rounded-4">
                                     </div>
-                                    <div class="col">
+                                    <div class="col-lg col-12">
                                         <h5>Prize Money</h5>
                                         <p>Not only free tickets to The AEO, the winners of NEO 2022 will also receive
-                                            prize money up to Rp. 15.000.000++ in total!</p>
+                                            prize money up to Rp. 20.000.000++ in total!</p>
                                     </div>
                                 </div>
                             </li>
                             <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-2">
+                                <div class="row g-4">
+                                    <div class="col-lg-2 col-md-3 col-5">
                                         <img src="/storage/images/assets/trophy.png" width="100%"
                                             class="rounded-4">
                                     </div>
-                                    <div class="col">
+                                    <div class="col-lg col-12">
                                         <h5>Trophy</h5>
                                         <p>The NEO 2022 will also provide trophies for the champions as a congrtulary
                                             prize which can be kept by the winners as an object of precious memories.
@@ -834,12 +805,12 @@
                                 </div>
                             </li>
                             <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-2">
+                                <div class="row g-4">
+                                    <div class="col-lg-2 col-md-3 col-5">
                                         <img src="/storage/images/assets/experience.png" width="100%"
                                             class="rounded-4">
                                     </div>
-                                    <div class="col">
+                                    <div class="col-lg col-12">
                                         <h5>National Experience</h5>
                                         <p>By joining The NEO 2022, all of you will receive an experience competing in a
                                             national scale, which surely is another attractive point to add to your CV!
@@ -848,12 +819,12 @@
                                 </div>
                             </li>
                             <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-2">
+                                <div class="row g-4">
+                                    <div class="col-lg-2 col-md-3 col-5">
                                         <img src="/storage/images/assets/networking.png" width="100%"
                                             class="rounded-4">
                                     </div>
-                                    <div class="col">
+                                    <div class="col-lg col-12">
                                         <h5>Networking</h5>
                                         <p>Participants from all over Indonesia will gather in The NEO 2022 and it will
                                             surely be a great chance for you to expand your networking, meeting up with
@@ -862,11 +833,11 @@
                                 </div>
                             </li>
                             <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-2">
+                                <div class="row g-4">
+                                    <div class="col-lg-2 col-md-3 col-5">
                                         <img src="/storage/images/assets/sat.png" width="100%" class="rounded-4">
                                     </div>
-                                    <div class="col">
+                                    <div class="col-lg col-12">
                                         <h5>SAT Points for Binusian</h5>
                                         <p>Last but not least, only for BINUSIANS, you will also receive SAT Points for
                                             your participations in The NEO 2022!</p>
@@ -880,7 +851,7 @@
         </div>
     </section>
 
-    <section id="judges">
+    <section id="judges" class="d-none">
         <div class="container px-lg-5 px-4">
             <x-section-title>
                 <x-slot name="title">PROFILES</x-slot>
@@ -897,8 +868,7 @@
                 <div class="d-flex gap-4 ms-auto h-100" style="width: 70%">
                     <div class="card card-judge border-0 rounded-4 h-100 align-self-center">
                         <div class="card-body text-center text-light">
-                            <img src="/storage/images/assets/Square.png" class="mb-3 rounded-4" width="100%"
-                                alt="">
+                            <img src="" class="mb-3 rounded-4" width="100%" alt="">
                             <p class="mb-1">Newscasting Judges</->
                             <h5 class="fw-semibold m-0">Vincent Febrien</h5>
                         </div>
@@ -907,16 +877,14 @@
                         <div class="my-5"></div>
                         <div class="card card-judge border-0 rounded-4">
                             <div class="card-body text-center text-light">
-                                <img src="/storage/images/assets/Square.png" class="mb-3 rounded-4" width="100%"
-                                    alt="">
+                                <img src="" class="mb-3 rounded-4" width="100%" alt="">
                                 <p class="mb-1">Newscasting Judges</->
                                 <h5 class="fw-semibold m-0">Vincent Febrien</h5>
                             </div>
                         </div>
                         <div class="card card-judge border-0 rounded-4">
                             <div class="card-body text-center text-light">
-                                <img src="/storage/images/assets/Square.png" class="mb-3 rounded-4" width="100%"
-                                    alt="">
+                                <img src="" class="mb-3 rounded-4" width="100%" alt="">
                                 <p class="mb-1">Newscasting Judges</->
                                 <h5 class="fw-semibold m-0">Vincent Febrien</h5>
                             </div>
@@ -925,16 +893,14 @@
                     <div class="d-flex flex-column gap-4">
                         <div class="card card-judge border-0 rounded-4">
                             <div class="card-body text-center text-light">
-                                <img src="/storage/images/assets/Square.png" class="mb-3 rounded-4" width="100%"
-                                    alt="">
+                                <img src="" class="mb-3 rounded-4" width="100%" alt="">
                                 <p class="mb-1">Newscasting Judges</->
                                 <h5 class="fw-semibold m-0">Vincent Febrien</h5>
                             </div>
                         </div>
                         <div class="card card-judge border-0 rounded-4">
                             <div class="card-body text-center text-light">
-                                <img src="/storage/images/assets/Square.png" class="mb-3 rounded-4" width="100%"
-                                    alt="">
+                                <img src="" class="mb-3 rounded-4" width="100%" alt="">
                                 <p class="mb-1">Newscasting Judges</->
                                 <h5 class="fw-semibold m-0">Vincent Febrien</h5>
                             </div>
@@ -953,7 +919,7 @@
                 <x-slot name="subtitle">A few words from the previous winners of NEO</x-slot>
             </x-section-title>
 
-            <div id="testimonyCarousel" class="carousel carousel-fade px-5">
+            <div id="testimonyCarousel" class="carousel carousel-fade px-lg-5" data-bs-ride="carousel">
                 <div class="carousel-inner rounded-4" style="box-shadow: 20px 24px 24px rgba(0, 0, 0, 0.3);">
                     @foreach ($testimonies as $testimony)
                         <div class="carousel-item {{ $loop->first ? 'active' : '' }}" data-bs-interval="10000">
@@ -962,7 +928,8 @@
                                     <div class="row g-5">
                                         <div class="col-md-3">
                                             <img src="/storage/images/testimonies/{{ $testimony->photo }}"
-                                                class="rounded-circle" width="100%">
+                                                class="rounded-circle px-md-0 px-4" width="100%"
+                                                style="filter: drop-shadow(0px 0px 25px rgba(113, 107, 140, 0.75));">
                                         </div>
                                         <div class="col">
                                             <p class="mb-5">
@@ -980,13 +947,16 @@
                     @endforeach
                 </div>
 
-                <div class="d-flex justify-content-center mt-5">
-                    @foreach ($testimonies as $index => $testimony)
-                        <img src="/storage/images/testimonies/{{ $testimony->photo }}" type="button"
-                            class="tab-profile {{ $loop->first ? 'active' : '' }}"
-                            data-bs-target="#testimonyCarousel" data-bs-slide-to="{{ $index }}"
-                            width="8%" data-id="{{ $index }}">
-                    @endforeach
+                <div class="carousel-indicators mt-5">
+                    <div class="row g-2 row-cols-md-5 row-cols-3 justify-content-center">
+                        @foreach ($testimonies as $index => $testimony)
+                            <div class="col">
+                                <img src="/storage/images/testimonies/{{ $testimony->photo }}"
+                                    data-bs-target="#testimonyCarousel" data-bs-slide-to="{{ $index }}"
+                                    class="{{ $loop->first ? 'active' : '' }}">
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>
@@ -1003,7 +973,7 @@
             </div>
 
             <div class="ratio ratio-16x9">
-                <iframe class="embed-responsive-item rounded-20" src="https://www.youtube.com/embed/9RPEtrO6-oo"
+                <iframe class="embed-responsive-item rounded-20" src="https://www.youtube.com/embed/bA_A5TI1bQM"
                     allowfullscreen></iframe>
             </div>
         </div>
@@ -1017,16 +987,45 @@
                 <x-slot name="subtitle">Get yourselves our coolest merchandise and celebrate the future parade now!
                 </x-slot>
             </x-section-title>
+
+            <img src="/storage/images/assets/merchandise.png" width="100%" class="rounded-4 shadow">
         </div>
     </section>
 
-    <section id="merchandise">
+    <section id="faq">
         <div class="container px-lg-5 px-4">
             <x-section-title>
                 <x-slot name="title">FAQ</x-slot>
                 <x-slot name="headline">ANY QUESTIONS</x-slot>
                 <x-slot name="subtitle">These are some more extra details you might need</x-slot>
             </x-section-title>
+
+            <div class="row row-cols-lg-2 row-cols-1 g-4 mb-5">
+                @foreach ($faqs as $faq)
+                    <div class="col">
+                        <button class="btn btn-faq p-3 rounded-3 w-100 toggleChevron" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#collapseFAQ{{ $faq->id }}">
+                            <div class="d-flex justify-content-between align-items-center text-start">
+                                {{ $faq->title }}
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                        </button>
+                        <div class="collapse mt-3" id="collapseFAQ{{ $faq->id }}">
+                            <div class="card card-body" style="background-color: #E7E4FF">
+                                {!! $faq->description !!}
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="text-center">
+                <a href="{{ route('faqs.index') }}" target="_blank"
+                    class="btn btn-primary-neon rounded-pill py-3 px-4">
+                    More Questions
+                    <i class="fa-solid fa-chevron-right ms-2"></i>
+                </a>
+            </div>
         </div>
     </section>
 
@@ -1042,9 +1041,9 @@
                 </x-section-title>
 
                 <div class="card-support mb-5">
-                    <h5 class="text-purple-100" style="background-color: #1F204C;">SPONSORS</h5>
+                    <h5 class="text-purple-100 text-center" style="background-color: #1F204C;">SPONSORS</h5>
                     <div class="row g-4">
-                        <div class="col-md">
+                        <div class="col-lg">
                             <div class="card-cp">
                                 <h4 class="mb-4">Cherish Rachel Priscilla</h4>
                                 <p class="mb-2"><i class="bi bi-line fa-lg me-2"></i>cherishpriscilla</p>
@@ -1054,7 +1053,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="col-md">
+                        <div class="col-lg">
                             <div class="card-cp">
                                 <h4 class="mb-4">Liu Fen Phaw</h4>
                                 <p class="mb-2"><i class="bi bi-line fa-lg me-2"></i>aphaw85</p>
@@ -1068,9 +1067,9 @@
                 </div>
 
                 <div class="card-support">
-                    <h5 class="text-purple-100" style="background-color: #2D2A57;">MEDIA PARTNERS</h5>
+                    <h5 class="text-purple-100 text-center" style="background-color: #2D2A57;">MEDIA PARTNERS</h5>
                     <div class="row g-4">
-                        <div class="col-md">
+                        <div class="col-lg">
                             <div class="card-cp">
                                 <h4 class="mb-4">Jovanna Melissa</h4>
                                 <p class="mb-2"><i class="bi bi-line fa-lg me-2"></i>jovjus1002</p>
@@ -1080,7 +1079,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="col-md">
+                        <div class="col-lg">
                             <div class="card-cp">
                                 <h4 class="mb-4">Felicia Josevine</h4>
                                 <p class="mb-2"><i class="bi bi-line fa-lg me-2"></i>vine2526</p>

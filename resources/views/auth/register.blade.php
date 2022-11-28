@@ -6,9 +6,9 @@
                 <div class="width-custom">
                     <div class="text-center mb-4">
                         <h3 class="text-primary text-center fw-semibold">{{ __('Sign Up') }}</h3>
-                        <small class="text-purple-muted">
+                        <p class="text-purple-muted">
                             Let's create an account first before you register for the competition
-                        </small>
+                        </p>
                     </div>
 
                     <form method="POST" action="{{ route('register') }}">
@@ -31,6 +31,7 @@
                             <input id="email" type="email"
                                 class="form-control @error('email') is-invalid @enderror" name="email"
                                 value="{{ old('email') }}" required autocomplete="email">
+                            <div class="form-text">We will send your registration confirmation to this email.</div>
 
                             @error('email')
                                 <span class="invalid-feedback" role="alert">

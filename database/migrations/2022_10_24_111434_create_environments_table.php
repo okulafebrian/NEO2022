@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('environments', function (Blueprint $table) {
             $table->id();
+            $table->string('code')->unique();
             $table->string('name');
             $table->dateTime('start_time')->nullable();
             $table->dateTime('end_time')->nullable();
-            $table->boolean('is_shown')->nullable();
             $table->timestamps();
         });
     }

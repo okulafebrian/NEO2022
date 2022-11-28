@@ -6,8 +6,6 @@
     Challenge yourself for the prospect of winning a debate!
 </small>
 
-<hr class="my-4">
-
 <h5 class="mb-3 text-primary">GENERAL RULES</h5>
 <ol class="li-custom">
     <li>
@@ -95,7 +93,7 @@
     <li>All adjudicators’ decisions and results are <b>final</b>.</li>
 </ol>
 
-<hr class="my-4">
+<hr>
 
 <h5 class="mb-3 text-primary">TECHNICAL RULES</h5>
 <ol class="li-custom">
@@ -178,8 +176,6 @@
     enhance your skills and expand your network!
 </small>
 
-<hr class="my-4">
-
 <h5 class="mb-3 text-primary">RULES AND REGULATION</h5>
 <ol>
     <li>
@@ -219,7 +215,7 @@
     </li>
 </ol>
 
-<hr class="my-4">
+<hr>
 
 <h5 class="mb-3 text-primary">ROUNDS GUIDELINE</h5>
 
@@ -329,119 +325,171 @@
     Competition!
 </small>
 
-<hr class="my-4">
+<h5 class="mb-3 text-primary">GENERAL RULES AND REGULATIONS</h5>
 
-<h5 class="mb-3 text-primary">RULES AND REGULATION</h5>
 <ol class="li-custom">
-    <li>
-        Participants must input the correct contact details in the registered form.
+    <li>Participants <b>MUST</b> input the correct contact details in the registered form.
     </li>
-    <li>
-        Only one entry per participant will be allowed. The entry must be an
-        original work created by the participant, and any kind of plagiarism will
-        not be tolerated or else participants will be disqualified.
+    <li>Only one entry per participant will be <b>allowed.</b> The entry must be an original
+        work created by the participant, and any kind of plagiarism <b>WILL NOT BE
+            TOLERATED</b> or else participants will be <b>DISQUALIFIED.</b></li>
+    <li>Entries <b>SHOULD BE</b> in English (or English dialect), and participants
+        <b>MUST</b> agree that their work has not been posted or submitted elsewhere.
     </li>
-    <li>
-        Entries should be in English (or English dialect), and participants must
-        agree that their work has not been posted or submitted elsewhere
+    <li>The story submitted <b>MUST NOT</b> contain violence, pornography, and racism.
+        Participants <b>MUST NOT</b> include any form of profanity.</li>
+    <li>Participant works will be submitted to the NEO 2022 Website, and stories
+        <b>cannot</b> be altered once entered.
     </li>
-    <li>
-        The story submitted must not contain violence, pornography, and racism.
-        Participants must not include any form of profanity.
-    </li>
-    <li>
-        Participant works will be submitted to the NEO 2022 Google Forms, and
-        stories cannot be altered once entered.
-    </li>
-    <li>
-        The NEO 2022 committee is not responsible for any bad connection/other
-        interferences during the duration of the competition.
-    </li>
-    <li>
-        The judges’ decisions and results are final, and no correspondence will be
-        entered.
-    </li>
-    <li>
-        All participants should respect and appreciate every judgment from the
-        judges.
-    </li>
+    <li>The NEO 2022 committee is <b>NOT RESPONSIBLE</b> for any bad connection/other
+        interferences during the duration of the competition.</li>
+    <li>The judges’ decisions and results are <b>final,</b> and no correspondence will be
+        entered.</li>
+    <li>All participants should <b>respect</b> and <b>appreciate</b> every judgment from the
+        judges.</li>
 </ol>
 
 <hr class="my-4">
 
-<h5 class="mb-3 text-primary">ROUNDS GUIDELINE</h5>
+<h5 class="mb-3 text-primary">ROUNDS</h5>
 
-<h6 class="fw-semibold">Preliminary (Free Topic)</h6>
+<h6 class="fw-semibold">Preliminary [Free Topic]</h6>
 <p>
-    They can start submitting from the first time they register. The story should be
-    fiction. It can be in any genre (e.g. romance, thriller, action) and in any
-    perspective (e.g. first person, third person).
+    The story participants write should be fiction. It can be in any genre (e.g.,
+    romance, thriller, action) and in any perspective (e.g., first person, third
+    person).
 </p>
-
-<h6>Story Format Requirement:</h6>
+<h6>[STORY FORMAT REQUIREMENT]</h6>
 <ul class="li-custom">
     <li>One entry per author.</li>
-    <li>
-        Title page - the title page of the short story must only contain the title
-        of the short story and brief synopsis.
-    </li>
-    <li>
-        Brief synopsis - the brief synopsis must be a maximum of 100 words. The
-        brief synopsis serves as a description of the short story.
-    </li>
-    <li>Word limit: max. 1500 words (not including the title page).</li>
-    <li>Paper size: A4.</li>
-    <li>Font: Times New Roman, 12pt, black.</li>
+    <li>Title page - the title page of the short story MUST only contain the TITLE of
+        the short story and brief synopsis.</li>
+    <li>Brief synopsis - the brief synopsis MUST be a maximum of 100 words. The brief
+        synopsis serves as a description of the short story.</li>
+    <li>Word limit: MAX. 1500 words (not including the title page).</li>
+    <li>Size: A4, font: Times New Roman, 12pt, black.</li>
     <li>Double-spaced (2.0 line spacing), margin: normal.</li>
-    <li>
-        Insert page number at the document’s footer (except for the title page),
-        centered.
+    <li>Insert page number at the document’s footer (except for the title page),
+        centered.</li>
+    <li>The author’s name SHOULD NOT BE included anywhere inside the document.</li>
+    <li>Save as a PDF file (.pdf) with the short story title as the file’s name. Please
+        include the author’s name in the file’s name. <br>
+        (File name format: Preliminary Round_Title of Story_Author’s Name)
     </li>
-    <li>The author’s name should not be included anywhere inside the document.</li>
     <li>
-        Save as a Microsoft Word document (.doc or .docx) with the short story title
-        as the file’s name. Please include the author’s name in the file’s name.
-        <br>(File name format: Preliminary Round_Title of Story_Author’s Name).
+        Example: <br>
+        <div class="row g-4">
+            <div class="col-lg">
+                <img src="/storage/images/assets/example_1a.jpg" class="border" width="100%">
+            </div>
+            <div class="col-lg">
+                <img src="/storage/images/assets/example_2.jpg" class="border" width="100%">
+            </div>
+        </div>
     </li>
 </ul>
 
 <hr class="border-0">
 
-<h6 class="fw-semibold">Finals (Prompted Story)</h6>
+<h6 class="fw-semibold">Finals [Prompted Story]</h6>
 <p>
-    Participants are assigned a genre and prompt for their story; the perspective
-    must be from the first person point of view. The subject and prompt will be
-    released randomly by the committee 15 minutes prior to the actual time of
-    writing. The story must include the assigned genre and dialogue prompt.
+    10 finalists are assigned a subject and character assignment for their story and in
+    any perspective (e.g. first person, third person). The genre is free to choose from
+    listed genres. A subject and character will be given randomly by the committee. The
+    story must include the chosen genre, the assigned subject, and the assigned
+    character. The assigned subject must be integral to the plot of the story. If the
+    assigned subject barely makes an appearance and isn't relevant to the story, a point
+    deduction will be applied. The assigned character doesn’t need to be the main
+    character, but they must be relevant to your story. If the character is only
+    mentioned and passes by, a point deduction will be applied.
 </p>
-
-<h6>Story Format Requirement:</h6>
+<h6>[STORY FORMAT REQUIREMENT]</h6>
 <ul class="li-custom">
     <li>One entry per author.</li>
-    <li>
-        Title page - the title page of the short story must only contain the title
-        of the short story, genre, subject and character assignment, and a brief
-        synopsis.
+    <li>Title page - the title page of the short story MUST only contain the TITLE of
+        the short story, genre, subject and character assignment, and a brief synopsis.
     </li>
-    <li>
-        Brief synopsis - the brief synopsis must be a maximum of 150 words. The
-        brief synopsis serves as a description of the short story.
-    </li>
-    <li>Word limit: max. 2000 words (not including the title page).</li>
-    <li>Paper size: A4.</li>
-    <li>Font: Times New Roman, 12pt, black.</li>
+    <li>Brief synopsis - the brief synopsis must be a maximum of 150 words. The brief
+        synopsis serves as a description of the short story.</li>
+    <li>Word limit: MAX. 2000 words (not including the title page).</li>
+    <li>Size: A4, font: Times New Roman, 12pt, black.</li>
     <li>Double-spaced (2.0 line spacing), margin: normal.</li>
-    <li>
-        Insert page number at the document’s footer (except for the title page),
-        centered.
+    <li>Insert page number at the document’s footer (except for the title page),
+        centered.</li>
+    <li>The author’s name SHOULD NOT BE included anywhere inside the document.</li>
+    <li>Save as a PDF file (.pdf) with the short story title as the file’s name. Please
+        include the author’s name in the file’s name. <br>
+        (File name format: Final Round_Title of Story_Author’s Name)
     </li>
-    <li>The author’s name should not be included anywhere inside the document.</li>
     <li>
-        Save as a Microsoft Word document (.doc or .docx) with the short story title
-        as the file’s name. Please include the author’s name in the file’s name.
-        <br>(File name format: Final Round_Title of Story_Author’s Name).
+        Example: <br>
+        <div class="row g-4">
+            <div class="col-lg">
+                <img src="/storage/images/assets/example_1b.jpg" class="border" width="100%">
+            </div>
+            <div class="col-lg">
+                <img src="/storage/images/assets/example_2.jpg" class="border" width="100%">
+            </div>
+        </div>
     </li>
 </ul>
+
+<hr class="my-4">
+
+<h5 class="mb-3 text-primary">Specific Rules for the Submission</h5>
+<h6 class="fw-semibold">Preliminary Round</h6>
+<ol class="li-custom">
+    <li>Only one entry per participant will be allowed. Only original, unpublished work
+        is eligible for this competition. Otherwise, the participants will be
+        <b>disqualified.</b>
+    </li>
+    <li>Entries should be in <b>English</b> (or English dialect) and participants will
+        have <b>2.5 hours to write the story for the preliminary round.</b></li>
+    <li>The story submitted <b>MUST NOT</b> contain <b>violence, pornography, and
+            racism.</b></li>
+    <li>The participants will be required to write their stories in Microsoft Word that
+        has been provided by the committees. When the time is up, the committee will
+        lock the PC to prevent any fouls.</li>
+    <li>The participants should submit their original work through the NEO website where
+        they are required to log in and upload their work as pdf. The submission will be
+        closed on January 4, 2023. The stories cannot be altered once entered.</li>
+    <li>Late submission will <b>not</b> be tolerated.</li>
+    <li>There will be 10 finalists announced on the second day of the competition on
+        January 5, 2023.</li>
+</ol>
+<small class="text-danger fst-italic">
+    *Details for format and other rules can be seen from the general rules for the
+    preliminary round
+</small>
+
+<hr class="border-0">
+
+<h6 class="fw-semibold">Final Round</h6>
+<ol class="li-custom">
+    <li>Finalist participants are asked to write a story based on the assigned genre and
+        assigned prompt, which must be integral to the story’s plot. </li>
+    <li>The assigned genre and prompt will be released 15 minutes prior to the actual
+        time of writing. Finalist participants will have <b>3 hours to write the story
+            for the final round.</b></li>
+    <li>Any kind of plagiarism will <b>not</b> be tolerated, and participants will be
+        <b>disqualified.</b>
+    </li>
+    <li>The story should be in <b>English</b> (or English dialect).</li>
+    <li>The story submitted <b>MUST NOT</b> contain <b>violence, pornography, and
+            racism.</b></li>
+    <li>The participants will be required to write their stories in Microsoft Word that
+        has been provided by the committees. When the time is up, the committee will
+        lock the PC to prevent any fouls. </li>
+    <li>The participants should submit their original work through the NEO website where
+        they are required to log in and upload their work as pdf. The submission will be
+        closed on January 6, 2023. The stories cannot be altered once entered. </li>
+    <li>Late submission will <b>not</b> be tolerated.</li>
+    <li>There will be 3 winners announced on the closing day of January 6, 2023. </li>
+</ol>
+<small class="text-danger fst-italic">
+    *Details for format and other rules can be seen from the general rules for the
+    final round
+</small>
 
 {{-- SPEECH --}}
 <small class="text-muted">
@@ -451,8 +499,6 @@
     categories which are: Open Category (for High School and University Students)
     and Junior High School Category.
 </small>
-
-<hr class="my-4">
 
 <h5 class="mb-3 text-primary">RULES AND REGULATION</h5>
 <ol class="li-custom">
@@ -534,7 +580,7 @@
     </li>
 </ol>
 
-<hr class="my-4">
+<hr>
 
 <h5 class="mb-3 text-primary">ROUNDS GUIDELINE</h5>
 

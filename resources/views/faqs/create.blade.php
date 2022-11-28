@@ -17,17 +17,31 @@
                                     required>
                                 <label for="general" class="btn btn-selection rounded-pill">General</label>
 
-                                <input type="radio" class="btn-check" id="accomodation" name="category"
-                                    value="accomodation">
-                                <label for="accomodation" class="btn btn-selection rounded-pill">Accomodation</label>
-
                                 <input type="radio" class="btn-check" id="competition" name="category"
                                     value="competition">
                                 <label for="competition" class="btn btn-selection rounded-pill">Competition</label>
+                            </fieldset>
+                        </div>
+                    </div>
 
-                                <input type="radio" class="btn-check" id="technical" name="category"
-                                    value="technical">
-                                <label for="technical" class="btn btn-selection rounded-pill">Technical Problem</label>
+                    <div id="subCategory" class="row mb-3 d-none">
+                        <label class="col-3 col-form-label">Sub Category</label>
+                        <div class="col">
+                            <fieldset>
+                                <input type="radio" class="btn-check" id="debate" name="sub_category"
+                                    value="debate" disabled required>
+                                <label for="debate" class="btn btn-selection rounded-pill">Debate</label>
+
+                                <input type="radio" class="btn-check" id="newscasting" name="sub_category"
+                                    value="newscasting" disabled>
+                                <label for="newscasting" class="btn btn-selection rounded-pill">Newscasting</label>
+
+                                <input type="radio" class="btn-check" id="ssw" name="sub_category"
+                                    value="short story writing" disabled>
+                                <label for="ssw" class="btn btn-selection rounded-pill">Short Story Writing</label>
+
+                                <input type="radio" class="btn-check" id="speech" name="sub_category" disabled>
+                                <label for="speech" class="btn btn-selection rounded-pill">Speech</label>
                             </fieldset>
                         </div>
                     </div>
@@ -39,7 +53,7 @@
                         </div>
                     </div>
 
-                    <div class="row mb-3">
+                    <div class="row">
                         <label class="col-3 col-form-label">Description</label>
                         <div class="col">
                             <textarea class="form-control" name="description" rows="3" required></textarea>
@@ -56,4 +70,16 @@
             </div>
         </form>
     </div>
+
+    <script>
+        $('input[name="category"]').on('change', function() {
+            if ($(this).val() == 'competition') {
+                $('#subCategory').removeClass('d-none')
+                $('#subCategory').find('input').prop('disabled', false)
+            } else {
+                $('#subCategory').addClass('d-none')
+                $('#subCategory').find('input').prop('disabled', true).prop('checked', false)
+            }
+        })
+    </script>
 </x-app>

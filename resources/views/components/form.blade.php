@@ -169,6 +169,7 @@
             <div class="col-md-6">
                 <label class="form-label">Faculty</label>
                 <select class="form-select" disabled required
+                    name="faculty[{{ $id }}][{{ $j }}][{{ $k }}]"
                     id="faculty{{ $id }}{{ $j }}{{ $k }}">
                     <option selected disabled value="">Please select campus region first</option>
                 </select>
@@ -211,6 +212,9 @@
         var institution = $('#institution{{ $id }}{{ $j }}{{ $k }}')
         var binusianDetails = $(
             '#binusianDetails{{ $id }}{{ $j }}{{ $k }}')
+        var $faculty = $('#faculty{{ $id }}{{ $j }}{{ $k }}')
+        var $major = $('#major{{ $id }}{{ $j }}{{ $k }}')
+
 
         if ($(this).find(':selected').val().indexOf('Year ') >= 0) {
             binusian.removeClass('d-none')
@@ -223,6 +227,8 @@
             binusianDetails.find('input').prop('disabled', true).val('')
             binusianDetails.find('select').prop('disabled', true).prop('selectedIndex', 0)
             institution.val('').prop('readonly', false)
+            $faculty.html('<option disabled selected value="">Please select campus region first</option>');
+            $major.html('<option disabled selected value="">Please select faculty first</option>');
         }
     })
 
@@ -230,6 +236,9 @@
         var institution = $('#institution{{ $id }}{{ $j }}{{ $k }}')
         var binusianDetails = $(
             '#binusianDetails{{ $id }}{{ $j }}{{ $k }}')
+        var $faculty = $('#faculty{{ $id }}{{ $j }}{{ $k }}')
+        var $major = $('#major{{ $id }}{{ $j }}{{ $k }}')
+
 
         if ($(this).val() == true) {
             binusianDetails.removeClass('d-none')
@@ -241,6 +250,8 @@
             binusianDetails.find('input').prop('disabled', true).val('')
             binusianDetails.find('select').prop('disabled', true).prop('selectedIndex', 0)
             institution.val('').prop('readonly', false)
+            $faculty.html('<option disabled selected value="">Please select campus region first</option>');
+            $major.html('<option disabled selected value="">Please select faculty first</option>');
         }
     })
 
@@ -248,7 +259,7 @@
         var $district = $('#district{{ $id }}{{ $j }}{{ $k }}')
 
         $.ajax({
-            url: "{{ route('registrations.getDistricts') }}",
+            url: "{{ route('districts.show') }}",
             data: {
                 province_id: $(this).val()
             },
@@ -265,7 +276,7 @@
         var $faculty = $('#faculty{{ $id }}{{ $j }}{{ $k }}')
 
         $.ajax({
-            url: "{{ route('registrations.getFaculties') }}",
+            url: "{{ route('faculties.show') }}",
             data: {
                 region: $(this).val()
             },
@@ -282,7 +293,7 @@
         var $major = $('#major{{ $id }}{{ $j }}{{ $k }}')
 
         $.ajax({
-            url: "{{ route('registrations.getMajors') }}",
+            url: "{{ route('majors.show') }}",
             data: {
                 faculty_id: $(this).val()
             },

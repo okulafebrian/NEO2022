@@ -11,6 +11,9 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto d-xl-none">
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('logout') }}" type="button" class="nav-link"
                         onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                         {{ __('Logout') }}
@@ -33,6 +36,9 @@
                     {{ explode(' ', trim(Auth::guard('participant')->user()->name))[0] }}
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end p-1 border-0 shadow-sm rounded-3">
+                    <li>
+                        <a class="dropdown-item p-2 rounded-3" href="{{ route('home') }}">{{ __('Home') }}</a>
+                    </li>
                     <li>
                         <a href="{{ route('logout') }}" type="button" class="dropdown-item p-2 rounded-3"
                             onclick="event.preventDefault();document.getElementById('logout-form').submit();">

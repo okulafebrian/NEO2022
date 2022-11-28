@@ -51,7 +51,6 @@
                                                             {{ $competition->name == 'Debate' ? 'TEAM NAME' : 'NAME' }}
                                                         </th>
                                                         <th class="align-middle">CHECK-IN TIME</th>
-                                                        <th class="align-middle">STATUS</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -61,13 +60,10 @@
                                                                 {{ $competition->name == 'Debate' ? $qualification->registrationDetail->debateTeam->name : $qualification->registrationDetail->participants[0]->name }}
                                                             </td>
                                                             <td class="align-middle">
-                                                                {{ $qualification->attendance ? date('j M, H:i', strtotime($qualification->attendance->created_at)) : '-' }}
-                                                            </td>
-                                                            <td class="align-middle">
                                                                 @if ($qualification->attendance)
-                                                                    <span class="text-success">Attend</span>
+                                                                    {{ date('j M, H:i', strtotime($qualification->attendance->created_at)) }}
                                                                 @else
-                                                                    <span class="text-danger">Absence</span>
+                                                                    <span class="text-danger fw-semibold">Absence</span>
                                                                 @endif
                                                             </td>
                                                         </tr>

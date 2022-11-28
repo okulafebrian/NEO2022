@@ -95,7 +95,7 @@
             </div>
         </div>
     </div>
-
+    
     @if ($status != 'refund')
         <div class="border-top p-3">
             <button type="button" class="btn btn-outline-light py-2" data-bs-target="#show{{ $status }}{{ $registration->id }}" data-bs-toggle="modal">
@@ -112,13 +112,9 @@
                 <a href="{{ route('payments.download-invoice', $registration->payment) }}" class="btn btn-outline-light py-2">
                     <i class="bi bi-file-earmark-arrow-down me-1"></i>Invoice
                 </a>
-                <button type="button" class="btn btn-primary py-2 float-end">Resend Invoice</button>
+                <button type="button" class="btn btn-primary py-2 float-end" data-bs-target="#resend-invoice{{ $registration->payment->id }}" data-bs-toggle="modal">Resend Invoice</button>
             @endif
         </div>
-
-        <x-modal-confirmation action="destroy" title="Remove Registration" name="registrations" :model='$registration'>
-            Are you sure want to remove REG ID – {{ str_pad($registration->id, 3, '0', STR_PAD_LEFT) }}?
-        </x-modal-confirmation>
     @elseif ($status == 'refund' && !$refund->deleted_at)
         <div class="border-top p-3">
             <button type="button" class="btn btn-primary py-2 px-5 float-end"

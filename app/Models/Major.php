@@ -13,7 +13,7 @@ class Major extends Model
     protected $timestamp = true;
     protected $guarded = [];
 
-    public function major()
+    public function binusian()
     {
         return $this->hasOne(Binusian::class);
     }

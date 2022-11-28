@@ -10,78 +10,69 @@
             </a>
         </div>
 
-        <div class="row">
-            <div class="col">
-                <div class="card card-custom">
-                    <div class="card-body">
-                        <table class="table">
-                            <thead class="bg-light">
-                                <tr class="text-muted">
-                                    <th>NAME</th>
-                                    <th>PERIOD</th>
-                                    <th>STATUS</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($periodEnvironments as $environment)
-                                    <tr>
-                                        <td class="align-middle">{{ $environment->name }}</td>
-                                        <td class="align-middle">
-                                            {{ date('j M', strtotime($environment->start_time)) }} -
-                                            {{ date('j M', strtotime($environment->end_time)) }}
-                                        </td>
-                                        <td class="align-middle">
-                                            @if (strtotime($environment->start_time) <= time() && strtotime($environment->end_time) >= time())
-                                                <span class="text-success fw-bold">Ongoing</span>
-                                            @elseif (strtotime($environment->start_time) > time())
-                                                <span class="text-orange-400 fw-bold">Upcoming</span>
-                                            @else
-                                                <span class="text-danger fw-bold">Finished</span>
-                                            @endif
-                                        </td>
-                                        <td class="align-middle text-end">
-                                            <a href="{{ route('environments.edit', $environment) }}"
-                                                class="btn btn-outline-light btn-sm" type="button">
-                                                <i class="bi bi-pencil"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card card-custom">
-                    <div class="card-body">
-                        <table class="table">
-                            <thead class="bg-light">
-                                <tr class="text-muted">
-                                    <th>NAME</th>
-                                    <th class="text-center">ENABLED</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($toggleEnvironments as $environment)
-                                    <tr>
-                                        <td class="align-middle">{{ $environment->name }}</td>
-                                        <td class="align-middle">
-                                            @livewire('toggle-switch', [
-                                                'model' => $environment,
-                                                'field' => 'is_shown',
-                                            ])
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+        <div class="card card-custom">
+            <div class="card-body">
+                <table class="table">
+                    <thead class="bg-light">
+                        <tr class="text-muted">
+                            <th>CODE</th>
+                            <th>NAME</th>
+                            <th>PERIOD</th>
+                            <th>STATUS</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($environments as $environment)
+                            <x-modal-confirmation action="destroy" title="Delete Environment" name="environments"
+                                :model=$environment>
+                                Are you sure want to delete <span class="fw-semibold">{{ $environment->code }}</span>?
+                            </x-modal-confirmation>
+
+                            <tr>
+                                <td class="align-middle">{{ $environment->code }}</td>
+                                <td class="align-middle">{{ $environment->name }}</td>
+                                <td class="align-middle">
+                                    {{ date('j M', strtotime($environment->start_time)) }} -
+                                    {{ date('j M', strtotime($environment->end_time)) }}
+                                </td>
+                                <td class="align-middle">
+                                    @if (strtotime($environment->start_time) <= time() && strtotime($environment->end_time) >= time())
+                                        <span class="text-success fw-bold">Ongoing</span>
+                                    @elseif (strtotime($environment->start_time) > time())
+                                        <span class="text-warning fw-bold">Upcoming</span>
+                                    @else
+                                        <span class="text-dark fw-bold">Closed</span>
+                                    @endif
+                                </td>
+                                <td class="align-middle text-end">
+                                    <div class="dropdown">
+                                        <button class="btn btn-outline-light btn-sm" type="button"
+                                            data-bs-toggle="dropdown">
+                                            <i class="bi bi-three-dots-vertical text-muted"></i>
+                                        </button>
+                                        <ul class="dropdown-menu p-1 border-0 shadow-sm rounded-3">
+                                            <li>
+                                                <a class="dropdown-item p-2 rounded-3"
+                                                    href="{{ route('environments.edit', $environment) }}">
+                                                    <i class="bi bi-pencil me-2"></i>Edit
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <button type="button" class="dropdown-item p-2 rounded-3"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#destroy{{ $environment->id }}">
+                                                    <i class="bi bi-trash3 me-2"></i>Delete
+                                                </button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
-
-
     </div>
 </x-app>

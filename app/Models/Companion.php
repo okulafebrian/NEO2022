@@ -13,8 +13,11 @@ class Companion extends Model
     protected $timestamp = true;
     protected $guarded = [];
 
-    public function registration()
+    public function verifiedPayment()
     {
-        return $this->belongsTo(Registration::class);
+        return $this->belongsTo(Registration::class, 'registration_id')
+            ->whereHas('payment', function ($query) {
+                        $query->where('is_verified', true);
+                    });
     }
 }

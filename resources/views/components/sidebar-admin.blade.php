@@ -10,7 +10,7 @@
                 </a>
             </li>
 
-            @if (auth()->user()->email == 'NEOITDIV' || auth()->user()->email == 'NEOSC')
+            @if (auth()->user()->email == 'neo.it' || auth()->user()->email == 'neo.sc')
                 <li class="nav-item">
                     <a href="{{ route('registrations.manage') }}"
                         class="nav-link fw-medium {{ Request::is('registrations/manage') ? 'active' : '' }}">
@@ -41,15 +41,17 @@
                 </a>
             </li>
 
-            <li class="nav-item">
-                <a href="{{ route('request-invitations.index') }}"
-                    class="nav-link fw-medium {{ Request::is('request-invitations') ? 'active' : '' }}">
-                    <i
-                        class="bi {{ Request::is('request-invitations') ? 'bi-envelope-paper-fill' : 'bi-envelope-paper' }} fa-lg me-1">
-                    </i>
-                    Request Invitations
-                </a>
-            </li>
+            @if (auth()->user()->email == 'neo.it' || auth()->user()->email == 'neo.sc')
+                <li class="nav-item">
+                    <a href="{{ route('request-invitations.index') }}"
+                        class="nav-link fw-medium {{ Request::is('request-invitations') ? 'active' : '' }}">
+                        <i
+                            class="bi {{ Request::is('request-invitations') ? 'bi-envelope-paper-fill' : 'bi-envelope-paper' }} fa-lg me-1">
+                        </i>
+                        Request Invitations
+                    </a>
+                </li>
+            @endif
 
             <hr class="my-2">
 
@@ -85,9 +87,9 @@
                 </ul>
             </li>
 
-            <hr class="my-2">
+            @if (auth()->user()->email == 'neo.it' || auth()->user()->email == 'neo.sc')
+                <hr class="my-2">
 
-            @if (auth()->user()->email == 'NEOITDIV' || auth()->user()->email == 'NEOSC')
                 <li class="nav-item">
                     <a href="{{ route('competitions.index') }}"
                         class="nav-link fw-medium {{ Request::is('competitions') ? 'active' : '' }}">
@@ -117,7 +119,7 @@
             @endif
 
 
-            @if (auth()->user()->email == 'NEOITDIV')
+            @if (auth()->user()->email == 'neo.it')
                 <hr class="my-2">
 
                 <li class="nav-item">

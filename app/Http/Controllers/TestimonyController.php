@@ -87,7 +87,7 @@ class TestimonyController extends Controller
     {
         return $request->validate([
             'name'=> 'required|string',
-            'photo' => 'image|dimensions:min_width=300,min_height=300|mimes:jpg,png,jpeg',
+            'photo' => 'image|mimes:jpg,png,jpeg',
             'role'=> 'required|string',
             'description'=> 'required|string',
         ]);

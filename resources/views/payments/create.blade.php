@@ -2,7 +2,7 @@
 
     <x-slot name="navbarUser"></x-slot>
 
-    <div class="container my-5">
+    <div class="container" style="padding-top: 6rem; padding-bottom: 4rem;">
         <div class="text-center mb-4">
             <h4 class="text-primary text-primary fw-semibold">Payment</h4>
             <p class="text-purple-muted">Transfer your payment to the account below and upload the payment proof before

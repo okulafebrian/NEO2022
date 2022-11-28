@@ -2,7 +2,7 @@
 
     <x-slot name="navbarUser"></x-slot>
 
-    <div class="container my-5">
+    <div class="container" style="padding-top: 6rem; padding-bottom: 4rem;">
         <div class="text-center mb-4">
             <h4 class="text-primary fw-semibold">Refund</h4>
             <p class="text-purple-muted">
@@ -51,9 +51,9 @@
 
                             <input type="hidden" name="registration_id" value="{{ $registration->id }}">
                             <input type="hidden" name="payment_amount" value="{{ $payment_amount }}">
-                            
+
                             <h4 class="mb-4" style="font-size: 20px">Confirm Your Transferred Payment</h4>
-                            
+
                             <div class="row g-3">
                                 <div class="col-12">
                                     <label class="form-label">Payment Method</label>
@@ -121,7 +121,8 @@
 
                             <div class="mb-4">
                                 <h4 class="mb-1" style="font-size: 20px">Bank Account for Refund</h4>
-                                <small class="text-muted">Fill in the details of the bank account that will be used to receive the refund</small>
+                                <small class="text-muted">Fill in the details of the bank account that will be used to
+                                    receive the refund</small>
                             </div>
 
                             <div class="row g-3">

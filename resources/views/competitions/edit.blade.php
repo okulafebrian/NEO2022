@@ -7,6 +7,7 @@
 
         <form method="POST" action="{{ route('competitions.update', $competition) }}" enctype="multipart/form-data">
             @csrf
+            
             <div class="card card-custom mb-3">
                 <div class="card-body">
                     <h5 class="mb-4">Upload Logo</h5>

@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
             EnvironmentSeeder::class,
             RoundSeeder::class,
             AccessSeeder::class,
-            AccessControlSeeder::class,
         ]);
     }
 }

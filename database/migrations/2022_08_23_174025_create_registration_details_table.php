@@ -17,8 +17,8 @@ return new class extends Migration
             $table->foreign('competition_id')->references('id')->on('competitions')->onUpdate('cascade')->onDelete('cascade');
             $table->string('type');
             $table->string('price');
-            $table->boolean('withdraw')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

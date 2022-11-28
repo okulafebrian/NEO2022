@@ -6,7 +6,7 @@
         enctype="multipart/form-data">
         @csrf
 
-        <div class="container my-5">
+        <div class="container" style="padding-top: 6rem; padding-bottom: 4rem;">
             <div class="mb-4 text-center">
                 <h4 class="text-primary fw-semibold">Registration Form</h4>
                 <p class="text-muted">
@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-lg-8">
                     <section class="mb-5">
-                        <h4 class="mb-3" style="font-size: 20px">Companion Data</h4>
+                        <h5 class="mb-3 fw-semibold">Companion Data</h5>
                         <div class="card card-custom">
                             <div class="card-body">
                                 <div id="companion" class="row g-4 mb-3">
@@ -32,29 +32,17 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <input class="form-check-input" type="checkbox" name="nocompanion">
+                                    <input class="form-check-input" type="checkbox" id="nocompanion">
                                     <label class="form-check-label">
-                                        We have no companion
+                                        We don't have a companion
                                     </label>
                                 </div>
                             </div>
                         </div>
-
-                        <script>
-                            $('input[name="nocompanion"]').on('click', function() {
-                                if ($(this).is(':checked')) {
-                                    $('#companion .form-control').prop('disabled', true)
-                                    $("input[name='nocompanion']").val(1)
-                                } else {
-                                    $('#companion .form-control').prop('disabled', false)
-                                    $("input[name='nocompanion']").val(0)
-                                }
-                            })
-                        </script>
                     </section>
 
                     <section>
-                        <h4 class="mb-3" style="font-size: 20px">Participant Data</h4>
+                        <h5 class="mb-3 fw-semibold">Participant Data</h5>
 
                         @foreach ($competitions as $competition)
                             <input type="hidden" name="ticket[{{ $competition->id }}]"
@@ -130,7 +118,7 @@
                 <div class="col">
                     <div class="card card-custom sticky-top" style="top: 5rem;">
                         <div class="card-body">
-                            <h4 class="mb-4" style="font-size: 20px">Price Summary</h4>
+                            <h5 class="mb-4 fw-semibold">Price Summary</h5>
 
                             <table class="table table-borderless m-0 td-custom" style="table-layout: fixed;">
                                 <tbody>
@@ -152,13 +140,28 @@
 
                             <hr style="border-style: dashed">
 
-                            <div class="table-custom mb-4">
+                            <div class="table-custom">
                                 <h6>Total Price</h6>
                                 <h6>Rp {{ number_format($totalPrice, 0, '.', '.') }}</h6>
                             </div>
 
-                            <button type="button" data-bs-toggle="modal" data-bs-target="#confirmRegistration"
-                                class="btn btn-primary py-2 fw-medium w-100">
+                            <hr style="border-style: dashed">
+
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="agreeTnC">
+                                <label class="form-check-label">
+                                    <small>
+                                        I have read and agreed with the <a target="_blank"
+                                            href="https://drive.google.com/file/d/1cfO4JArJIurLWJsK3g8bSBawxOUyJQWw/view?usp=sharing"
+                                            role="button">terms and
+                                            conditions</a>
+                                    </small>
+                                </label>
+                            </div>
+
+                            <button id="confirmBtn" type="button" data-bs-toggle="modal"
+                                data-bs-target="#confirmRegistration" class="btn btn-primary py-2 fw-medium w-100"
+                                disabled>
                                 Confirm
                             </button>
                         </div>
@@ -167,18 +170,18 @@
             </div>
         </div>
 
-        <div id="confirmRegistration" class="modal fade" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered" style="max-width: 28rem">
+        <div id="confirmRegistration" class="modal fade" style="z-index: 999999999999 !important">
+            <div class="modal-dialog modal-dialog-centered" style="max-width: 28rem;">
                 <div class="modal-content border-0 shadow py-3">
                     <div class="modal-header border-0">
-                        <h5 class="fw-semibold m-auto ">
-                            Is Your Registration Correct?
+                        <h5 class="fw-semibold m-auto text-center">
+                            Are your registration details correct?
                         </h5>
                     </div>
                     <div class="modal-body py-0 text-center">
                         <p>
-                            You will not be able to change the registration data after proceeding to
-                            the payment page. Keep going?
+                            You will not be able to change your registration details once you proceed to payment. Do you
+                            want to proceed?
                         </p>
                     </div>
                     <div class="p-3 d-grid gap-2">
@@ -193,4 +196,24 @@
             </div>
         </div>
     </form>
+
+    <script>
+        $('#nocompanion').on('click', function() {
+            if ($(this).is(':checked')) {
+                $('#companion .form-control').prop('disabled', true)
+                $("input[name='nocompanion']").val(1)
+            } else {
+                $('#companion .form-control').prop('disabled', false)
+                $("input[name='nocompanion']").val(0)
+            }
+        })
+
+        $('#agreeTnC').on('click', function() {
+            if ($(this).is(':checked')) {
+                $('#confirmBtn').prop('disabled', false)
+            } else {
+                $('#confirmBtn').prop('disabled', true)
+            }
+        })
+    </script>
 </x-app>

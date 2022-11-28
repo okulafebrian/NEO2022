@@ -12,6 +12,7 @@ return new class extends Migration
         Schema::create('faqs', function (Blueprint $table) {
             $table->id();
             $table->string('category');
+            $table->string('sub_category')->nullable();
             $table->string('title');
             $table->longText('description');
             $table->timestamps();

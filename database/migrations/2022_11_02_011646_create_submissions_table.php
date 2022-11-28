@@ -13,7 +13,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('qualification_id');
             $table->foreign('qualification_id')->references('id')->on('qualifications')->onDelete('cascade');
-            $table->string('link');
+            $table->string('file');
             $table->timestamps();
         });
     }

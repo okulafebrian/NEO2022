@@ -16,42 +16,42 @@ class UserSeeder extends Seeder
             [
                 'name' => 'IT Division',
                 'role' => 'ADMIN',
-                'email' => 'NEOITDIV',
+                'email' => 'neo.it',
                 'password' => Hash::make('neoIT123'),
                 'email_verified_at' => Carbon::now()
             ],
             [
                 'name' => 'Steering Committee',
                 'role' => 'ADMIN',
-                'email' => 'NEOSC',
+                'email' => 'neo.sc',
                 'password' => Hash::make('neoSC123'),
                 'email_verified_at' => Carbon::now()
             ],
             [
                 'name' => 'Debate Division',
                 'role' => 'ADMIN',
-                'email' => 'NEODBDIV',
+                'email' => 'neo.debate',
                 'password' => Hash::make('neoDB123'),
                 'email_verified_at' => Carbon::now()
             ],
             [
                 'name' => 'Newscasting Division',
                 'role' => 'ADMIN',
-                'email' => 'NEONCDIV',
+                'email' => 'neo.newscasting',
                 'password' => Hash::make('neoNC123'),
                 'email_verified_at' => Carbon::now()
             ],
             [
                 'name' => 'SSW Division',
                 'role' => 'ADMIN',
-                'email' => 'NEOSSWDIV',
+                'email' => 'neo.ssw',
                 'password' => Hash::make('neoSSW123'),
                 'email_verified_at' => Carbon::now()
             ],
             [
                 'name' => 'Speech Division',
                 'role' => 'ADMIN',
-                'email' => 'NEOSPDIV',
+                'email' => 'neo.speech',
                 'password' => Hash::make('neoSP123'),
                 'email_verified_at' => Carbon::now()
             ],

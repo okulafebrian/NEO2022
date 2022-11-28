@@ -11,7 +11,7 @@ class RequestInvitationController extends Controller
     public function index()
     {
         return view('request-invitations.index', [
-            'requestInvitations' => RequestInvitation::all()
+            'requestInvitations' => RequestInvitation::withTrashed()->get()
         ]);
     }
 
@@ -54,6 +54,17 @@ class RequestInvitationController extends Controller
 
     public function destroy(RequestInvitation $requestInvitation)
     {
-        //
+        $requestInvitation->delete();
+
+        return redirect()->route('request-invitations.index')->with('success', 'Request invitation declined.');
+    }
+
+    public function accept(RequestInvitation $requestInvitation)
+    {
+        $requestInvitation->update([
+            'is_sent' => 1
+        ]);
+
+        return redirect()->route('request-invitations.index')->with('success', 'Request invitation letter sent.');
     }
 }

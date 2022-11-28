@@ -21,26 +21,14 @@ class AccessSeeder extends Seeder
                 'name' => 'Registration',
             ],
             [
-                'name' => 'Participant',
-            ],
-            [
                 'name' => 'Competition',
             ],
-             [
+            [
                 'name' => 'FAQ',
             ],
             [
-                'name' => 'Qualification',
-            ],
-            [
-                'name' => 'Re-registration',
-            ],
-            [
-                'name' => 'Attendance',
-            ],
-            [
-                'name' => 'Submission',
-            ],
+                'name' => 'Testimony',
+            ]
         ]);
     }
 }

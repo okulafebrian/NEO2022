@@ -28,23 +28,20 @@
                         <div class="card-body">
                             <ul class="nav nav-pills mb-3" id="competitionTab" role="tablist">
                                 @foreach ($competitions as $competition)
-                                    @if ($competition->name == 'Short Story Writing')
-                                        <li class="nav-item" role="presentation">
-                                            <button
-                                                class="nav-link {{ $competition->name == 'Short Story Writing' ? 'active' : 'mx-1' }}"
-                                                data-bs-toggle="pill"
-                                                data-bs-target="#competitionTab{{ $competition->id }}{{ $round->id }}"
-                                                type="button" role="tab">
-                                                {{ $competition->name != 'Speech' ? $competition->name : $competition->name . ' ' . $competition->category }}
-                                            </button>
-                                        </li>
-                                    @endif
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link {{ $loop->first ? 'active' : 'mx-1' }}"
+                                            data-bs-toggle="pill"
+                                            data-bs-target="#competitionTab{{ $competition->id }}{{ $round->id }}"
+                                            type="button" role="tab">
+                                            {{ $competition->name != 'Speech' ? $competition->name : $competition->name . ' ' . $competition->category }}
+                                        </button>
+                                    </li>
                                 @endforeach
                             </ul>
 
                             <div class="tab-content">
                                 @foreach ($competitions as $competition)
-                                    <div class="tab-pane fade {{ $competition->name == 'Short Story Writing' ? 'show active' : '' }}"
+                                    <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}"
                                         id="competitionTab{{ $competition->id }}{{ $round->id }}" role="tabpanel"
                                         tabindex="0">
                                         @if (count($qualifications[$round->id][$competition->id]) > 0)

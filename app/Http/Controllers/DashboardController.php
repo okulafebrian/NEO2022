@@ -7,6 +7,7 @@ use App\Models\Environment;
 use App\Models\Payment;
 use App\Models\Refund;
 use App\Models\Registration;
+use App\Models\RegistrationDetail;
 use App\Models\Submission;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -31,8 +32,8 @@ class DashboardController extends Controller
             
             return view('dashboards.user', [
                 'competitions' => $competitions,
-                'isRegistrationOngoing' => $this->validateEnvironment('REGISTRATION'),
-                'isEarlyBirdOngoing' => $this->validateEnvironment('EARLY BIRD'),
+                'isRegistrationOngoing' => $this->validateEnvironment('ENV001'),
+                'isEarlyBirdOngoing' => $this->validateEnvironment('ENV002'),
             ]);
 
         } else {
@@ -41,8 +42,9 @@ class DashboardController extends Controller
                                 $query->where('payment_due', '>=', Carbon::now())
                                     ->orWhereHas('payment');
                             }])->get(); 
-        
+            
             return view('dashboards.admin', [
+                'totalParticipant' => RegistrationDetail::whereHas('verifiedPayment')->count(),
                 'unverifiedCount' => Registration::whereRelation('payment', 'is_verified', null)->count(),
                 'refundCount' => Refund::where('is_verified', null)->count(),
                 'submissionCount' => Submission::where('created_at', Carbon::today())->count(),
@@ -53,12 +55,10 @@ class DashboardController extends Controller
         }
     }
 
-    protected function validateEnvironment($name)
+    protected function validateEnvironment($code)
     {
-        $environment = Environment::where('name', $name)->first();
-        $start_time = strtotime($environment->start_time);
-        $end_time = strtotime($environment->end_time);
-        
-        return (time() >= $start_time  && time() <= $end_time) ? true : false;
+        $environment = Environment::where('code', $code)->first();
+
+        return (Carbon::now() >= $environment->start_time  && Carbon::now() <= $environment->end_time) ? true : false;
     }
 }

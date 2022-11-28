@@ -4,7 +4,7 @@
         <div class="card card-custom shadow-custom rounded-0 m-auto h-100">
             <div class="card-body px-md-5 d-flex justify-content-center align-items-center">
                 <div class="width-custom">
-                    <div class="text-center">
+                    <div class="text-center mb-4">
                         <a href="{{ route('home') }}">
                             <img src="/storage/images/assets/NEO_2.png" width="50%" alt="NEO" class="mb-4">
                         </a>
