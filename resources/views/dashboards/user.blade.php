@@ -5,16 +5,10 @@
     <div class="container" style="padding-top: 6rem; padding-bottom: 8rem;">
         @if ($isRegistrationOngoing)
             @if ($isEarlyBirdOngoing)
-                <div class="alert alert-primary border-0 rounded-3 shadow-sm mb-5" role="alert">
-                    <div class="row">
-                        <div class="col-lg">
-                            <i class="bi bi-tags-fill me-2"></i><b>EARLY BIRD DEALS</b> | SAVE UP TO RP 100.000 - LIMITED
-                            SLOTS
-                        </div>
-                        <div class="col-lg text-lg-end text-start">
-                            <i class="bi bi-calendar-range me-2"></i>21 Nov - 12 Dec, 2022
-                        </div>
-                    </div>
+                <div class="alert alert-primary border-0 text-center shadow-sm mb-4">
+                    <h6 class="fw-bold"><i class="bi bi-tags-fill me-2"></i>EARLY BIRD DEALS</h6>
+                    <h6>SAVE UP TO RP 100.000 - LIMITED SLOTS</h6>
+                    <h6 class="m-0">21 Nov - 12 Dec, 2022</h6>
                 </div>
             @endif
 

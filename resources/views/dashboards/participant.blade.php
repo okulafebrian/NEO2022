@@ -4,54 +4,13 @@
 
     <div class="container my-4">
         @if (count($qualifications) > 0)
-            <div id="attendanceCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
-                <div class="carousel-inner rounded-4">
-                    @foreach ($qualifications as $qualification)
-                        <div class="carousel-item px-1 {{ $loop->first ? 'active' : '' }}">
-                            <div class="card card-custom rounded-4 bg-purple-700" style="min-height: 12rem;">
-                                <div class="card-body">
-                                    <div class="mb-5 text-light">
-                                        <h4>
-                                            {{ $qualification->round->name }} Attendance
-                                        </h4>
-                                        <p>
-                                            @if ($attendances[$qualification->id] == 0)
-                                                Attendance closed
-                                            @elseif ($qualification->attendance)
-                                                Check-in successful on
-                                                {{ date('j M, H:i', strtotime($qualification->attendance->created_at)) }}
-                                            @else
-                                                Make sure to check in when attending the event
-                                            @endif
-                                        </p>
-                                    </div>
-                                    <div class="text-end">
-                                        @if ($attendances[$qualification->id] == 1 && !$qualification->attendance)
-                                            <form method="POST" action="{{ route('attendances.store') }}">
-                                                @csrf
-                                                <input type="hidden" name="qualification_id"
-                                                    value="{{ $qualification->id }}">
-                                                <input type="hidden" name="round"
-                                                    value="{{ $qualification->round->name }}">
-                                                <input type="hidden" name="competition"
-                                                    value="{{ $qualification->registrationDetail->competition->name }}">
-
-                                                <button type="submit" class="btn btn-light py-2 rounded-3">Check
-                                                    In</button>
-                                            </form>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-                <div class="carousel-indicators mt-5">
-                    @foreach ($qualifications as $index => $qualification)
-                        <button data-bs-target="#attendanceCarousel" data-bs-slide-to="{{ $index }}"
-                            class="{{ $loop->first ? 'active' : '' }}">
-                        </button>
-                    @endforeach
+            <div class="card card-custom rounded-4 bg-purple-700">
+                <div class="card-body">
+                    <div class="mb-5 text-light">
+                        <h4>Attendance</h4>
+                        <p>Make sure to check in when attending the event</p>
+                    </div>
+                    <button type="submit" class="btn btn-light py-2 rounded-3">Check In</button>
                 </div>
             </div>
 

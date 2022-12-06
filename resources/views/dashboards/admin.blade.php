@@ -31,7 +31,7 @@
                     <div class="card border-0 shadow-sm rounded-3">
                         <div class="card-body">
                             <small class="text-muted">Invitation Request</small>
-                            <h3>0</h3>
+                            <h3>{{ $requestCount }}</h3>
                         </div>
                     </div>
                 </div>

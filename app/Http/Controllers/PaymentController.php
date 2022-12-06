@@ -130,10 +130,8 @@ class PaymentController extends Controller
             $payment->update([
                 'is_verified' => 1,
             ]);
-
-            return redirect()->route('registrations.manage')->with('success', 'Payment accepted.');
             
-             // SEND INVOICE MAIL
+            // SEND INVOICE MAIL
             Mail::to($payment->registration->user->email)->send(new PaymentMail($payment));
 
             foreach ($payment->registration->registrationDetails as $registrationDetail) {

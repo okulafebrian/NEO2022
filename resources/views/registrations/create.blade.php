@@ -160,8 +160,7 @@
                             </div>
 
                             <button id="confirmBtn" type="button" data-bs-toggle="modal"
-                                data-bs-target="#confirmRegistration" class="btn btn-primary py-2 fw-medium w-100"
-                                disabled>
+                                data-bs-target="#confirmRegistration" class="btn btn-primary py-2 w-100" disabled>
                                 Confirm
                             </button>
                         </div>

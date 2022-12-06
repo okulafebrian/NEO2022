@@ -53,7 +53,7 @@ class RequestInvitationController extends Controller
     }
 
     public function destroy(RequestInvitation $requestInvitation)
-    {
+    {   
         $requestInvitation->delete();
 
         return redirect()->route('request-invitations.index')->with('success', 'Request invitation declined.');

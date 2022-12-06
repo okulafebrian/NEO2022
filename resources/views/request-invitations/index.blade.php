@@ -30,7 +30,7 @@
                                         @elseif ($invitation->is_sent)
                                             <b class="text-primary">Sent</b>
                                         @else
-                                            <div class="d-flex gap-1 justify-content-end">
+                                            <div class="d-flex gap-1">
                                                 <form action="{{ route('request-invitations.accept', $invitation) }}"
                                                     method="POST">
                                                     @csrf

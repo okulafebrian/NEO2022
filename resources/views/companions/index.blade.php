@@ -14,6 +14,7 @@
                             <tr class="text-secondary">
                                 <th>NAME</th>
                                 <th>PHONE NUMBER</th>
+                                <th>PARTICIPANTS</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -22,6 +23,11 @@
                                 <tr>
                                     <td class="align-middle">{{ $companion->name }}</td>
                                     <td class="align-middle">{{ $companion->phone_number }}</td>
+                                    <td class="align-middle">
+                                        @foreach ($companion->verifiedPayment->participants as $participant)
+                                            {{ $participant->name }} <br>
+                                        @endforeach
+                                    </td>
                                     <td class="align-middle text-end">
                                         <a href="{{ route('companions.edit', $companion) }}"
                                             class="btn btn-outline-light btn-sm" type="button">

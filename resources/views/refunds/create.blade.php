@@ -10,7 +10,7 @@
             </p>
         </div>
 
-        <div class="row">
+        <div class="row g-4">
             <div class="col">
                 <div class="card card-custom">
                     <div class="card-body">
@@ -52,7 +52,7 @@
                             <input type="hidden" name="registration_id" value="{{ $registration->id }}">
                             <input type="hidden" name="payment_amount" value="{{ $payment_amount }}">
 
-                            <h4 class="mb-4" style="font-size: 20px">Confirm Your Transferred Payment</h4>
+                            <h5 class="mb-4 fw-semibold">Confirm Your Transferred Payment</h5>
 
                             <div class="row g-3">
                                 <div class="col-12">
@@ -120,7 +120,7 @@
                             <hr style="border-style:dashed">
 
                             <div class="mb-4">
-                                <h4 class="mb-1" style="font-size: 20px">Bank Account for Refund</h4>
+                                <h5 class="mb-1 fw-semibold">Bank Account for Refund</h5>
                                 <small class="text-muted">Fill in the details of the bank account that will be used to
                                     receive the refund</small>
                             </div>

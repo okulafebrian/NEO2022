@@ -8,6 +8,7 @@ use App\Models\Payment;
 use App\Models\Refund;
 use App\Models\Registration;
 use App\Models\RegistrationDetail;
+use App\Models\RequestInvitation;
 use App\Models\Submission;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -50,6 +51,7 @@ class DashboardController extends Controller
                 'submissionCount' => Submission::where('created_at', Carbon::today())->count(),
                 'competitions' => $competitions,
                 'environments' => Environment::all(),
+                'requestCount' => RequestInvitation::where('is_sent', null)->count(),
             ]);
 
         }

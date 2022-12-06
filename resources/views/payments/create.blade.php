@@ -91,7 +91,7 @@
                         <div class="card-body">
                             <div class="row g-2 mb-4">
                                 <div class="col-md">
-                                    <h4 class="mb-0" style="font-size: 20px">Confirm Your Payment</h4>
+                                    <h5 class="m-0 fw-semibold">Confirm Your Payment</h5>
                                 </div>
                                 <div class="col text-md-end">
                                     <div class="badge bg-red-100 text-danger" style="width: 6rem">

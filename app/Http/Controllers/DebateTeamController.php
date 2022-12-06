@@ -47,42 +47,12 @@ class DebateTeamController extends Controller
     {   
         $request->validate([
             'team_name' => 'required|string',
-            'particiapnt_id.*' => 'required|integer',
-            'name.*' => 'required|string',
-            'email.*' => 'required|string',
-            'gender.*' => 'required|string',
-            'province.*' => 'required|string',
-            'district.*' => 'required|string',
-            'address.*' => 'required|string',
-            'phone_number.*' => 'required|string',
-            'line_id.*' => 'required|string',
-            'grade.*' => 'required|string',
-            'institution.*' => 'required|string',
+        ]);
+
+        $debateTeam->update([
+            'name' => $request->team_name,
         ]);
         
-        DB::transaction(function () use($request, $debateTeam) {
-            $debateTeam->update([
-                'name' => $request->team_name,
-            ]);
-
-            for ($i=0; $i < count($request->name); $i++) { 
-                $participant = Participant::find($request->participant_id[$i]);
-                
-                $participant->update([
-                    'name' => $request->name[$i],
-                    'gender' => $request->gender[$i],
-                    'grade' => $request->grade[$i],
-                    'province' => $request->province[$i],
-                    'district' => $request->district[$i],
-                    'address' => $request->address[$i],
-                    'email' => $request->email[$i],
-                    'phone_number' => $request->phone_number[$i],
-                    'line_id' => $request->line_id[$i],
-                    'institution' => $request->institution[$i],
-                ]);
-            }
-        });
-
         return redirect()->route('participants.index')->with('success', 'Data successfully updated!');
     }
 
