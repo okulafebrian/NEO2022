@@ -125,7 +125,7 @@
                     <div class="col {{ $index == 3 ? 'offset-lg-0 offset-2' : '' }}">
                         <div class="card card-competition bg-transparent border-0" data-bs-toggle="modal"
                             data-bs-target="#show{{ $competition->id }}" type="button">
-                            <img src="/storage/images/logos/{{ $competition->logo }}" class="rounded-4"
+                            <img src="/storage/images/competitions/{{ $competition->logo }}" class="rounded-4"
                                 alt="{{ $competition->name }}">
                             <h5 class="text-purple-100 text-center mt-3">
                                 {{ $competition->name == 'Speech' ? $competition->name . ' ' . $competition->category : $competition->name }}
@@ -143,7 +143,7 @@
                                 <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
                                     <div class="card card-competition bg-transparent border-0" data-bs-toggle="modal"
                                         data-bs-target="#show{{ $competition->id }}" type="button">
-                                        <img src="/storage/images/logos/{{ $competition->logo }}"
+                                        <img src="/storage/images/competitions/{{ $competition->logo }}"
                                             class="rounded-4 m-auto" width="60%">
                                         <h5 class="text-purple-100 text-center mt-3">
                                             {{ $competition->name == 'Speech' ? $competition->name . ' ' . $competition->category : $competition->name }}
@@ -1030,64 +1030,45 @@
     </section>
 
     <div class="background-custom">
-        <section id="supports">
+        <section id="sponsor">
             <div class="container px-lg-5 px-4">
                 <x-section-title>
-                    <x-slot name="title">CALLING OUT</x-slot>
-                    <x-slot name="headline">SUPPORTING PARTNERS</x-slot>
+                    <x-slot name="title">OUR SUPPORTS</x-slot>
+                    <x-slot name="headline">SPONSORS</x-slot>
                     <x-slot name="subtitle">
-                        Contact us below to join the biggest national English competition of the year!
+                        Here are our awesome sponsors who make our event a major success
                     </x-slot>
                 </x-section-title>
 
-                <div class="card-support mb-5">
-                    <h5 class="text-purple-100 text-center" style="background-color: #1F204C;">SPONSORS</h5>
-                    <div class="row g-4">
-                        <div class="col-lg">
-                            <div class="card-cp">
-                                <h4 class="mb-4">Cherish Rachel Priscilla</h4>
-                                <p class="mb-2"><i class="bi bi-line fa-lg me-2"></i>cherishpriscilla</p>
-                                <p class="mb-2"><i class="bi bi-whatsapp fa-lg me-2"></i>0877 0305 8905</p>
-                                <p class="mb-2"><i
-                                        class="bi bi-envelope-fill fa-lg me-2"></i>cherishrachelpriscilla@gmail.com
-                                </p>
+                <div class="card-support shadow">
+                    <div class="row row-cols-md-6 row-cols-3">
+                        @foreach ($sponsors as $sponsor)
+                            <div class="col my-auto">
+                                <img src="/storage/images/supports/{{ $sponsor->logo }}" width="100%">
                             </div>
-                        </div>
-                        <div class="col-lg">
-                            <div class="card-cp">
-                                <h4 class="mb-4">Liu Fen Phaw</h4>
-                                <p class="mb-2"><i class="bi bi-line fa-lg me-2"></i>aphaw85</p>
-                                <p class="mb-2"><i class="bi bi-whatsapp fa-lg me-2"></i>0811 2111 2308</p>
-                                <p class="mb-2"><i
-                                        class="bi bi-envelope-fill fa-lg me-2"></i>phawliufen9508@gmail.com
-                                </p>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <div class="card-support">
-                    <h5 class="text-purple-100 text-center" style="background-color: #2D2A57;">MEDIA PARTNERS</h5>
-                    <div class="row g-4">
-                        <div class="col-lg">
-                            <div class="card-cp">
-                                <h4 class="mb-4">Jovanna Melissa</h4>
-                                <p class="mb-2"><i class="bi bi-line fa-lg me-2"></i>jovjus1002</p>
-                                <p class="mb-2"><i class="bi bi-whatsapp fa-lg me-2"></i>0812 1975 0363</p>
-                                <p class="mb-2"><i
-                                        class="bi bi-envelope-fill fa-lg me-2"></i>jovanna.melissa@binus.ac.id
-                                </p>
+        <section id="medpar">
+            <div class="container px-lg-5 px-4">
+                <x-section-title>
+                    <x-slot name="title">OUR SUPPORTS</x-slot>
+                    <x-slot name="headline">MEDIA PARTNERS</x-slot>
+                    <x-slot name="subtitle">
+                        These are our spectacular media partners contributing in this year’s NEO
+                    </x-slot>
+                </x-section-title>
+
+                <div class="card-support shadow">
+                    <div class="row row-cols-md-6 row-cols-3">
+                        @foreach ($medpars as $medpar)
+                            <div class="col my-auto">
+                                <img src="/storage/images/supports/{{ $medpar->logo }}" width="100%">
                             </div>
-                        </div>
-                        <div class="col-lg">
-                            <div class="card-cp">
-                                <h4 class="mb-4">Felicia Josevine</h4>
-                                <p class="mb-2"><i class="bi bi-line fa-lg me-2"></i>vine2526</p>
-                                <p class="mb-2"><i class="bi bi-whatsapp fa-lg me-2"></i>0851 0982 7800</p>
-                                <p class="mb-2"><i class="bi bi-envelope-fill fa-lg me-2"></i>fjosevine@gmail.com
-                                </p>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>

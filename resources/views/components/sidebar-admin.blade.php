@@ -116,6 +116,14 @@
                         Testimonies
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('supports.index') }}"
+                        class="nav-link fw-medium {{ Request::is('supports') ? 'active' : '' }}">
+                        <i class="{{ Request::is('supports') ? 'fa-solid' : 'fa-regular' }} fa-handshake me-1"></i>
+                        Supports
+                    </a>
+                </li>
             @endif
 
 
