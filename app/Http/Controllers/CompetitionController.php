@@ -41,7 +41,7 @@ class CompetitionController extends Controller
         if ($request->hasFile('logo')) {
             $extension = $request->file('logo')->getClientOriginalExtension();
             $proofNameToStore = $request->input('name') . '_' . $request->input('category') . '.' . $extension;
-            $request->file('logo')->storeAs('public/images/logos', $proofNameToStore);
+            $request->file('logo')->storeAs('public/images/competitions', $proofNameToStore);
         }
 
         Competition::create([
@@ -83,11 +83,11 @@ class CompetitionController extends Controller
         
         if ($request->hasFile('logo')) {
             if ($competition->logo != NULL)
-                Storage::delete('public/images/logos/' . $competition->logo);
+                Storage::delete('public/images/competitions/' . $competition->logo);
             
             $extension = $request->file('logo')->getClientOriginalExtension();
             $proofNameToStore = $request->input('name') . '_' . $request->input('category') . '.' . $extension;
-            $request->file('logo')->storeAs('public/images/logos', $proofNameToStore);
+            $request->file('logo')->storeAs('public/images/competitions', $proofNameToStore);
         } else {
             $proofNameToStore = $competition->logo;
         }

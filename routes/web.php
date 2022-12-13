@@ -23,6 +23,7 @@ use App\Http\Controllers\RegistrationDetailController;
 use App\Http\Controllers\RequestInvitationController;
 use App\Http\Controllers\RoundController;
 use App\Http\Controllers\SubmissionController;
+use App\Http\Controllers\SupportController;
 use App\Http\Controllers\TestimonyController;
 use App\Http\Controllers\WebinarController;
 use Illuminate\Support\Facades\Auth;
@@ -43,6 +44,8 @@ Route::resource('rounds', RoundController::class);
 Route::resource('attendances', AttendanceController::class);
 Route::resource('companions', CompanionController::class);
 Route::resource('testimonies', TestimonyController::class);
+Route::resource('supports', SupportController::class);
+
 
 // Registration Detail
 Route::prefix('registration-details')->name('registration-details.')->group(function () {

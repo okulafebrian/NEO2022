@@ -60,7 +60,7 @@
                                             </div>
 
                                             <div class="col-3">
-                                                <img src="/storage/images/logos/{{ $competition->logo }}"
+                                                <img src="/storage/images/competitions/{{ $competition->logo }}"
                                                     alt="{{ $competition->name }}" class="rounded-3" width="100%">
                                             </div>
                                         </div>
