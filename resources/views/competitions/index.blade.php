@@ -35,7 +35,7 @@
                                 <td class="align-middle">
                                     <div class="row gx-3 my-3">
                                         <div class="col-3">
-                                            <img src="/storage/images/logos/{{ $competition->logo }}" alt=""
+                                            <img src="/storage/images/competitions/{{ $competition->logo }}"
                                                 width="100%" class="rounded-3">
                                         </div>
                                         <div class="col m-auto">

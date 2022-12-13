@@ -7,7 +7,7 @@
 
         <form method="POST" action="{{ route('competitions.update', $competition) }}" enctype="multipart/form-data">
             @csrf
-            
+
             <div class="card card-custom mb-3">
                 <div class="card-body">
                     <h5 class="mb-4">Upload Logo</h5>
@@ -26,7 +26,7 @@
                             <label for="logo">
                                 <div class="input-img text-center text-secondary">
                                     <img class="img-preview rounded-3"
-                                        src="/storage/images/logos/{{ $competition->logo }}" width="100%">
+                                        src="/storage/images/competitions/{{ $competition->logo }}" width="100%">
                                 </div>
                             </label>
                             <input class="form-control @error('logo') is-invalid @enderror" id="logo"
