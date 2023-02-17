@@ -2,7 +2,7 @@
 
     <x-slot name="navbarUser"></x-slot>
 
-    <div class="container my-5">
+    <div class="container" style="padding-top: 6rem; padding-bottom: 4rem;">
         <div class="text-center mb-4">
             <h4 class="text-primary text-primary fw-semibold">Payment</h4>
             <p class="text-purple-muted">Transfer your payment to the account below and upload the payment proof before
@@ -44,7 +44,7 @@
                                 Show Details
                             </button>
                         </div>
-                        
+
                         <div class="alert alert-warning border-0 py-2">
                             <small>
                                 <i class="bi bi-exclamation-circle text-danger me-1"></i>
@@ -91,7 +91,7 @@
                         <div class="card-body">
                             <div class="row g-2 mb-4">
                                 <div class="col-md">
-                                    <h4 class="mb-0" style="font-size: 20px">Confirm Your Payment</h4>
+                                    <h5 class="m-0 fw-semibold">Confirm Your Payment</h5>
                                 </div>
                                 <div class="col text-md-end">
                                     <div class="badge bg-red-100 text-danger" style="width: 6rem">

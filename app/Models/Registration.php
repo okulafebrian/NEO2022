@@ -31,7 +31,7 @@ class Registration extends Model
 
     public function registrationDetails()
     {
-        return $this->hasMany(RegistrationDetail::class);
+        return $this->hasMany(RegistrationDetail::class)->withTrashed();
     }  
   
     public function participants()
@@ -44,8 +44,8 @@ class Registration extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function representative()
+    public function companion()
     {
-        return $this->hasOne(Representative::class);
+        return $this->hasOne(Companion::class);
     }
 }

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md bg-white shadow-sm sticky-top">
+<nav class="navbar navbar-expand-md bg-white shadow-sm fixed-top">
     <div class="container">
         <a class="navbar-brand" href="{{ route('dashboard') }}">
             <img src="/storage/images/assets/NEO_1.webp" alt="NEO" width="90">
@@ -15,7 +15,7 @@
                 </span>
             </a>
 
-            <ul class="dropdown-menu dropdown-menu-end p-1 border-0 shadow-sm rounded-3" style="font-size: 14px">
+            <ul class="dropdown-menu dropdown-menu-end p-1 border-0 shadow-sm rounded-3" style="font-size: 14px;">
                 <li>
                     <a class="dropdown-item p-2 rounded-3"
                         href="{{ route('registrations.index') }}">{{ __('My Registration') }}</a>

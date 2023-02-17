@@ -16,8 +16,20 @@ class QualificationController extends Controller
     
     public function index()
     {
-        $rounds = Round::all();
-        $competitions = Competition::all();
+        $rounds = Round::where([['id', '!=', 1], ['id', '!=', 2]])->get();
+        
+        if (auth()->user()->email == 'neo.debate') {
+            $competitions = Competition::where('name', 'Debate')->get();
+        } elseif (auth()->user()->email == 'neo.newscasting') {
+            $competitions = Competition::where('name', 'Newscasting')->get();
+        } elseif (auth()->user()->email == 'neo.ssw') {
+            $competitions = Competition::where('name', 'Short Story Writing')->get();
+        } elseif (auth()->user()->email == 'neo.speech') {
+            $competitions = Competition::where('name', 'Speech')->get();
+        } else {
+            $competitions = Competition::all();
+        }
+
         $qualifications = [];
 
         foreach ($rounds as $round) {

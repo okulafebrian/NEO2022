@@ -45,7 +45,7 @@
         <label class="form-label">LINE ID</label>
         <input type="text" class="form-control"
             name="line_id[{{ $id }}][{{ $j }}][{{ $k }}]" required>
-        <div class="form-text">If you don't use the LINE app, fill it with '-'</div>
+        <div class="form-text">If you don't use the LINE app, fill in '-'</div>
     </div>
 </div>
 
@@ -54,14 +54,22 @@
 
     <div class="col-md-6">
         <label class="form-label">Province</label>
-        <input type="text" class="form-control"
-            name="province[{{ $id }}][{{ $j }}][{{ $k }}]" required>
+        <select class="form-select" required id="province{{ $id }}{{ $j }}{{ $k }}"
+            name="province[{{ $id }}][{{ $j }}][{{ $k }}]">
+            <option selected disabled value="">Select province</option>
+            @foreach ($provinces as $province)
+                <option value="{{ $province->id }}">{{ $province->name }}</option>
+            @endforeach
+        </select>
     </div>
 
     <div class="col-md-6">
         <label class="form-label">District/City</label>
-        <input type="text" class="form-control"
-            name="district[{{ $id }}][{{ $j }}][{{ $k }}]" required>
+        <select class="form-select" required
+            name="district[{{ $id }}][{{ $j }}][{{ $k }}]"
+            id="district{{ $id }}{{ $j }}{{ $k }}">
+            <option selected disabled value="">Please select province first</option>
+        </select>
     </div>
 
     <div class="col-12">
@@ -71,7 +79,7 @@
     </div>
 </div>
 
-<div class="row g-4">
+<div class="row g-4 mb-5">
     <h5 class="mb-0" style="font-size: 18px">Education Details</h5>
 
     <div class="col-md-6">
@@ -134,7 +142,7 @@
     </div>
 
     <div id="binusianDetails{{ $id }}{{ $j }}{{ $k }}" class="col d-none">
-        <hr class="mt-0" style="border-style: dashed">
+        <hr style="border-style: dashed">
         <div class="row g-4">
             <div class="col-md-6">
                 <label class="form-label">NIM</label>
@@ -145,18 +153,56 @@
             <div class="col-md-6">
                 <label class="form-label">Campus Region</label>
                 <select class="form-select" disabled required
-                    name="region[{{ $id }}][{{ $j }}][{{ $k }}]">
+                    name="region[{{ $id }}][{{ $j }}][{{ $k }}]"
+                    id="region{{ $id }}{{ $j }}{{ $k }}">
                     <option selected disabled value="">Select campus region</option>
-                    <option value="Kemanggisan">Kemanggisan</option>
-                    <option value="Alam Sutera">Alam Sutera</option>
-                    <option value="Bekasi">Bekasi</option>
-                    <option value="Senayan">Senayan</option>
-                    <option value="Bandung">Bandung</option>
-                    <option value="Malang">Malang</option>
-                    <option value="Semarang">Semarang</option>
+                    <option value="KMG">Kemanggisan</option>
+                    <option value="AS">Alam Sutera</option>
+                    <option value="BKS">Bekasi</option>
+                    <option value="SNY">Senayan</option>
+                    <option value="BDG">Bandung</option>
+                    <option value="MLG">Malang</option>
+                    <option value="BOL">BINUS Online Learning</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Faculty</label>
+                <select class="form-select" disabled required
+                    name="faculty[{{ $id }}][{{ $j }}][{{ $k }}]"
+                    id="faculty{{ $id }}{{ $j }}{{ $k }}">
+                    <option selected disabled value="">Please select campus region first</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Major</label>
+                <select class="form-select" disabled required
+                    name="major[{{ $id }}][{{ $j }}][{{ $k }}]"
+                    id="major{{ $id }}{{ $j }}{{ $k }}">
+                    <option selected disabled value="">Please select faculty first</option>
                 </select>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <h5 class="mb-0" style="font-size: 18px">Additional Information</h5>
+
+    <div class="col-12">
+        <label class="form-label">COVID-19 Vaccination Certificate</label>
+        <input class="form-control" type="file"
+            name="vaccination[{{ $id }}][{{ $j }}][{{ $k }}]" required>
+        <div class="form-text">Upload your second or booster dose vaccine certificate</div>
+    </div>
+
+    <div class="col-md-12">
+        <label class="form-label">Have a Food Allergy?</label>
+        <input type="text" class="form-control"
+            name="allergy[{{ $id }}][{{ $j }}][{{ $k }}]"
+            placeholder="E.g. Milk, eggs, fish, peanuts, vegetarian" required>
+        <div class="form-text">If you don't have a food allergy, fill in '-'</div>
     </div>
 </div>
 
@@ -166,6 +212,9 @@
         var institution = $('#institution{{ $id }}{{ $j }}{{ $k }}')
         var binusianDetails = $(
             '#binusianDetails{{ $id }}{{ $j }}{{ $k }}')
+        var $faculty = $('#faculty{{ $id }}{{ $j }}{{ $k }}')
+        var $major = $('#major{{ $id }}{{ $j }}{{ $k }}')
+
 
         if ($(this).find(':selected').val().indexOf('Year ') >= 0) {
             binusian.removeClass('d-none')
@@ -178,6 +227,8 @@
             binusianDetails.find('input').prop('disabled', true).val('')
             binusianDetails.find('select').prop('disabled', true).prop('selectedIndex', 0)
             institution.val('').prop('readonly', false)
+            $faculty.html('<option disabled selected value="">Please select campus region first</option>');
+            $major.html('<option disabled selected value="">Please select faculty first</option>');
         }
     })
 
@@ -185,6 +236,9 @@
         var institution = $('#institution{{ $id }}{{ $j }}{{ $k }}')
         var binusianDetails = $(
             '#binusianDetails{{ $id }}{{ $j }}{{ $k }}')
+        var $faculty = $('#faculty{{ $id }}{{ $j }}{{ $k }}')
+        var $major = $('#major{{ $id }}{{ $j }}{{ $k }}')
+
 
         if ($(this).val() == true) {
             binusianDetails.removeClass('d-none')
@@ -196,6 +250,59 @@
             binusianDetails.find('input').prop('disabled', true).val('')
             binusianDetails.find('select').prop('disabled', true).prop('selectedIndex', 0)
             institution.val('').prop('readonly', false)
+            $faculty.html('<option disabled selected value="">Please select campus region first</option>');
+            $major.html('<option disabled selected value="">Please select faculty first</option>');
         }
     })
+
+    $('#province{{ $id }}{{ $j }}{{ $k }}').change(function() {
+        var $district = $('#district{{ $id }}{{ $j }}{{ $k }}')
+
+        $.ajax({
+            url: "{{ route('districts.show') }}",
+            data: {
+                province_id: $(this).val()
+            },
+            success: function(data) {
+                $district.html('<option value="" disabled selected>Select district/city</option>');
+                $.each(data, function(id, value) {
+                    $district.append('<option value="' + id + '">' + value + '</option>');
+                });
+            }
+        });
+    });
+
+    $('#region{{ $id }}{{ $j }}{{ $k }}').change(function() {
+        var $faculty = $('#faculty{{ $id }}{{ $j }}{{ $k }}')
+
+        $.ajax({
+            url: "{{ route('faculties.show') }}",
+            data: {
+                region: $(this).val()
+            },
+            success: function(data) {
+                $faculty.html('<option value="" disabled selected>Select faculty</option>');
+                $.each(data, function(id, value) {
+                    $faculty.append('<option value="' + id + '">' + value + '</option>');
+                });
+            }
+        });
+    });
+
+    $('#faculty{{ $id }}{{ $j }}{{ $k }}').change(function() {
+        var $major = $('#major{{ $id }}{{ $j }}{{ $k }}')
+
+        $.ajax({
+            url: "{{ route('majors.show') }}",
+            data: {
+                faculty_id: $(this).val()
+            },
+            success: function(data) {
+                $major.html('<option value="" disabled selected>Select major</option>');
+                $.each(data, function(id, value) {
+                    $major.append('<option value="' + id + '">' + value + '</option>');
+                });
+            }
+        });
+    });
 </script>

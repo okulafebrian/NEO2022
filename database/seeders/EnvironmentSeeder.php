@@ -11,53 +11,65 @@ class EnvironmentSeeder extends Seeder
     public function run()
     {
         DB::table('environments')->insert([
-            [
-                'name' => 'REGISTRATION',
-                'start_time' => '2022-10-24 00:00:00',
-                'end_time' => '2022-11-24 00:00:00',
-                'is_shown' => null
+            [   
+                'code' => 'ENV001',
+                'name' => 'Registration',
+                'start_time' => '2022-11-21 00:00:00',
+                'end_time' => '2022-12-26 23:59:59',
             ],
-            [
-                'name' => 'EARLY BIRD',
-                'start_time' => '2022-10-24 00:00:00',
-                'end_time' => '2022-10-30 00:00:00',
-                'is_shown' => null
+            [   
+                'code' => 'ENV002',
+                'name' => 'Early Bird',
+                'start_time' => '2022-11-21 00:00:00',
+                'end_time' => '2022-12-12 23:59:59',
             ],
-            [
-                'name' => 'RE-REGIS SEMIFINAL',
+            [   
+                'code' => 'ENV003',
+                'name' => 'Submission SSW Preliminary',
                 'start_time' => null,
                 'end_time' => null,
-                'is_shown' => 0
             ],
-            [
-                'name' => 'SUBMISSION SSW PRELIMINARY',
+            [   
+                'code' => 'ENV004',
+                'name' => 'Submission SSW Final',
                 'start_time' => null,
                 'end_time' => null,
-                'is_shown' => 0
             ],
-            [
-                'name' => 'SUBMISSION SSW FINAL',
+            [   
+                'code' => 'ENV005',
+                'name' => 'Submission Speech Preliminary',
                 'start_time' => null,
                 'end_time' => null,
-                'is_shown' => 0
             ],
-            [
-                'name' => 'ATTENDANCE PRELIMINARY',
+            [   
+                'code' => 'ENV006',
+                'name' => 'Attendance Technical Meeting',
                 'start_time' => null,
                 'end_time' => null,
-                'is_shown' => 0
             ],
-            [
-                'name' => 'ATTENDANCE SEMIFINAL',
+            [   
+                'code' => 'ENV007',
+                'name' => 'Attendance Coaching Clinic',
                 'start_time' => null,
                 'end_time' => null,
-                'is_shown' => 0
             ],
-            [
-                'name' => 'ATTENDANCE FINAL',
+            [   
+                'code' => 'ENV008',
+                'name' => 'Attendance Preliminary',
                 'start_time' => null,
                 'end_time' => null,
-                'is_shown' => 0
+            ],
+            [   
+                'code' => 'ENV009',
+                'name' => 'Attendance Semifinal',
+                'start_time' => null,
+                'end_time' => null,
+            ],
+            [   
+                'code' => 'ENV010',
+                'name' => 'Attendance Final',
+                'start_time' => null,
+                'end_time' => null,
             ],
         ]);
     }

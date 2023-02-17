@@ -1,7 +1,7 @@
 <x-app title="My Registrations | NEO 2022">
     <x-slot name="navbarUser"></x-slot>
 
-    <div class="container my-5">
+    <div class="container" style="padding-top: 6rem; padding-bottom: 4rem;">
         @if (count($registrations) > 0)
             <h4 class="text-center text-primary fw-semibold mb-4">My Registration</h4>
         @endif
@@ -37,7 +37,7 @@
                                 @elseif ($registration->payment->is_verified == null)
                                     <span class="badge bg-orange-100 text-orange">Proccesed</span>
                                 @else
-                                    <span class="badge bg-green-100 text-success">Registration successful</span>
+                                    <span class="badge bg-green-100 text-success">Completed</span>
                                 @endif
                             </div>
 
@@ -86,7 +86,8 @@
                                         </button>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item p-2 rounded-3" href="#">
+                                        <a class="dropdown-item p-2 rounded-3" href="{{ route('faqs.index') }}"
+                                            target="_blank">
                                             Help
                                         </a>
                                     </li>
@@ -115,9 +116,10 @@
             </div>
         @empty
             <div class="text-center">
-                <img src="/storage/images/assets/empty-cart.png" alt="NEO" width="35%">
-                <h4>You don't have registration yet!</h4>
-                <p class="text-muted">It's time to show your talent and win the competition</p>
+                <img src="/storage/images/assets/empty.webp" alt="No Registration Yet" class="img-size">
+                <h3 class="fw-semibold text-primary">You don't have registration yet!</h3>
+                <p class="text-purple-muted">It's time to show your talent and win the competition!</p>
+                <a href="{{ route('dashboard') }}" class="btn btn-outline-primary rounded-3 px-4 py-2">Register Now</a>
             </div>
         @endforelse
     </div>

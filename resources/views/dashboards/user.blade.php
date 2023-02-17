@@ -2,13 +2,17 @@
 
     <x-slot name="navbarUser"></x-slot>
 
-    <div class="container my-4">
+    <div class="container" style="padding-top: 6rem; padding-bottom: 8rem;">
         @if ($isRegistrationOngoing)
-            <section class="mb-5">
-                <img src="/storage/images/assets/early bird banner.png" alt="" width="100%" class="rounded-4">
-            </section>
+            @if ($isEarlyBirdOngoing)
+                <div class="alert alert-primary border-0 text-center shadow-sm mb-4">
+                    <h6 class="fw-bold"><i class="bi bi-tags-fill me-2"></i>EARLY BIRD DEALS</h6>
+                    <h6>SAVE UP TO RP 100.000 - LIMITED SLOTS</h6>
+                    <h6 class="m-0">21 Nov - 12 Dec, 2022</h6>
+                </div>
+            @endif
 
-            <section style="margin-bottom: 7rem">
+            <section>
                 <h4 class="mb-4 text-primary fw-semibold">
                     Which competition would you like to enter?
                 </h4>
@@ -20,7 +24,7 @@
                     <div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 g-4">
                         @foreach ($competitions as $competition)
                             <input type="hidden" name="type[{{ $competition->id }}]"
-                                value="{{ $isEarlyBirdOngoing && $competition->early_quota - $competition->early_registrations_count > 0 ? 'EARLY BIRD' : 'NORMAL' }}">
+                                value="{{ $isEarlyBirdOngoing && $competition->early_quota - $competition->early_registrations_count > 0 ? 'EARLY' : 'NORMAL' }}">
                             <input type="hidden" name="price[{{ $competition->id }}]"
                                 value="{{ $isEarlyBirdOngoing && $competition->early_quota - $competition->early_registrations_count > 0 ? $competition->early_price : $competition->normal_price }}">
 
@@ -41,7 +45,7 @@
                                                     {{ $competition->category }}
                                                 </p>
                                                 <h5 class="m-0" style="font-size: 16px">
-                                                    @if ($competition->normal_quota - $competition->registrations_count < 1)
+                                                    @if ($competition->total_quota - $competition->registrations_count < 1)
                                                         <span class="text-danger">Tickets sold out</span>
                                                     @elseif ($isEarlyBirdOngoing && $competition->early_quota - $competition->early_registrations_count > 0)
                                                         Rp {{ number_format($competition->early_price, 0, '.', '.') }}
@@ -56,21 +60,21 @@
                                             </div>
 
                                             <div class="col-3">
-                                                <img src="/storage/images/logos/{{ $competition->logo }}"
-                                                    alt="{{ $competition->name }}" class="rounded-4" width="100%">
+                                                <img src="/storage/images/competitions/{{ $competition->logo }}"
+                                                    alt="{{ $competition->name }}" class="rounded-3" width="100%">
                                             </div>
                                         </div>
                                         <div class="text-end">
                                             <button
-                                                {{ $competition->is_active == false || $competition->normal_quota - $competition->registrations_count < 1 ? 'disabled' : '' }}
-                                                class="btn {{ $competition->is_active == false || $competition->normal_quota - $competition->registrations_count < 1 ? 'btn-outline-secondary' : 'btn-outline-primary' }} rounded-pill"
+                                                {{ $competition->is_active == false || $competition->total_quota - $competition->registrations_count < 1 ? 'disabled' : '' }}
+                                                class="btn {{ $competition->is_active == false || $competition->total_quota - $competition->registrations_count < 1 ? 'btn-outline-secondary' : 'btn-outline-primary' }} rounded-pill"
                                                 type="button" style="font-size:14px; min-width:25%">
                                                 Select
                                             </button>
                                             <div class="form-input d-none float-end">
                                                 <input type="text" class="input-spinner" step="1"
                                                     name="ticket[{{ $competition->id }}]" value="0" min="0"
-                                                    max="{{ $isEarlyBirdOngoing && $competition->early_quota - $competition->early_registrations_count > 0 ? $competition->early_quota - $competition->early_registrations_count : $competition->normal_quota }}">
+                                                    max="{{ $competition->total_quota - $competition->registrations_count }}">
                                             </div>
                                         </div>
                                     </div>

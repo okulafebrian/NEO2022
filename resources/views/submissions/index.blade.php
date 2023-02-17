@@ -9,102 +9,94 @@
         <div class="card card-custom p-0 px-4 mb-3">
             <ul class="nav nav-tabs border-0" id="participantTab" role="tablist">
                 @foreach ($rounds as $round)
-                    @if ($round->name == 'Preliminary' || $round->name == 'Final')
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link {{ $loop->first ? 'active' : '' }}" data-bs-toggle="tab"
-                                data-bs-target="#participantTab{{ $round->id }}" type="button" role="tab">
-                                {{ $round->name }}
-                            </button>
-                        </li>
-                    @endif
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link {{ $loop->first ? 'active' : '' }}" data-bs-toggle="tab"
+                            data-bs-target="#participantTab{{ $round->id }}" type="button" role="tab">
+                            {{ $round->name }}
+                        </button>
+                    </li>
                 @endforeach
+            </ul>
         </div>
 
         <div class="tab-content">
             @foreach ($rounds as $round)
-                @if ($round->name == 'Preliminary' || $round->name == 'Final')
-                    <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}"
-                        id="participantTab{{ $round->id }}" role="tabpanel" tabindex="0">
+                <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}"
+                    id="participantTab{{ $round->id }}" role="tabpanel" tabindex="0">
 
-                        <div class="card card-custom">
-                            <div class="card-body">
-                                <ul class="nav nav-pills mb-3" id="competitionTab" role="tablist">
-                                    @foreach ($competitions as $competition)
-                                        @if ($competition->name == 'Short Story Writing')
-                                            <li class="nav-item" role="presentation">
-                                                <button
-                                                    class="nav-link {{ $competition->name == 'Short Story Writing' ? 'active' : 'mx-1' }}"
-                                                    data-bs-toggle="pill"
-                                                    data-bs-target="#competitionTab{{ $competition->id }}{{ $round->id }}"
-                                                    type="button" role="tab">
-                                                    {{ $competition->name != 'Speech' ? $competition->name : $competition->name . ' ' . $competition->category }}
-                                                </button>
-                                            </li>
-                                        @endif
-                                    @endforeach
-                                </ul>
+                    <div class="card card-custom">
+                        <div class="card-body">
+                            <ul class="nav nav-pills mb-3" id="competitionTab" role="tablist">
+                                @foreach ($competitions as $competition)
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link {{ $loop->first ? 'active' : 'mx-1' }}"
+                                            data-bs-toggle="pill"
+                                            data-bs-target="#competitionTab{{ $competition->id }}{{ $round->id }}"
+                                            type="button" role="tab">
+                                            {{ $competition->name != 'Speech' ? $competition->name : $competition->name . ' ' . $competition->category }}
+                                        </button>
+                                    </li>
+                                @endforeach
+                            </ul>
 
-                                <div class="tab-content">
-                                    @foreach ($competitions as $competition)
-                                        @if ($competition->name == 'Short Story Writing')
-                                            <div class="tab-pane fade {{ $competition->name == 'Short Story Writing' ? 'show active' : '' }}"
-                                                id="competitionTab{{ $competition->id }}{{ $round->id }}"
-                                                role="tabpanel" tabindex="0">
-                                                @if (count($qualifications[$round->id][$competition->id]) > 0)
-                                                    <table class="table">
-                                                        <thead class="table-light">
-                                                            <tr class="text-secondary">
-                                                                <th class="align-middle">
-                                                                    {{ $competition->name == 'Debate' ? 'TEAM NAME' : 'NAME' }}
-                                                                </th>
-                                                                <th class="align-middle">SUBMISSION TIME</th>
-                                                                <th class="align-middle">STATUS</th>
-                                                                <th class="align-middle"></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            @foreach ($qualifications[$round->id][$competition->id] as $qualification)
-                                                                <tr>
-                                                                    <td class="align-middle">
-                                                                        {{ $competition->name == 'Debate' ? $qualification->registrationDetail->debateTeam->name : $qualification->registrationDetail->participants[0]->name }}
-                                                                    </td>
-                                                                    <td class="align-middle">
-                                                                        {{ $qualification->submission ? date('j M, H:i', strtotime($qualification->submission->created_at)) : '-' }}
-                                                                    </td>
-                                                                    <td class="align-middle">
-                                                                        @if ($qualification->submission)
-                                                                            <span class="text-success">Submitted</span>
-                                                                        @else
-                                                                            <span class="text-danger">Not Yet</span>
-                                                                        @endif
-                                                                    </td>
-                                                                    <td class="align-middle text-end">
-                                                                        @if ($qualification->submission)
-                                                                            <a href="{{ route('submissions.download', $qualification->submission) }}"
-                                                                                class="btn btn-outline-light btn-sm">
-                                                                                <i class="bi bi-download"></i>
-                                                                            </a>
-                                                                        @endif
-                                                                    </td>
-                                                                </tr>
-                                                            @endforeach
-                                                        </tbody>
-                                                    </table>
-                                                @else
-                                                    <div class="text-center">
-                                                        <img src="/storage/images/assets/empty.webp" alt="No Data Found"
-                                                            width="20%">
-                                                        <h5 class="mb-3 fw-semibold">No Data Found</h5>
-                                                    </div>
-                                                @endif
+                            <div class="tab-content">
+                                @foreach ($competitions as $competition)
+                                    <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}"
+                                        id="competitionTab{{ $competition->id }}{{ $round->id }}" role="tabpanel"
+                                        tabindex="0">
+                                        @if (count($qualifications[$round->id][$competition->id]) > 0)
+                                            <table class="table">
+                                                <thead class="table-light">
+                                                    <tr class="text-secondary">
+                                                        <th class="align-middle">
+                                                            {{ $competition->name == 'Debate' ? 'TEAM NAME' : 'NAME' }}
+                                                        </th>
+                                                        <th class="align-middle">SUBMISSION TIME</th>
+                                                        <th class="align-middle">STATUS</th>
+                                                        <th class="align-middle"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($qualifications[$round->id][$competition->id] as $qualification)
+                                                        <tr>
+                                                            <td class="align-middle">
+                                                                {{ $competition->name == 'Debate' ? $qualification->registrationDetail->debateTeam->name : $qualification->registrationDetail->participants[0]->name }}
+                                                            </td>
+                                                            <td class="align-middle">
+                                                                {{ $qualification->submission ? date('j M, H:i', strtotime($qualification->submission->created_at)) : '-' }}
+                                                            </td>
+                                                            <td class="align-middle">
+                                                                @if ($qualification->submission)
+                                                                    <span class="text-success">Submitted</span>
+                                                                @else
+                                                                    <span class="text-danger">Not Yet</span>
+                                                                @endif
+                                                            </td>
+                                                            <td class="align-middle text-end">
+                                                                @if ($qualification->submission)
+                                                                    <a href="{{ route('submissions.download', $qualification->submission) }}"
+                                                                        class="btn btn-outline-light btn-sm">
+                                                                        <i class="bi bi-download"></i>
+                                                                    </a>
+                                                                @endif
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        @else
+                                            <div class="text-center">
+                                                <img src="/storage/images/assets/empty.webp" alt="No Data Found"
+                                                    width="20%">
+                                                <h5 class="mb-3 fw-semibold">No Data Found</h5>
                                             </div>
                                         @endif
-                                    @endforeach
-                                </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
-                @endif
+                </div>
             @endforeach
         </div>
     </div>

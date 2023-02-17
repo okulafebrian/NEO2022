@@ -11,17 +11,15 @@ class EnvironmentController extends Controller
     {
         $this->middleware(['auth']);
         $this->middleware(['admin']);
-        // $this->middleware('access.control:10')->except('index');
+        $this->middleware('access.control:1');
     }
 
     public function index()
     {   
-        $periodEnvironments = Environment::where('is_shown', null)->get();
-        $toggleEnvironments = Environment::where('start_time', null)->get();
+        $environments = Environment::all();
 
         return view('environments.index', [
-            'periodEnvironments' => $periodEnvironments,
-            'toggleEnvironments' => $toggleEnvironments,
+            'environments' => $environments,
         ]);
     }
 
@@ -31,25 +29,22 @@ class EnvironmentController extends Controller
     }
 
     public function store(Request $request)
-    {
+    {   
         $request->validate([
-            'name' => 'required|string'
+            'code' => 'required|string|unique:environments',
+            'name' => 'required|string',
+            'start_time' => 'required|date',
+            'end_time' => 'required|date',
         ]);
 
-        if ($request->has('is_shown')) {
-            Environment::create([
-                'name' => strtoupper($request->name),
-                'is_shown' => $request->is_shown
-            ]);
-        } else {
-            Environment::create([
-                'name' => strtoupper($request->name),
-                'start_time' => $request->start_time,
-                'end_time' => $request->end_time,
-            ]);
-        }
+        Environment::create([
+            'code' => $request->code,
+            'name' => $request->name,
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
+        ]);
 
-        return redirect()->route('environments.index')->with('success', $request->name . ' sucessfully added');
+        return redirect()->route('environments.index')->with('success', 'Data sucessfully added');
     }
 
     public function show(Environment $environment)

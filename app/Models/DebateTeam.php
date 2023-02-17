@@ -15,6 +15,6 @@ class DebateTeam extends Model
 
     public function registrationDetail()
     {
-        return $this->belongsTo(RegistrationDetail::class);
+        return $this->belongsTo(RegistrationDetail::class)->whereHas('verifiedPayment');
     }
 }

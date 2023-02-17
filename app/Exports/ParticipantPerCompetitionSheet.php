@@ -22,7 +22,7 @@ class ParticipantPerCompetitionSheet implements FromQuery, WithTitle, WithHeadin
         return Participant::whereHas('registrationDetail.verifiedPayment')
             ->whereRelation('registrationDetail', 'competition_id', $this->competition->id)
             ->leftJoin('binusians', 'binusians.participant_id', 'participants.id')
-            ->select('name', 'gender', 'grade', 'province', 'district', 'address', 'email', 'phone_number', 'line_id', 'institution', 'nim', 'region');
+            ->select('name', 'gender', 'grade', 'province_id', 'district_id', 'address', 'email', 'phone_number', 'line_id', 'institution', 'nim', 'region');
     }
 
     public function title(): string

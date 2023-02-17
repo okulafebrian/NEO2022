@@ -1,28 +1,34 @@
-@extends('layouts.app')
+<x-app title="Email Verification | NEO 2022">
+    <div class="container" style="height: 100vh; max-width: 40rem;">
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Verify Your Email Address') }}</div>
+        <div class="card card-custom rounded-0 m-auto h-100">
+            <div class="card-body px-md-5 d-flex justify-content-center align-items-center">
+                <div class="width-custom text-center">
+                    <img src="/storage/images/assets/email.webp" class="img-size mb-3" alt="Email">
 
-                <div class="card-body">
+                    <h4 class="text-primary text-center fw-semibold">{{ __('Verify Your Email Address') }}</h4>
+
                     @if (session('resent'))
-                        <div class="alert alert-success" role="alert">
-                            {{ __('A fresh verification link has been sent to your email address.') }}
+                        <div class="alert alert-primary" role="alert">
+                            <small>
+                                {{ __('A fresh verification link has been sent to your email address.') }}
+                            </small>
                         </div>
                     @endif
 
-                    {{ __('Before proceeding, please check your email for a verification link.') }}
-                    {{ __('If you did not receive the email') }},
+                    <p class="text-purple-muted">
+                        Before proceeding, please check your email for a verification link. If you did not receive the
+                        email, please click the button below to resend the email.
+                    </p>
+
                     <form class="d-inline" method="POST" action="{{ route('verification.resend') }}">
                         @csrf
-                        <button type="submit" class="btn btn-link p-0 m-0 align-baseline">{{ __('click here to request another') }}</button>.
+                        <button type="submit" class="btn btn-outline-primary py-2">
+                            {{ __('Resend Email Verification') }}
+                        </button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-</div>
-@endsection
+</x-app>

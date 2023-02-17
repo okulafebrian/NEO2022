@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Participant extends Authenticatable
 {
     use HasFactory;
+    use SoftDeletes;
     protected $table = 'participants';
     protected $primaryKey = 'id';
     protected $timestamp = true;
@@ -24,8 +25,13 @@ class Participant extends Authenticatable
         return $this->hasOne(Binusian::class);
     }
 
-    public function vaccination()
+    public function province()
     {
-        return $this->hasOne(Vaccination::class);
+        return $this->belongsTo(Province::class);
+    }
+
+    public function district()
+    {
+        return $this->belongsTo(District::class);
     }
 }

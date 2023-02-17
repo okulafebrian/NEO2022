@@ -19,13 +19,14 @@ return new class extends Migration
             $table->string('category');
             $table->string('category_init');
             $table->integer('normal_price');
-            $table->integer('normal_quota');
+            $table->integer('total_quota');
             $table->integer('early_price')->nullable();
             $table->integer('early_quota')->nullable();
             $table->string('logo')->nullable();
             $table->string('link_group')->nullable();
             $table->string('ebooklet')->nullable();
-            $table->longText('content')->nullable();
+            $table->longText('description')->nullable();
+            $table->longText('rules')->nullable();
             $table->boolean('is_active')->default(1);
             $table->timestamps();
         });

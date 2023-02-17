@@ -6,11 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+
     public function up()
     {
         Schema::create('registration_details', function (Blueprint $table) {
@@ -21,8 +17,8 @@ return new class extends Migration
             $table->foreign('competition_id')->references('id')->on('competitions')->onUpdate('cascade')->onDelete('cascade');
             $table->string('type');
             $table->string('price');
-            $table->boolean('withdraw')->default(0);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

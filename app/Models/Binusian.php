@@ -17,5 +17,15 @@ class Binusian extends Model
     {
         return $this->belongsTo(Participant::class);
     }
+
+    public function major()
+    {
+        return $this->belongsTo(Major::class);
+    }
+
+    public function faculty()
+    {
+        return $this->belongsTo(Faculty::class);
+    }
        
 }
