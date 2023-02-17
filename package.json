@@ -12,7 +12,7 @@
     "devDependencies": {
         "@popperjs/core": "^2.11.6",
         "axios": "^0.25",
-        "bootstrap": "^5.2.0",
+        "bootstrap": "^5.2.2",
         "laravel-mix": "^6.0.49",
         "lodash": "^4.17.19",
         "postcss": "^8.1.14",
@@ -25,7 +25,7 @@
         "bootstrap-icons": "^1.9.1",
         "bootstrap-input-spinner": "^3.1.13",
         "datatables.net-bs5": "^1.12.1",
-        "jquery": "^3.6.0",
+        "jquery": "^3.6.1",
         "jquery-countdown": "^2.2.0",
         "jquery-mask-plugin": "^1.14.16",
         "jquery-validation": "^1.19.5",
